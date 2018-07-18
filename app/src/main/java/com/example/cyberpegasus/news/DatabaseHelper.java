@@ -16,10 +16,10 @@ package com.example.cyberpegasus.news;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Constants for Database name, table name, and column names
-    public static final String DB_NAME = "NamesDB";
-    public static final String TABLE_NAME = "names";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_NAME = "name";
+    public static final String DB_NAME = "skm";
+    public static final String TABLE_NAME = "berita";
+    public static final String COLUMN_ID = "IDBERITA";
+    public static final String COLUMN_NAME = "JUDUL";
     public static final String COLUMN_STATUS = "status";
 
     //database version
