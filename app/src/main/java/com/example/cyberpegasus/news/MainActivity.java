@@ -38,11 +38,9 @@ package com.example.cyberpegasus.news;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /*
-    * this is the url to our webservice
-    * make sure you are using the ip instead of localhost
-    * it will not work if you are using localhost
+    * ini adalah url ke ip jaringan
     * */
-    public static final String URL_SAVE_NAME = "http://192.168.1.107/SqliteSync/saveName.php";
+    public static final String URL_SAVE_NAME = "http://192.168.1.212/android/SKM/saveBerita.php";
 
     //database helper object
     private DatabaseHelper db;
@@ -52,20 +50,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextName;
     private ListView listViewNames;
 
-    //List to store all the names
+    //List to store all the judul
     private List<Name> names;
 
-    //1 means data is synced and 0 means data is not synced
+    //1 berarti data disinkronkan dan 0 berarti data tidak disinkronkan
     public static final int NAME_SYNCED_WITH_SERVER = 1;
     public static final int NAME_NOT_SYNCED_WITH_SERVER = 0;
 
-    //a broadcast to know weather the data is synced or not
-    public static final String DATA_SAVED_BROADCAST = "net.simplifiedcoding.datasaved";
+    //sebuah siaran untuk mengetahui apakah data tersebut disinkronkan atau tidak
+    public static final String DATA_SAVED_BROADCAST = "Data tersingkronkan";
 
-    //Broadcast receiver to know the sync status
+    //Broadcast receiver untuk mengetahui status sinkronisasi
     private BroadcastReceiver broadcastReceiver;
 
-    //adapterobject for list view
+    //objek adaptor untuk tampilan daftar
     private NameAdapter nameAdapter;
 
     @Override
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-        //initializing views and objects
+        //menginisialisasi tampilan dan objek
         db = new DatabaseHelper(this);
         names = new ArrayList<>();
 
@@ -83,31 +81,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextName = (EditText) findViewById(R.id.editTextName);
         listViewNames = (ListView) findViewById(R.id.listViewNames);
 
-        //adding click listener to button
+        //amenambahkan tombol listener ke button
         buttonSave.setOnClickListener(this);
 
-        //calling the method to load all the stored names
+        //memanggil metode untuk memuat semua data yang tersimpan
         loadNames();
 
-        //the broadcast receiver to update sync status
+        //menyiarkan untuk memperbarui status sinkronisasi
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                //loading the names again
+                //memuat data lagi
                 loadNames();
             }
         };
 
-        //registering the broadcast receiver to update sync status
+        //mendaftarkan penerima untuk memperbarui status sinkronisasi
         registerReceiver(broadcastReceiver, new IntentFilter(DATA_SAVED_BROADCAST));
     }
 
     /*
-    * this method will
-    * load the names from the database
-    * with updated sync status
-    * */
+    * metode ini akan
+    * memuat nama-nama dari database
+    * dengan status sinkronisasi yang diperbarui
+    */
     private void loadNames() {
         names.clear();
         Cursor cursor = db.getNames();
@@ -126,14 +124,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /*
-    * this method will simply refresh the list
+    * Metode ini untuk merefresh daftar
     * */
     private void refreshList() {
         nameAdapter.notifyDataSetChanged();
     }
 
     /*
-    * this method is saving the name to ther server
+    * metode ini menyimpan data ke server
     * */
     private void saveNameToServer() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -150,12 +148,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         try {
                             JSONObject obj = new JSONObject(response);
                             if (!obj.getBoolean("error")) {
-                                //if there is a success
-                                //storing the name to sqlite with status synced
+                                // jika berhasil
+                                // menyimpan data ke sqlite dengan status yang disinkronkan
                                 saveNameToLocalStorage(name, NAME_SYNCED_WITH_SERVER);
                             } else {
-                                //if there is some error
-                                //saving the name to sqlite with status unsynced
+                                //jika berhasil error
+                                //menyimpan data ke sqlite dengan status tidak disinkronkan
                                 saveNameToLocalStorage(name, NAME_NOT_SYNCED_WITH_SERVER);
                             }
                         } catch (JSONException e) {
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
-                        //on error storing the name to sqlite with status unsynced
+                        //error menyimpan nama ke sqlite dengan status tidak disinkronkan
                         saveNameToLocalStorage(name, NAME_NOT_SYNCED_WITH_SERVER);
                     }
                 }) {
@@ -182,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
     }
 
-    //saving the name to local storage
+    // simpan nama ke penyimpanan lokal
     private void saveNameToLocalStorage(String name, int status) {
         editTextName.setText("");
         db.addName(name, status);

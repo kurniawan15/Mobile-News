@@ -42,16 +42,16 @@ public class NetworkStateChecker extends BroadcastReceiver {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        //if there is a network
+        //jika ada jaringan
         if (activeNetwork != null) {
-            //if connected to wifi or mobile data plan
+            //jika terhubung ke wifi atau paket data seluler
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
 
-                //getting all the unsynced names
+                //mendapatkan semua nama yang tidak disinkronkan
                 Cursor cursor = db.getUnsyncedNames();
                 if (cursor.moveToFirst()) {
                     do {
-                        //calling the method to save the unsynced name to MySQL
+                        //memanggil metode untuk menyimpan nama yang tidak disinkronkan ke MySQL
                         saveName(
                                 cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID)),
                                 cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME))
@@ -63,11 +63,11 @@ public class NetworkStateChecker extends BroadcastReceiver {
     }
 
     /*
-    * method taking two arguments
-    * name that is to be saved and id of the name from SQLite
-    * if the name is successfully sent
-    * we will update the status as synced in SQLite
-    * */
+    * metode mengambil dua argumen
+    * nama yang akan disimpan dan id dari nama dari SQLite
+    * jika nama berhasil dikirim
+    * kami akan memperbarui status yang disinkronkan dalam SQLite
+    */
     private void saveName(final int id, final String name) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, MainActivity.URL_SAVE_NAME,
                 new Response.Listener<String>() {
@@ -76,10 +76,10 @@ public class NetworkStateChecker extends BroadcastReceiver {
                         try {
                             JSONObject obj = new JSONObject(response);
                             if (!obj.getBoolean("error")) {
-                                //updating the status in sqlite
+                                //memperbarui status dalam sqlite
                                 db.updateNameStatus(id, MainActivity.NAME_SYNCED_WITH_SERVER);
 
-                                //sending the broadcast to refresh the list
+                                //mengirim pemberitahuan untuk menyegarkan daftar
                                 context.sendBroadcast(new Intent(MainActivity.DATA_SAVED_BROADCAST));
                             }
                         } catch (JSONException e) {

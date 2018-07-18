@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    //creating the database
+    //Membuat database
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + TABLE_NAME
@@ -50,11 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
-    * This method is taking two arguments
-    * first one is the name that is to be saved
-    * second one is the status
-    * 0 means the name is synced with the server
-    * 1 means the name is not synced with the server
+    * Metode ini mengambil dua argumen
+    * Yang pertama adalah nama yang harus disimpan
+    * yang kedua adalah status
+    * 0 berarti nama disinkronkan dengan server
+    * 1 artinya nama tidak disinkronkan dengan server
     * */
     public boolean addName(String name, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -69,12 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    /*
-    * This method taking two arguments
-    * first one is the id of the name for which
-    * we have to update the sync status
-    * and the second one is the status that will be changed
+    /*Metode ini mengambil dua argumen
+    * Yang pertama adalah id dari nama untuk itu
+    * kita harus memperbarui status sinkronisasi
+    * dan yang kedua adalah status yang akan diubah
     * */
+
     public boolean updateNameStatus(int id, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -85,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
-    * this method will give us all the name stored in sqlite
+    * metode ini akan memberi kita semua data yang disimpan dalam sqlite
     * */
     public Cursor getNames() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -95,8 +95,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
-    * this method is for getting all the unsynced name
-    * so that we can sync it with database
+    * metode ini untuk mendapatkan semua nama yang tidak disinkronkan
+    * sehingga kita bisa menyinkronkannya dengan basis data
     * */
     public Cursor getUnsyncedNames() {
         SQLiteDatabase db = this.getReadableDatabase();
