@@ -35,7 +35,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Name listItem = listItems.get(position);
         holder.textViewHead.setText(listItem.getName());
-        holder.textViewBody.setText(String.valueOf(listItem.getStatus()));
+        holder.textViewBody.setText(listItem.getBody());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

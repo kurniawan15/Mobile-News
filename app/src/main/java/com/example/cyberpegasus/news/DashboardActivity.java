@@ -38,7 +38,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         for(int i=1; i<=10; i++){
             Name item = new Name(
-                    "heading " + i, 2
+                    "Judul Berita " + i, 0, "Lorem ipsum dolor sit amet, sit regione alterum eligendi ne, vix at possit incorrupte dissentiunt, alia iusto persequeris no duo. Vel an sanctus dignissim, ius ignota mollis vivendum ea, cum no torquatos honestatis. An eius salutandi definiebas mel, elitr fabulas mei ex. Eos solum maluisset in, est nobis affert delicata at. Vim luptatum postulant ei, ne eam solum graeco partiendo."
             );
             listItems.add(item);
         }

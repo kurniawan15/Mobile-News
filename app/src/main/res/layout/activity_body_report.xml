@@ -16,27 +16,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kategori Berita"
+        android:text="Kategori Berita :"
         android:textColor="#000"
         android:textSize="20sp" />
+
     <Spinner
         android:id="@+id/dropdownKategori"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"></Spinner>
+        android:layout_marginTop="40dp"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textStart"></Spinner>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Isi Berita"
+        android:text="Isi Berita :"
         android:textColor="#000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <EditText
             android:id="@+id/isiBerita"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="400dp"
+            android:hint="Tulis berita di sini..."/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/buttonSubmitReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Submit"
+                android:background="@color/greenPrimary"/>
+        </RelativeLayout>
+
     </LinearLayout>
 
 
