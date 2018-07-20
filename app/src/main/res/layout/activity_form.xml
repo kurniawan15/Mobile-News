@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#0aaa1c">
+        android:background="@color/greenPrimary">
 
     </android.support.v7.widget.Toolbar>
 
@@ -34,7 +34,7 @@
         android:text="Tanggal Berita"
         android:textColor="#000"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="30dp"/>
 
     <EditText
         android:id="@+id/tanggal"
@@ -47,7 +47,7 @@
         android:text="Lokasi Berita"
         android:textColor="#000"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         />
 
     <EditText
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="Unggah File"
             android:textColor="#000"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginTop="70dp"/>
 
         <LinearLayout
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="Kategori dan Isi Berita"
-            android:background="#0aaa1c"/>
+            android:background="@color/greenPrimary"/>
 
     </RelativeLayout>
 
