@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     /*
     * ini adalah url ke ip jaringan
     * */
-    public static final String URL_SAVE_NAME = "http://192.168.1.212/android/SKM/saveBerita.php";
+    public static final String URL_SAVE_NAME = "http://192.168.43.210/android/SKM/view.php";
 
     //database helper object
     private DatabaseHelper db;
