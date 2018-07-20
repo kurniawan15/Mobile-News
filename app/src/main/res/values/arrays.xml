@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="kategori">
+        <item>Politik</item>
+        <item>Olahraga</item>
+        <item>Teknologi</item>
+        <item>Kesehatan</item>
+        <item>Ekonomi</item>
+        <item>Hiburan</item>
+        <item>Pengetahuan</item>
+        <item>Lain-lain</item>
+    </array>
+</resources>

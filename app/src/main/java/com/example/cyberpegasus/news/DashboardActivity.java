@@ -1,5 +1,6 @@
 package com.example.cyberpegasus.news;
 
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ public class DashboardActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    ImageButton imgButton;
     Toolbar toolbar;
 
     private List<Name> listItems;
@@ -41,15 +45,22 @@ public class DashboardActivity extends AppCompatActivity {
         adapter = new DashboardAdapter(listItems, this);
         recyclerView.setAdapter(adapter);
 
-        toolbar = findViewById(R.id.toolbar);
-        //toolbar.setTitle(getResources().getString(R.string.app_name));
+        imgButton = (ImageButton) findViewById(R.id.imageButton);
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
+                startActivity(formIntent);
+            }
+        });
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer);
         mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
         mDrawerlayout.addDrawerListener(mToggle);
-        mToggle.syncState();
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToggle.syncState();
     }
 
     @Override
