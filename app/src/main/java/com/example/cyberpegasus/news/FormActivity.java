@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class FormActivity extends AppCompatActivity {
+public class FormActivity extends AppBaseActivity {
     Button btnBodyReport;
 
     @Override

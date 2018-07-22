@@ -1,53 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer">
-    <RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.cyberpegasus.news.DashboardActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.cyberpegasus.news.DashboardActivity">
+        android:layout_below="@id/toolbar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/greenPrimary">
+    </android.support.v7.widget.RecyclerView>
 
-        </android.support.v7.widget.Toolbar>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar">
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/oval"/>
 
-        </android.support.v7.widget.RecyclerView>
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/oval"/>
-
-    </RelativeLayout>
-
-    <android.support.design.widget.NavigationView
-        app:headerLayout="@layout/header"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="#ddd"
-        app:itemTextColor="#000"
-        app:itemTextAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        app:itemIconTint="#000"
-        app:menu="@menu/drawermenu"
-        android:layout_gravity="start">
-
-    </android.support.design.widget.NavigationView>
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>
     
 
