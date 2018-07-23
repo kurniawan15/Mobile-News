@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/Gradien">
+    android:background="@drawable/gradien">
 
     <ImageView
         android:id="@+id/imageView"
@@ -69,5 +69,3 @@
     </android.support.v7.widget.CardView>
     bac
 </RelativeLayout>
-
-
