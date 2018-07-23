@@ -1,5 +1,6 @@
 package com.example.cyberpegasus.news;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -105,9 +106,11 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            //case R.id.item1:
+            case R.id.history:
+                Intent dashboardIntent = new Intent(AppBaseActivity.this, DashboardActivity.class);
+                startActivity(dashboardIntent);
             // handle it
-            //break;
+            break;
             //case R.id.item2:
             // do whatever
             //break;

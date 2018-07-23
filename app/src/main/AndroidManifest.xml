@@ -29,7 +29,8 @@
         </activity>
         <activity android:name=".DashboardActivity" />
         <activity android:name=".FormActivity" />
-        <activity android:name=".BodyReportActivity"></activity>
+        <activity android:name=".BodyReportActivity" />
+        <activity android:name=".NewsDetailActivity"></activity>
     </application>
 
 </manifest>

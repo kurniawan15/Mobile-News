@@ -2,6 +2,7 @@ package com.example.cyberpegasus.news;
 
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "You clicked " + listItem.getName(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "You clicked " + listItem.getName(), Toast.LENGTH_LONG).show();
+                Intent detailIntent = new Intent(view.getContext(), NewsDetailActivity.class);
+                view.getContext().startActivity(detailIntent);
             }
         });
     }
