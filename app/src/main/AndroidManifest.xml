@@ -31,7 +31,8 @@
         <activity android:name=".FormActivity" />
         <activity android:name=".BodyReportActivity" />
         <activity android:name=".NewsDetailActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".About"></activity>
     </application>
 
 </manifest>
