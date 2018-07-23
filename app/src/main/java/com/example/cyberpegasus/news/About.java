@@ -22,7 +22,7 @@ public class About extends AppBaseActivity {
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setImage(R.drawable.sembadakaryamandiri_logo)
+                .setImage(R.drawable.skm_logo)
                 .addItem(new Element().setTitle("Version 1.0"))
                 .setDescription("PT. Sembada Karya Mandiri merupakan perusahaan yang bergerak dibidang teknologi informasi dan sistem kendali, yang menawarkan jasa perancangan dan pembangunan sistem elektronik. Produk yang kami hasilkan merupakan karya anak bangsa.    \n" +
                         "\n" +
@@ -31,9 +31,9 @@ public class About extends AppBaseActivity {
                 .addGroup("Connect with us")
                 .addEmail("info@sembadakaryamandiri.co.id")
                 .addWebsite("http://sembadakaryamandiri.co.id/")
-                .addFacebook("PT. Sembada Karya Mandiri")
+                .addFacebook("100011139370474")
                 .addTwitter("sembadakrymndr")
-                .addYoutube("SEMBADA KARYA MANDIRI PT")
+                .addYoutube("UCU1er_Ym5q010NWDp2s94YA")
                 .create();
 
         setContentView(aboutPage);
