@@ -12,6 +12,9 @@ package com.example.cyberpegasus.news;
         import android.database.sqlite.SQLiteDatabase;
         import android.database.sqlite.SQLiteOpenHelper;
 
+        import java.text.DateFormat;
+        import java.util.Date;
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -19,6 +22,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "skm";
     public static final String TABLE_NAME = "berita";
     public static final String COLUMN_ID = "IDBERITA";
+    public static final String COLUMN_ISI = "ISI";
+    public static final String COLUMN_KATEGORI = "KATAGORI";
+    public static final String COLUMN_WAKTU_PENGIRIM = "WAKTU_PENGIRIM";
     public static final String COLUMN_NAME = "JUDUL";
     public static final String COLUMN_STATUS = "status";
 
