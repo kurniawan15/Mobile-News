@@ -12,7 +12,7 @@ import android.widget.Toast;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
-public class About extends AppCompatActivity {
+public class About extends AppBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,9 @@ public class About extends AppCompatActivity {
                 .addGroup("Connect with us")
                 .addEmail("info@sembadakaryamandiri.co.id")
                 .addWebsite("http://sembadakaryamandiri.co.id/")
-                .addFacebook("100011139370474")
+                .addFacebook("PT. Sembada Karya Mandiri")
                 .addTwitter("sembadakrymndr")
-                .addYoutube("UCdPQtdWIsg7_pi4mrRu46vA")
+                .addYoutube("SEMBADA KARYA MANDIRI PT")
                 .create();
 
         setContentView(aboutPage);

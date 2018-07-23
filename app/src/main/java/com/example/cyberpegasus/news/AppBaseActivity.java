@@ -109,12 +109,18 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             case R.id.history:
                 Intent dashboardIntent = new Intent(AppBaseActivity.this, DashboardActivity.class);
                 startActivity(dashboardIntent);
-            // handle it
+                finish();
             break;
-            //case R.id.item2:
-            // do whatever
-            //break;
-            // and so on...
+            case R.id.logout:
+                Intent logoutIntent = new Intent(AppBaseActivity.this, LoginActivity.class);
+                startActivity(logoutIntent);
+                finish();
+            break;
+            case R.id.about:
+                Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
+                startActivity(aboutIntent);
+                finish();
+            break;
         }
         return false;
     }
