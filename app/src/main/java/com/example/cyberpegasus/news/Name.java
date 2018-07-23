@@ -9,6 +9,11 @@ public class Name {
     private int status;
     private String body;
 
+    public Name(String Judul, int status) {
+        this.name = Judul;
+        this.status = status;
+    }
+
     public String getBody() {
         return body;
     }

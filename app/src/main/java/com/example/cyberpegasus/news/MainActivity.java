@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
                         cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
                 );
+
                 names.add(name);
             } while (cursor.moveToNext());
         }
