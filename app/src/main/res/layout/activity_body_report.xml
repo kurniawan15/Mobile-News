@@ -28,7 +28,11 @@
         android:layout_marginTop="40dp"
         android:text="Isi Berita :"
         android:textColor="#000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:includeFontPadding="false"
+        android:paddingTop="0px"
+        android:layout_gravity="top|left"
+        android:gravity="center|top"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,9 +41,9 @@
 
         <EditText
             android:id="@+id/isiBerita"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tulis berita di sini..." />
+            android:layout_width="400dp"
+            android:layout_height="65dp"
+            android:hint="Tulis berita disini..." />
 
         <RelativeLayout
             android:layout_width="match_parent"
