@@ -6,13 +6,14 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:background="@color/greenPrimary">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
         android:text="Gerry97"
         android:textColor="#ddd"
-        android:textStyle="bold"
-        android:layout_gravity="left"
-        android:textSize="50dp" />
+        android:textSize="50dp"
+        android:textStyle="bold" />
 
 </LinearLayout>
