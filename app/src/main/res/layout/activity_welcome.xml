@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cyberpegasus.news.WelcomeActivity"
-    android:background="@drawable/gradien">
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:layout_width="300dp"

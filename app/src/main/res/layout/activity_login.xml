@@ -33,7 +33,7 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="135dp"
-        android:drawableLeft="@drawable/ic_action_pass"
+        android:drawableLeft="@drawable/ic_action_password"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
