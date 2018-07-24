@@ -20,7 +20,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/greenPrimary">
+        android:background="#000"
+        android:orientation="vertical">
         <EditText
             android:id="@+id/txtAddress"
             android:layout_width="match_parent"
@@ -30,6 +31,13 @@
             android:paddingRight="5dp"
             android:hint="Alamat lokasi..."
             android:background="#ffffff"/>
+        <Button
+            android:id="@+id/buttonGeocode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="geoLocate"
+            android:text="go"/>
     </LinearLayout>
     <Button
         android:id="@+id/buttonMapsFinish"
@@ -38,6 +46,13 @@
         android:text="Finish"
         android:background="@color/greenPrimary"
         android:layout_gravity="bottom"/>
+    <Button
+        android:id="@+id/buttonGetAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="get address"
+        />
 
 </FrameLayout>
 
