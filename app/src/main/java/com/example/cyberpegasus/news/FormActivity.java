@@ -7,18 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class FormActivity extends AppBaseActivity {
     Button btnBodyReport;
     ImageButton toMaps;
-    EditText loc;
+    TextView loc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
-        loc = (EditText) findViewById(R.id.lokasi);
+        loc = (TextView) findViewById(R.id.lokasi);
 
         Intent intent = getIntent();
         String address = intent.getStringExtra("ADDRESS");

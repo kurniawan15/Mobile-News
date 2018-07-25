@@ -13,7 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /**
  * Created by USER on 7/22/2018.
@@ -97,6 +101,22 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }else {
+            switch (item.getItemId()) {
+                case R.id.filterMenu:
+                    Toast.makeText(this, "You clicked filter", Toast.LENGTH_LONG).show();
+                    /*Untuk animasi filter
+                    LinearLayout filter = (LinearLayout) findViewById(R.id.filterLayout);
+                    filter.setVisibility(LinearLayout.VISIBLE);
+                    Animation animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation);
+                    animationLayout.setDuration(500);
+                    filter.setAnimation(animationLayout);
+                    filter.animate();
+                    animationLayout.start();*/
+                break;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
         }
         // Handle your other action bar items...
 
@@ -123,5 +143,11 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             break;
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return true;
     }
 }
