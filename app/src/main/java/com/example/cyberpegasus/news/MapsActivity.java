@@ -46,21 +46,9 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
     private GoogleMap mMap;
     Button btnFinish, btnGetAddress;
     EditText txtAddress;
-    TextView tv;
     Float zoom = 16.0f;
-    LocationManager locationManager;
-    String provider;
-    double lat, lng;
-    final int MY_PERMISSION_REQUEST_CODE = 7171;
+    private GoogleMap.OnCameraIdleListener onCameraIdleListener;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    getLocation();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +58,8 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        configureCameraIdle();
 
         txtAddress = (EditText) findViewById(R.id.txtAddress);
         btnFinish = (Button) findViewById(R.id.buttonMapsFinish);
@@ -82,27 +72,30 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                 startActivity(formIntent);
             }
         });
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                },MY_PERMISSION_REQUEST_CODE);
-        } else {
-            getLocation();
-        }
-
-        btnGetAddress = (Button) findViewById(R.id.buttonGetAddress);
-        btnGetAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                lat = -6.863257;
-                lng = 107.584040;
-                new GetAddress().execute(String.format("%.4f,%.4f",lat,lng));
-            }
-        });
     }
 
+    private void configureCameraIdle() {
+        onCameraIdleListener = new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                LatLng latLng = mMap.getCameraPosition().target;
+                Geocoder geocoder = new Geocoder(MapsActivity.this);
+
+                try {
+                    List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    if (addressList != null && addressList.size() > 0) {
+                        String locality = addressList.get(0).getAddressLine(0);
+                        String country = addressList.get(0).getCountryName();
+                        if (!locality.isEmpty() && !country.isEmpty()) {
+                            txtAddress.setText(locality + " " + country);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
 
     /**
      * Manipulates the map once available.
@@ -118,20 +111,11 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
         LatLng sembada = new LatLng(-6.863257, 107.584040);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sembada));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sembada, zoom));
-        /*mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-            @Override
-            public void onCameraIdle() {
-                LatLng midLatLng = mMap.getCameraPosition().target;
-                String[] midLatLngStr = midLatLng.toString().split(",");
-                lat = Double.parseDouble(midLatLngStr[0]);
-                lng = Double.parseDouble(midLatLngStr[1]);
-            }
-        });*/
+        mMap.setOnCameraIdleListener(onCameraIdleListener);
     }
 
     public void geoLocate(View view) throws IOException {
@@ -151,61 +135,5 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
             Toast.makeText(this, "Alamat tidak ditemukan !", Toast.LENGTH_LONG).show();
         }
 
-    }
-
-    private void getLocation() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = locationManager.getBestProvider(new Criteria(), false);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        final Location location = locationManager.getLastKnownLocation(provider);
-        if(location == null)
-            Log.e("ERROR", "Location is null");
-    }
-
-    private class GetAddress extends AsyncTask<String,Void,String>{
-        ProgressDialog dialog = new ProgressDialog(MapsActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.setMessage("Please wait...");
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                double lat = Double.parseDouble(strings[0].split(",")[0]);
-                double lng = Double.parseDouble(strings[0].split(",")[1]);
-                String response;
-                HttpDataHandler http = new HttpDataHandler();
-                String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?latlng=%.4f,%.4f&sensor=false", lat, lng);
-                response = http.GetHttpData(url);
-                return response;
-            }catch (Exception e){
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            try{
-                JSONObject jsonObject = new JSONObject(s);
-                String address = ((JSONArray)jsonObject.get("results")).getJSONObject(0).get("formatted_address").toString();
-                //tv.setText(address);
-                txtAddress.setText(address);
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-
-            if(dialog.isShowing()){
-                dialog.dismiss();
-            }
-        }
     }
 }
