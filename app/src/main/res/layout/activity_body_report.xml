@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     tools:context="com.example.cyberpegasus.news.BodyReportActivity">
 
     <TextView
@@ -42,8 +46,9 @@
         <EditText
             android:id="@+id/isiBerita"
             android:layout_width="400dp"
-            android:layout_height="65dp"
-            android:hint="Tulis berita disini..." />
+            android:layout_height="105dp"
+            android:hint="Tulis berita disini..."
+            android:layout_marginTop="20dp"></EditText>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/greenPrimary"
+                android:textColor="#FFF"
                 android:text="Submit" />
         </RelativeLayout>
 

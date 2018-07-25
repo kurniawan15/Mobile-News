@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
     android:layout_width="match_parent"
+    android:theme="@style/MyToolbar"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/greenPrimary"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    app:titleTextColor="#FFF"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:subtitleTextColor="#FFF"
+    xmlns:tools="http://schemas.android.com/tools">
 
 </android.support.v7.widget.Toolbar>
