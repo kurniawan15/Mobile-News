@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,12 +36,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /*
     * ini adalah url ke ip jaringan
     * */
     public static final String URL_SAVE_NAME = "http://192.168.43.210/android/SKM/view.php";
+
+    TextView tvResultNama;
+    String resultNama;
 
     //database helper object
     private DatabaseHelper db;

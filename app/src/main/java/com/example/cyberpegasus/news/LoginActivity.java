@@ -1,5 +1,6 @@
 package com.example.cyberpegasus.news;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,13 +9,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cyberpegasus.news.apihelper.BaseAPIService;
+import com.example.cyberpegasus.news.apihelper.UtilsAPI;
+
 public class LoginActivity extends AppCompatActivity {
     EditText username;
     EditText password;
     CardView loginBtn;
 
+    Context mContext;
+    BaseAPIService mApiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mContext = this;
+        mApiService = UtilsAPI.getAPIService(); // meng-init yang ada di package apihelper
+        //initComponents();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
