@@ -44,7 +44,7 @@ import java.util.List;
 public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    Button btnFinish, btnGetAddress;
+    Button btnFinish;
     EditText txtAddress;
     Float zoom = 16.0f;
     private GoogleMap.OnCameraIdleListener onCameraIdleListener;

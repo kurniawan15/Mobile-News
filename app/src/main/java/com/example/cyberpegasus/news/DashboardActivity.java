@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardActivity extends AppBaseActivity {
-    //private DrawerLayout mDrawerlayout;
-    //private ActionBarDrawerToggle mToggle;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
@@ -53,21 +51,5 @@ public class DashboardActivity extends AppBaseActivity {
                 startActivity(formIntent);
             }
         });
-
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer);
-        //mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
-        //mDrawerlayout.addDrawerListener(mToggle);
-        //setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //mToggle.syncState();
     }
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (mToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 }
