@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
-        mApiService = UtilsAPI.getAPIService(); // meng-init yang ada di package apihelper
+//        mApiService = UtilsAPI.getAPIService(); // meng-init yang ada di package apihelper
         //initComponents();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);

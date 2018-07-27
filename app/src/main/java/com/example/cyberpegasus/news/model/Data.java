@@ -23,7 +23,7 @@ public class Data {
     @Expose
     private Object foto;
 
-    @SerializedName("pesan")
+    @SerializedName("laporan")
     @Expose
     private String laporan;
 
