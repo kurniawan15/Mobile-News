@@ -1,14 +1,18 @@
 package com.example.cyberpegasus.news.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 
@@ -31,19 +35,28 @@ public class MediaListAdapter extends ArrayAdapter<String>{
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //mendapatkan layoutinflater
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //Mendapatkan listview items
         View listViewItem = inflater.inflate(R.layout.media_list_item, null, true);
+
         TextView textViewFileName = (TextView) listViewItem.findViewById(R.id.textViewFileName);
-        ImageView imageViewFileStatus = (ImageView) listViewItem.findViewById(R.id.imageViewFileStatus);
 
         //mensetting the data ke textview
         textViewFileName.setText(listItems.get(position));
 
-        imageViewFileStatus.setBackgroundResource(R.drawable.success);
+        ImageButton btnDelete = (ImageButton) listViewItem.findViewById(R.id.buttonDeleteFile);
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listItems.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+
         return listViewItem;
     }
 }
