@@ -1,13 +1,14 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.activity;
 
 
 import java.util.Calendar;
-import android.icu.util.RangeValueIterator;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.cyberpegasus.news.R;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;

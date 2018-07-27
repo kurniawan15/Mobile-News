@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.network;
 
 /**
  * Created by Cyber Pegasus on 7/17/2018.
@@ -17,6 +17,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.cyberpegasus.news.MainActivity;
+import com.example.cyberpegasus.news.database.DatabaseHelper;
+import com.example.cyberpegasus.news.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,7 +1,8 @@
 package com.example.cyberpegasus.news;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.cyberpegasus.news.activity.AppBaseActivity;
 
 public class NewsDetailActivity extends AppBaseActivity {
 

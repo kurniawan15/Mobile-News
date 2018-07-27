@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.Adapter;
 
 /**
  * Created by Cyber Pegasus on 7/17/2018.
@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.cyberpegasus.news.Name;
+import com.example.cyberpegasus.news.R;
 
 import java.util.List;
 

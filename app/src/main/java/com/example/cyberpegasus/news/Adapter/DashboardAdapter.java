@@ -1,6 +1,5 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.Adapter;
 
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.cyberpegasus.news.Name;
+import com.example.cyberpegasus.news.NewsDetailActivity;
+import com.example.cyberpegasus.news.R;
 
 import java.util.List;
 

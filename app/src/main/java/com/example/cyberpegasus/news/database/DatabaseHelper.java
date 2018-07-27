@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.database;
 
 /**
  * Created by Cyber Pegasus on 7/17/2018.

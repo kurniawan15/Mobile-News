@@ -1,16 +1,13 @@
 package com.example.cyberpegasus.news;
 
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,15 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.cyberpegasus.news.Adapter.NameAdapter;
+import com.example.cyberpegasus.news.database.DatabaseHelper;
+import com.example.cyberpegasus.news.network.NetworkStateChecker;
+import com.example.cyberpegasus.news.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;

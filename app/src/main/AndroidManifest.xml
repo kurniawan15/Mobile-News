@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
 
-        <receiver android:name=".NetworkStateChecker">
+        <receiver android:name=".network.NetworkStateChecker">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -41,7 +41,7 @@
         <activity android:name=".BodyReportActivity" />
         <activity android:name=".NewsDetailActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".About" />
+        <activity android:name=".activity.About" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

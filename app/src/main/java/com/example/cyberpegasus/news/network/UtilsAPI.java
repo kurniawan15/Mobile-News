@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news.apihelper;
+package com.example.cyberpegasus.news.network;
 
 public class UtilsAPI {
     // 192.168.1.204/DIAS/login.php ini adalah localhost.

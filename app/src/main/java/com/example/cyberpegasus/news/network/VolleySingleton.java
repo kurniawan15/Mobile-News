@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.network;
 
 /**
  * Created by Cyber Pegasus on 7/17/2018.
@@ -6,12 +6,9 @@ package com.example.cyberpegasus.news;
 
 
         import android.content.Context;
-        import android.graphics.Bitmap;
-        import android.support.v4.util.LruCache;
 
         import com.android.volley.Request;
         import com.android.volley.RequestQueue;
-        import com.android.volley.toolbox.ImageLoader;
         import com.android.volley.toolbox.Volley;
 
 

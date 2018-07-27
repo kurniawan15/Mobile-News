@@ -1,9 +1,10 @@
 package com.example.cyberpegasus.news;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import com.example.cyberpegasus.news.activity.AppBaseActivity;
 
 public class BodyReportActivity extends AppBaseActivity {
 

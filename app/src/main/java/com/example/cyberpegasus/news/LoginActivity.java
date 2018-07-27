@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.cyberpegasus.news.apihelper.BaseAPIService;
-import com.example.cyberpegasus.news.apihelper.UtilsAPI;
+import com.example.cyberpegasus.news.network.BaseAPIService;
+import com.example.cyberpegasus.news.network.UtilsAPI;
 
 public class LoginActivity extends AppCompatActivity {
     EditText username;

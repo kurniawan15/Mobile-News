@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,11 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.example.cyberpegasus.news.DashboardActivity;
+import com.example.cyberpegasus.news.LoginActivity;
+import com.example.cyberpegasus.news.R;
 
 /**
  * Created by USER on 7/22/2018.

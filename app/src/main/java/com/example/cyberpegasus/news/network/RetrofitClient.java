@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news.apihelper;
+package com.example.cyberpegasus.news.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
