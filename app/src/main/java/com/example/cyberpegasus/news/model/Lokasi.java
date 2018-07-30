@@ -12,13 +12,13 @@ public class Lokasi {
 
     @SerializedName("latitude")
     @Expose
-    private Float latitude;
+    private Double latitude;
     @SerializedName("longitude")
     @Expose
-    private Float longitude;
+    private Double longitude;
 
 
-    public Lokasi(Float latitude, Float longitude) {
+    public Lokasi(Double latitude, Double longitude) {
         this.setLatitude(latitude);
         this.setLongitude(longitude);
     }
@@ -33,19 +33,19 @@ public class Lokasi {
                 '}';
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 }

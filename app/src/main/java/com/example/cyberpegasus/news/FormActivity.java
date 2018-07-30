@@ -1,5 +1,7 @@
 package com.example.cyberpegasus.news;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,19 +12,37 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.cyberpegasus.news.Adapter.MediaListAdapter;
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
+import com.example.cyberpegasus.news.model.Data;
+import com.example.cyberpegasus.news.model.DataList;
+import com.example.cyberpegasus.news.model.Lokasi;
+import com.example.cyberpegasus.news.network.GetDataService;
+import com.example.cyberpegasus.news.network.RetrofitInstance;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class FormActivity extends AppBaseActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class FormActivity extends AppBaseActivity  implements
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
     Button btnBodyReport, btnUpload;
     ImageButton toMaps;
     TextView loc, nmFoto;
@@ -32,7 +52,41 @@ public class FormActivity extends AppBaseActivity {
     private List<String> list = new ArrayList<>();
     private ListView listView;
 
+
+    GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
+    EditText dari,type,date,catagory,pesan,lan,lng;
+    Button pick;
+    TextView dateResult;
+    int day,month,year,hour,minute;
+    int finalDay,finalMonth, finalYear, finalHour, finalMinute;
+
     @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        finalYear = i;
+        finalMonth = i1;
+        finalDay = i2;
+
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(FormActivity.this, FormActivity.this,
+                hour,minute, android.text.format.DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+        finalHour = i;
+        finalMinute = i1;
+
+        dateResult.setText(finalYear+"-"+finalMonth+"-"+finalDay+
+                "/"+finalHour+": "+finalMinute+":00");
+
+    }
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
@@ -45,6 +99,23 @@ public class FormActivity extends AppBaseActivity {
 
         Intent intent = getIntent();
         String address = intent.getStringExtra("ADDRESS");
+
+        pick = (Button) findViewById(R.id.btn_date);
+        dateResult = (EditText) findViewById(R.id.tanggal);
+
+        pick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(FormActivity.this,FormActivity.this,
+                        year,month,day);
+                datePickerDialog.show();
+            }
+        });
 
         loc.setText(address);
         btnBodyReport = (Button) findViewById(R.id.buttonBodyReport);
@@ -79,7 +150,83 @@ public class FormActivity extends AppBaseActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
+        dari = findViewById(R.id.judul); //harusnya form dari
+        //type = findViewById(R.id.judul); // harusnya form type
+        date = findViewById(R.id.tanggal);
+   //     catagory = findViewById(R.id.catagory);
+        pesan = findViewById(R.id.isiBerita);
+        //lan =  findViewById(R.id.lan);
+        //lng =  findViewById(R.id.lng);
+
+
+
+        findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
+
+                String sdari = dari.getText().toString();
+                String stype =  "private";    //type.getText().toString();
+                String sdate = date.getText().toString();
+                String scatagori =  "Berita";  //  catagory.getText().toString();
+                String spesan = pesan.getText().toString();
+
+                Double slan = 0.7;//Float.parseFloat(lng.getText().toString());
+                Double slng = 98.8;//Float.parseFloat(lng.getText().toString());
+
+                try {
+                    Date dateString = format.parse(sdate);
+                    System.out.println("ini isi datanya" + dateString);
+
+
+
+                    if(sdari.equals("")){
+                        dari.setError("Silahkan isi data");
+                    }else if (stype.equals("")){
+                        type.setError("Silahkan isi data");
+                    }else if (scatagori.equals("")){
+                        catagory.setError("Silahkan isi data");
+                    }else if (spesan.equals("")){
+                        pesan.setError("Silahkan isi data");
+                    }else {
+
+                        Lokasi lokasi = new Lokasi(slan,slng);
+                        Data data = new Data(spesan,scatagori,dateString,stype,sdari,lokasi);
+
+                        //  Call<DataList> call = service.AddData(sdari,stype,dateString,scatagori,spesan,lokasi);
+
+                        Call<DataList> call = service.AddData(data);
+
+
+
+                        call.enqueue(new Callback<DataList>(){
+                            @Override
+                            public void onResponse(Call<DataList> call, Response<DataList> response) {
+                                String msg = response.body().getMsg();
+                                String value = response.body().getValue();
+
+                                Toast.makeText(FormActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<DataList> call, Throwable t) {
+                                Toast.makeText(FormActivity.this, "Gagal menyambungkan ke Jaringan", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
