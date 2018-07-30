@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class FormActivity extends AppBaseActivity  implements
     ImageButton toMaps;
     TextView loc, nmFoto;
     private int PICK_IMAGE_REQUEST = 1;
+    private int GET_ADDRESS_REQUEST = 7;
     private List<Uri> userSelectedImageUriList = null;
     private MediaListAdapter adapter;
     private List<String> list = new ArrayList<>();
@@ -65,6 +67,7 @@ public class FormActivity extends AppBaseActivity  implements
     TextView dateResult;
     int day,month,year,hour,minute;
     int finalDay,finalMonth, finalYear, finalHour, finalMinute;
+    String address;
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -103,8 +106,8 @@ public class FormActivity extends AppBaseActivity  implements
 
         listView = (ListView) findViewById(R.id.listViewMedia);
 
-        Intent intent = getIntent();
-        String address = intent.getStringExtra("ADDRESS");
+        /*Intent intent = getIntent();
+        String address = intent.getStringExtra("ADDRESS");*/
 
         pick = (Button) findViewById(R.id.btn_date);
         dateResult = (EditText) findViewById(R.id.tanggal);
@@ -123,7 +126,7 @@ public class FormActivity extends AppBaseActivity  implements
             }
         });
 
-        loc.setText(address);
+
         btnBodyReport = (Button) findViewById(R.id.buttonBodyReport);
         btnBodyReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +141,8 @@ public class FormActivity extends AppBaseActivity  implements
             @Override
             public void onClick(View view) {
                 Intent mapsIntent = new Intent(FormActivity.this, MapsActivity.class);
-                startActivity(mapsIntent);
+                startActivityForResult(mapsIntent, GET_ADDRESS_REQUEST);
+                //startActivity(mapsIntent);
             }
         });
 
@@ -335,6 +339,12 @@ public class FormActivity extends AppBaseActivity  implements
             listView.setAdapter(adapter);
             Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
         }
+        if (requestCode == GET_ADDRESS_REQUEST) {
+            if(resultCode == RESULT_OK) {
+                address = data.getStringExtra("ADDRESS");
+                loc.setText(address);
+            }
+        }
     }
 
     //Method untuk mendapatkan nama file dari bentuk Uri
@@ -370,4 +380,20 @@ public class FormActivity extends AppBaseActivity  implements
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString("judul", dari.getText().toString());
+        outState.putString("tanggal", date.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String judul = (String) savedInstanceState.getString("judul");
+        String tanggal = (String) savedInstanceState.getString("tanggal");
+        Toast.makeText(FormActivity.this, "Judul: " + judul, Toast.LENGTH_LONG).show();
+        dari.setText(judul);
+        date.setText(tanggal);
+    }
 }
