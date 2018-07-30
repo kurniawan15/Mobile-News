@@ -52,6 +52,7 @@ public class MediaListAdapter extends ArrayAdapter<String>{
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(view.getContext(), listItems.get(position).toString() + " Dihapus !", Toast.LENGTH_LONG).show();
                 listItems.remove(position);
                 notifyDataSetChanged();
             }

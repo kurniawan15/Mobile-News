@@ -3,12 +3,15 @@ package com.example.cyberpegasus.news;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +30,9 @@ import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.Lokasi;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
+
+import net.alhazmy13.mediapicker.Image.ImagePicker;
+import net.alhazmy13.mediapicker.Video.VideoPicker;
 
 import java.io.File;
 import java.text.ParseException;
@@ -138,18 +144,10 @@ public class FormActivity extends AppBaseActivity  implements
 
         btnUpload = (Button) findViewById(R.id.buttonUpload);
 
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Show only images, no videos or anything else
-                intent.setType("image/* video/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // Always show the chooser (if there are multiple options available)
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-            }
-        });
+        //Menonaktifkan tombol apabila kamera pengguna tidak berfungsi
+        if (!hasCamera())
+            btnUpload.setEnabled(false);
+
         dari = findViewById(R.id.judul); //harusnya form dari
         //type = findViewById(R.id.judul); // harusnya form type
         date = findViewById(R.id.tanggal);
@@ -159,6 +157,9 @@ public class FormActivity extends AppBaseActivity  implements
         //lng =  findViewById(R.id.lng);
 
 
+
+        /*
+        Error karena tidak di assign kemanapun, button submit hanya dapat diakses di activity BodyReport
 
         findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,11 +223,52 @@ public class FormActivity extends AppBaseActivity  implements
                 }
             }
 
-        });
+        });*/
 
     }
 
+    public void launchCamera(View view) {
+        final CharSequence opt[] = new CharSequence[] {"Gallery", "Ambil Foto", "Ambil Video"};
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Media");
+        builder.setItems(opt, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case 0:
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        // Show only images, no videos or anything else
+                        intent.setType("image/* video/*");
+                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        // Always show the chooser (if there are multiple options available)
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        break;
+                    case 1:
+                        ImagePicker ip = new ImagePicker.Builder(FormActivity.this)
+                                .mode(ImagePicker.Mode.CAMERA)
+                                .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+                                .directory(ImagePicker.Directory.DEFAULT)
+                                .extension(ImagePicker.Extension.PNG)
+                                .scale(600, 600)
+                                .allowMultipleImages(false)
+                                .enableDebuggingMode(true)
+                                .build();
+                        break;
+                    case 2:
+                        VideoPicker vp = new VideoPicker.Builder(FormActivity.this)
+                                .mode(VideoPicker.Mode.CAMERA)
+                                .directory(VideoPicker.Directory.DEFAULT)
+                                .extension(VideoPicker.Extension.MP4)
+                                .enableDebuggingMode(true)
+                                .build();
+                        break;
+                }
+            }
+        });
+        builder.show();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,20 +277,20 @@ public class FormActivity extends AppBaseActivity  implements
 
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
-                //data.getParcelableArrayExtra(name);
                 //If Single image selected then it will fetch from Gallery
                 if (data.getData() != null) {
                     Uri mImageUri = data.getData();
                     fileName = getFileName(mImageUri);
+
+                    //Untuk mendapatkan path directory dari file yang diambil
                     String mediaPath = mImageUri.getPath();
+                    Toast.makeText(this, "Media disimpan ke:\n" + mediaPath, Toast.LENGTH_LONG).show();
                     File mediaFile = null;
                     mediaFile = new File(mediaPath);
                     list.add(fileName);
                     if (mediaFile != null) {
                         adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
                         listView.setAdapter(adapter);
-                        //nmFoto.setText(fileName + " " + mediaPath);
-                        Toast.makeText(this, "File Masuk!!", Toast.LENGTH_LONG).show();
                     }
                 }else {
                     if (data.getClipData() != null) {
@@ -258,20 +300,44 @@ public class FormActivity extends AppBaseActivity  implements
                             ClipData.Item item = mClipData.getItemAt(i);
                             Uri uri = item.getUri();
                             mArrayUri.add(uri);
-                            fileName = fileName + "\n" + getFileName(uri);
-                            list.add(getFileName(uri));
+                            String mediaPath = uri.getPath();
+                            File mediaFile = null;
+                            mediaFile = new File(mediaPath);
+                            fileName = getFileName(uri);
+                            list.add(fileName);
                         }
-                        //nmFoto.setText(fileName);
-                        Log.v("LOG_TAG", "Selected Images"+ mArrayUri.size());
                         adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
                         listView.setAdapter(adapter);
-                        Toast.makeText(this, "File Masuk!!" + mArrayUri.size(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, mArrayUri.size() + " File Ditambahkan!!", Toast.LENGTH_LONG).show();
                     }
                 }
             }
         }
+        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            //Get the photo path
+            List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
+            File mediaFile = null;
+            mediaFile = new File(mPaths.get(0));
+            fileName = mediaFile.getName();
+            list.add(fileName);
+            adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
+            listView.setAdapter(adapter);
+            Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
+        }
+        if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            //Get the video path
+            List<String> mPaths = (List<String>) data.getSerializableExtra(VideoPicker.EXTRA_VIDEO_PATH);
+            File mediaFile = null;
+            mediaFile = new File(mPaths.get(0));
+            fileName = mediaFile.getName();
+            list.add(fileName);
+            adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
+            listView.setAdapter(adapter);
+            Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
+        }
     }
 
+    //Method untuk mendapatkan nama file dari bentuk Uri
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
@@ -293,4 +359,15 @@ public class FormActivity extends AppBaseActivity  implements
         }
         return result;
     }
+
+    //Method untuk memeriksa apakah kamera pada perangkat pengguna berfungsi
+    private boolean hasCamera() {
+        if (getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA_FRONT)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
