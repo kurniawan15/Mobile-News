@@ -8,12 +8,16 @@ package com.example.cyberpegasus.news.network;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface GetDataService {
     @GET("rawpesans")
@@ -30,6 +34,10 @@ public interface GetDataService {
 
     @POST("rawpesans")
     Call<DataList> AddData(@Body Data data);
+
+    @Multipart
+    @POST("file")
+    Call<UploadResponse> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
 
 }
 

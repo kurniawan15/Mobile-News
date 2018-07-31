@@ -31,6 +31,7 @@ import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.Lokasi;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
+import com.example.cyberpegasus.news.network.UploadResponse;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 import net.alhazmy13.mediapicker.Video.VideoPicker;
@@ -44,21 +45,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormActivity extends AppBaseActivity  implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
-    Button btnBodyReport, btnUpload;
+    Button btnBodyReport, btnUpload, btnUploadTest;
     ImageButton toMaps;
-    TextView loc, nmFoto;
+    TextView loc;
     private int PICK_IMAGE_REQUEST = 1;
     private int GET_ADDRESS_REQUEST = 7;
     private List<Uri> userSelectedImageUriList = null;
     private MediaListAdapter adapter;
     private List<String> list = new ArrayList<>();
     private ListView listView;
+    File mediaFile;
 
 
     GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
@@ -102,12 +109,18 @@ public class FormActivity extends AppBaseActivity  implements
 
         loc = (TextView) findViewById(R.id.lokasi);
 
-        nmFoto = (TextView) findViewById(R.id.namaFoto);
-
         listView = (ListView) findViewById(R.id.listViewMedia);
 
         /*Intent intent = getIntent();
         String address = intent.getStringExtra("ADDRESS");*/
+
+        btnUploadTest = (Button) findViewById(R.id.buttonUploadTest);
+        btnUploadTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage();
+            }
+        });
 
         pick = (Button) findViewById(R.id.btn_date);
         dateResult = (EditText) findViewById(R.id.tanggal);
@@ -289,7 +302,6 @@ public class FormActivity extends AppBaseActivity  implements
                     //Untuk mendapatkan path directory dari file yang diambil
                     String mediaPath = mImageUri.getPath();
                     Toast.makeText(this, "Media disimpan ke:\n" + mediaPath, Toast.LENGTH_LONG).show();
-                    File mediaFile = null;
                     mediaFile = new File(mediaPath);
                     list.add(fileName);
                     if (mediaFile != null) {
@@ -320,7 +332,7 @@ public class FormActivity extends AppBaseActivity  implements
         if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             //Get the photo path
             List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
-            File mediaFile = null;
+            mediaFile = null;
             mediaFile = new File(mPaths.get(0));
             fileName = mediaFile.getName();
             list.add(fileName);
@@ -395,5 +407,45 @@ public class FormActivity extends AppBaseActivity  implements
         Toast.makeText(FormActivity.this, "Judul: " + judul, Toast.LENGTH_LONG).show();
         dari.setText(judul);
         date.setText(tanggal);
+    }
+
+    private void uploadImage() {
+
+        //File file = new File(selectImagePath);
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), mediaFile);
+        MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", mediaFile.getName(), reqFile);
+        RequestBody ImageName = RequestBody.create(MediaType.parse("text/plain"), mediaFile.getName());
+        /*Retrofit req = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://192.168.1.241/restAPI/public/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();*/
+        Retrofit req = RetrofitInstance.getRetrofitInstance();
+        GetDataService request = req.create(GetDataService.class);
+        //RequestInterface request = RetrofitClientUtil.getRequestInterface();
+        Call<UploadResponse> responseCall = request.postImage(imageBody, ImageName);
+        responseCall.enqueue(new Callback<UploadResponse>() {
+            @Override
+            public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
+                if (response.isSuccessful()) {
+                    UploadResponse resp = response.body();
+                    if (resp.getCode() == 200) {
+                        Toast.makeText(FormActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                        /*mSnackbar = Snackbar.make(mParent, resp.getMessage(), Snackbar.LENGTH_LONG);
+                        View views = mSnackbar.getView();
+                        views.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary));
+                        mSnackbar.show();*/
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UploadResponse> call, Throwable t) {
+                /*mSnackbar = Snackbar.make(mParent, t.getLocalizedMessage(), Snackbar.LENGTH_LONG);
+                View views = mSnackbar.getView();
+                views.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.colorWarmGrey));
+                mSnackbar.show();*/
+            }
+        });
+
     }
 }

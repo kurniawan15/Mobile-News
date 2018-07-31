@@ -103,6 +103,13 @@
             android:textSize="20sp"
             android:layout_marginTop="70dp"/>
 
+        <Button
+            android:id="@+id/buttonUploadTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="upload"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,10 +123,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Choose File" />
-            <TextView
-                android:id="@+id/namaFoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
             <ListView
                 android:id="@+id/listViewMedia"
                 android:layout_width="match_parent"
