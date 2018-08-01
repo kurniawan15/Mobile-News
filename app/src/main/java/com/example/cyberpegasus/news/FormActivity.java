@@ -8,12 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,9 +25,6 @@ import android.widget.Toast;
 
 import com.example.cyberpegasus.news.Adapter.MediaListAdapter;
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
-import com.example.cyberpegasus.news.model.Data;
-import com.example.cyberpegasus.news.model.DataList;
-import com.example.cyberpegasus.news.model.Lokasi;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 import com.example.cyberpegasus.news.network.UploadResponse;
@@ -37,13 +33,9 @@ import net.alhazmy13.mediapicker.Image.ImagePicker;
 import net.alhazmy13.mediapicker.Video.VideoPicker;
 
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -52,7 +44,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormActivity extends AppBaseActivity  implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
@@ -175,72 +166,7 @@ public class FormActivity extends AppBaseActivity  implements
 
 
 
-        /*
-        Error karena tidak di assign kemanapun, button submit hanya dapat diakses di activity BodyReport
 
-        findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
-
-                String sdari = dari.getText().toString();
-                String stype =  "private";    //type.getText().toString();
-                String sdate = date.getText().toString();
-                String scatagori =  "Berita";  //  catagory.getText().toString();
-                String spesan = pesan.getText().toString();
-
-                Double slan = 0.7;//Float.parseFloat(lng.getText().toString());
-                Double slng = 98.8;//Float.parseFloat(lng.getText().toString());
-
-                try {
-                    Date dateString = format.parse(sdate);
-                    System.out.println("ini isi datanya" + dateString);
-
-
-
-                    if(sdari.equals("")){
-                        dari.setError("Silahkan isi data");
-                    }else if (stype.equals("")){
-                        type.setError("Silahkan isi data");
-                    }else if (scatagori.equals("")){
-                        catagory.setError("Silahkan isi data");
-                    }else if (spesan.equals("")){
-                        pesan.setError("Silahkan isi data");
-                    }else {
-
-                        Lokasi lokasi = new Lokasi(slan,slng);
-                        Data data = new Data(spesan,scatagori,dateString,stype,sdari,lokasi);
-
-                        //  Call<DataList> call = service.AddData(sdari,stype,dateString,scatagori,spesan,lokasi);
-
-                        Call<DataList> call = service.AddData(data);
-
-
-
-                        call.enqueue(new Callback<DataList>(){
-                            @Override
-                            public void onResponse(Call<DataList> call, Response<DataList> response) {
-                                String msg = response.body().getMsg();
-                                String value = response.body().getValue();
-
-                                Toast.makeText(FormActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                finish();
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<DataList> call, Throwable t) {
-                                Toast.makeText(FormActivity.this, "Gagal menyambungkan ke Jaringan", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });*/
 
     }
 
@@ -446,6 +372,11 @@ public class FormActivity extends AppBaseActivity  implements
                 mSnackbar.show();*/
             }
         });
+
+
+    }
+
+   public void getData(){
 
     }
 }

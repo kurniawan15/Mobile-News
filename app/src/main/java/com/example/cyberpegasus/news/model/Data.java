@@ -1,84 +1,49 @@
 package com.example.cyberpegasus.news.model;
 
-/**
- * Created by Cyber Pegasus on 7/27/2018.
- */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import java.util.List;
 
+/**
+ * Created by Cyber Pegasus on 7/27/2018.
+ */
 
 public class Data {
     @SerializedName("_id")
     @Expose
     private String id;
-
-    @SerializedName("video")
+    @SerializedName("lok_berita")
     @Expose
-    private String video;
-
-    @SerializedName("foto")
+    private LokBerita lokBerita;
+    @SerializedName("lok_pengirim")
     @Expose
-    private Object foto;
-
-    @SerializedName("laporan")
+    private LokPengirim lokPengirim;
+    @SerializedName("date_pengirim")
     @Expose
-    private String laporan;
-
-    @SerializedName("pesan")
+    private String datePengirim;
+    @SerializedName("date_berita")
     @Expose
-    private String pesan;
-
+    private String dateBerita;
+    @SerializedName("pengirim")
+    @Expose
+    private String pengirim;
     @SerializedName("category")
     @Expose
     private String category;
-
-    @SerializedName("date")
+    @SerializedName("isi")
     @Expose
-    private Date date;
-
-    @SerializedName("type")
+    private String isi;
+    @SerializedName("judul")
     @Expose
-    private String type;
-
-    @SerializedName("dari")
-    @Expose
-    private String dari;
-
+    private String judul;
     @SerializedName("__v")
     @Expose
     private Integer v;
 
-    @SerializedName("lokasi")
+    @SerializedName("file")
     @Expose
-    private Lokasi lokasi;
-
-    public Data(String pesan, String category, Date date, String type, String dari,Lokasi lokasi) {
-        this.laporan = pesan;
-        this.category = category;
-        this.date = date;
-        this.type = type;
-        this.dari = dari;
-        this.lokasi = lokasi;
-    }
-
-    @Override
-    public String toString() {
-        return "Data{" +
-                "id='" + id + '\'' +
-                ", video='" + video + '\'' +
-                ", foto=" + foto +
-                ", laporan='" + laporan + '\'' +
-                ", category='" + category + '\'' +
-                ", date='" + date + '\'' +
-                ", type='" + type + '\'' +
-                ", dari='" + dari + '\'' +
-                ", v=" + v +
-                ", lokasi=" + lokasi +
-                '}';
-    }
+    private List<String> file = null;
 
     public String getId() {
         return id;
@@ -88,68 +53,68 @@ public class Data {
         this.id = id;
     }
 
-    public String getVideo() {
-        return video;
+    public LokBerita getLokBerita() {
+        return lokBerita;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
+    public void setLokBerita(LokBerita lokBerita) {
+        this.lokBerita = lokBerita;
     }
 
-    public Object getFoto() {
-        return foto;
+    public LokPengirim getLokPengirim() {
+        return lokPengirim;
     }
 
-    public void setFoto(Object foto) {
-        this.foto = foto;
+    public void setLokPengirim(LokPengirim lokPengirim) {
+        this.lokPengirim = lokPengirim;
     }
 
-    public String getPesan() {
-        return pesan;
+    public String getDatePengirim() {
+        return datePengirim;
     }
 
-    public void setPesan(String pesan) {
-        this.pesan = pesan;
+    public void setDatePengirim(String datePengirim) {
+        this.datePengirim = datePengirim;
+    }
+
+    public String getDateBerita() {
+        return dateBerita;
+    }
+
+    public void setDateBerita(String dateBerita) {
+        this.dateBerita = dateBerita;
+    }
+
+    public String getPengirim() {
+        return pengirim;
+    }
+
+    public void setPengirim(String pengirim) {
+        this.pengirim = pengirim;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public String getLaporan() {
-        return laporan;
-    }
-
-    public void setLaporan(String laporan) {
-        this.laporan = laporan;
-    }
-
     public void setCategory(String category) {
         this.category = category;
     }
 
-    public Date getDate() {
-        return date;
+    public String getIsi() {
+        return isi;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setIsi(String isi) {
+        this.isi = isi;
     }
 
-    public String getType() {
-        return type;
+    public String getJudul() {
+        return judul;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDari() {
-        return dari;
-    }
-
-    public void setDari(String dari) {
-        this.dari = dari;
+    public void setJudul(String judul) {
+        this.judul = judul;
     }
 
     public Integer getV() {
@@ -160,11 +125,12 @@ public class Data {
         this.v = v;
     }
 
-    public Lokasi getLokasi() {
-        return lokasi;
+    public List<String> getFile() {
+        return file;
     }
 
-    public void setLokasi(Lokasi lokasi) {
-        this.lokasi = lokasi;
+    public void setFile(List<String> file) {
+        this.file = file;
     }
+
 }

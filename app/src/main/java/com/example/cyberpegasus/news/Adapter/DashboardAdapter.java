@@ -1,7 +1,6 @@
 package com.example.cyberpegasus.news.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.cyberpegasus.news.Name;
-import com.example.cyberpegasus.news.NewsDetailActivity;
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.model.Data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by USER on 7/19/2018.
@@ -39,9 +35,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
 
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
-        holder.textViewHead.setText(dataList.get(position).getCategory());
-        holder.textViewDate.setText(dataList.get(position).getDari());
-        holder.textViewBody.setText(dataList.get(position).getLaporan());
+        holder.textViewHead.setText(dataList.get(position).getJudul());
+        holder.textViewDate.setText(dataList.get(position).getPengirim());
+        holder.textViewTime.setText(dataList.get(position).getDateBerita());
+        holder.textViewBody.setText(dataList.get(position).getIsi());
 
                 //Toast.makeText(context, "You clicked " + listItem.getName(), Toast.LENGTH_LONG).show();
              //   Intent detailIntent = new Intent(view.getContext(), NewsDetailActivity.class);
@@ -58,7 +55,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
     public class DataViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textViewHead;
-        public TextView textViewBody,textViewDate;
+        public TextView textViewBody,textViewDate, textViewTime ;
         public LinearLayout linearLayout;
 
         public DataViewHolder(View itemView) {
@@ -67,6 +64,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
             textViewHead = (TextView) itemView.findViewById(R.id.textHead);
             textViewBody = (TextView) itemView.findViewById(R.id.textBody);
             textViewDate = (TextView) itemView.findViewById(R.id.textDate);
+            textViewTime = (TextView) itemView.findViewById(R.id.textTime);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayoutId);
         }
     }

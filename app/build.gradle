@@ -51,5 +51,6 @@ dependencies {
 
 // Untuk akses kamera
     compile 'net.alhazmy13.MediaPicker:libary:2.4.0'
+
 }
 
