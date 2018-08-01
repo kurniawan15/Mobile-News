@@ -109,7 +109,7 @@ public class FormActivity extends AppBaseActivity  implements
         btnUploadTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadImage();
+                //uploadImage();
             }
         });
 

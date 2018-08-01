@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback {
 
@@ -175,6 +176,10 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sembada));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, zoom));
         mMap.setOnCameraIdleListener(onCameraIdleListener);
+
+        // Prompt the user for permission.
+        getLocationPermission();
+
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
 
@@ -252,33 +257,41 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         }
     }
 
-    private void getDeviceLocation() {
-    /*
-     * Get the best and most recent location of the device, which may be null in rare
-     * cases when a location is not available.
+    /**
+     * Gets the current location of the device, and positions the map's camera.
      */
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
         try {
             if (mLocationPermissionGranted) {
-                Task locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener() {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
                             // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = (Location) task.getResult();
+                            mLastKnownLocation = task.getResult();
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), zoom));
+                            mMap.addMarker(new MarkerOptions()
+                                    .title("Posisi anda")
+                                    .position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())));
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, zoom));
+                            mMap.moveCamera(CameraUpdateFactory
+                                    .newLatLngZoom(mDefaultLocation, zoom));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                            Toast.makeText(MapsActivity.this, "Lokasi Anda tidak ditemukan, nyalakan GPS Anda !", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
             }
-        } catch(SecurityException e)  {
+        } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
     }
