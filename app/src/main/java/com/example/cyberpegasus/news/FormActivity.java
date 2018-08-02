@@ -60,12 +60,14 @@ public class FormActivity extends AppBaseActivity  implements
 
 
     GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
-    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi,lanPengirim,lngPengirim,lanBerita,lngBerita;
+    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi,lanPengirim,lngPengirim,lanBerita;
     Button pick;
     TextView dateResult;
     int day,month,year,hour,minute;
     int finalDay,finalMonth, finalYear, finalHour, finalMinute;
     String address;
+
+    double latBerita, lngBerita, latCurrent, lngCurrent;
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -152,6 +154,10 @@ public class FormActivity extends AppBaseActivity  implements
                     Intent bodyReportIntent = new Intent(FormActivity.this, BodyReportActivity.class);
                     bodyReportIntent.putExtra("judul", sjudul);
                     bodyReportIntent.putExtra("tanggal", sdateBerita);
+                    bodyReportIntent.putExtra("lat_berita", latBerita);
+                    bodyReportIntent.putExtra("lng_berita", lngBerita);
+                    bodyReportIntent.putExtra("lat_current", latCurrent);
+                    bodyReportIntent.putExtra("lng_current", lngCurrent);
 
                     startActivity(bodyReportIntent);
 
@@ -286,7 +292,15 @@ public class FormActivity extends AppBaseActivity  implements
         }
         if (requestCode == GET_ADDRESS_REQUEST) {
             if(resultCode == RESULT_OK) {
-                address = data.getStringExtra("ADDRESS");
+                Bundle extras = data.getExtras();
+                address = extras.getString("ADDRESS");
+                latBerita = extras.getDouble("lat_berita");
+                lngBerita = extras.getDouble("lng_berita");
+                latCurrent = extras.getDouble("lat_current");
+                lngCurrent = extras.getDouble("lng_current");
+
+                System.out.println("Latber : " + latBerita + "Lngber : " + lngBerita + "Latcur : " + latCurrent + "Lngcur : " + lngCurrent);
+
                 loc.setText(address);
             }
         }

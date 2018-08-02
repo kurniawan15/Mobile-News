@@ -77,6 +77,7 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
 
     private CameraPosition mCameraPosition;
 
+    double latBerita, lngBerita, latCurrent, lngCurrent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +111,13 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
             public void onClick(View view) {
                 String address = txtAddress.getText().toString();
                 Intent formIntent = new Intent();
-                formIntent.putExtra("ADDRESS", address);
+                Bundle extras = new Bundle();
+                extras.putString("ADDRESS", address);
+                extras.putDouble("lat_berita", latBerita);
+                extras.putDouble("lng_berita", lngBerita);
+                extras.putDouble("lat_current", latCurrent);
+                extras.putDouble("lng_current", lngCurrent);
+                formIntent.putExtras(extras);
                 setResult(RESULT_OK, formIntent);
                 finish();
                 //startActivity(formIntent);
@@ -126,8 +133,8 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                 Geocoder geocoder = new Geocoder(MapsActivity.this);
 
                 //Lat & Long Berita
-                double latBerita = latLng.latitude;
-                double lngBerita = latLng.longitude;
+                latBerita = latLng.latitude;
+                lngBerita = latLng.longitude;
 
                 try {
                     List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
@@ -281,8 +288,8 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                                             mLastKnownLocation.getLongitude()), zoom));
 
                             //Lat & Long Current
-                            double latCurrent = mLastKnownLocation.getLatitude();
-                            double lngCurrent = mLastKnownLocation.getLongitude();
+                            latCurrent = mLastKnownLocation.getLatitude();
+                            lngCurrent = mLastKnownLocation.getLongitude();
 
                             mMap.addMarker(new MarkerOptions()
                                     .title("Posisi anda")

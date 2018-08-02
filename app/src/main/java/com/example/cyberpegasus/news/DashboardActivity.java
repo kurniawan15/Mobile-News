@@ -31,6 +31,22 @@ public class DashboardActivity extends AppBaseActivity {
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
 
+    ArrayList<Data> list;
+
+    public static boolean active = false;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +74,12 @@ public class DashboardActivity extends AppBaseActivity {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setAdapter(adapter);
+        if(AppBaseActivity.kategori != null) {
+            System.out.println("ayo Terpanggil");
+            filter(AppBaseActivity.kategori);
+        }else {
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
@@ -75,7 +96,8 @@ public class DashboardActivity extends AppBaseActivity {
         call.enqueue(new Callback<DataList>() {
             @Override
             public void onResponse(Call<DataList> call, Response<DataList> response) {
-                generateDataList(response.body().getDataList());
+                list = response.body().getDataList();
+                generateDataList(list);
             }
 
             @Override
@@ -85,6 +107,18 @@ public class DashboardActivity extends AppBaseActivity {
         });
 
 
+    }
+
+    void filter(String kategori) {
+        ArrayList<Data> filtered = new ArrayList<>();
+        kategori = kategori.toString().toUpperCase();
+        for(int i = 0; i < list.size(); i++) {
+            if (list.get(i).getCategory().toUpperCase().contains(kategori)) {
+                filtered.add(list.get(i));
+            }
+        }
+        adapter = new DashboardAdapter(filtered);
+        recyclerView.setAdapter(adapter);
     }
 
 

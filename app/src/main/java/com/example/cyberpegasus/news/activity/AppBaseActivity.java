@@ -43,6 +43,8 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     boolean open = false;
     Button btnFinishFilter;
 
+    public static String kategori = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,14 +100,19 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 animateLayout();
 
                 //Untuk memeriksa apakah data dari spinner terambil
-                String kategori = kategoriSpinner.getSelectedItem().toString();
+                kategori = kategoriSpinner.getSelectedItem().toString();
                 if (kategori != null) {
-                    Toast.makeText(view.getContext(), "Kategori: " + kategori, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(view.getContext(), "Kategori: " + kategori, Toast.LENGTH_LONG).show();
                 }
 
-                Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                startActivity(dashboardIntent);
-                finish();
+                if (!DashboardActivity.active) {
+                    Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                    //dashboardIntent.putExtra("kategori", kategori);
+                    startActivity(dashboardIntent);
+                    finish();
+                }else {
+
+                }
             }
         });
 
