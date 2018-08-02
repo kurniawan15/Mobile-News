@@ -127,6 +127,10 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                 LatLng latLng = mMap.getCameraPosition().target;
                 Geocoder geocoder = new Geocoder(MapsActivity.this);
 
+                //Lat & Long Berita
+                double latBerita = latLng.latitude;
+                double lngBerita = latLng.longitude;
+
                 try {
                     List<Address> addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                     if (addressList != null && addressList.size() > 0) {
@@ -277,6 +281,11 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), zoom));
+
+                            //Lat & Long Current
+                            double latCurrent = mLastKnownLocation.getLatitude();
+                            double lngCurrent = mLastKnownLocation.getLongitude();
+
                             mMap.addMarker(new MarkerOptions()
                                     .title("Posisi anda")
                                     .position(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())));

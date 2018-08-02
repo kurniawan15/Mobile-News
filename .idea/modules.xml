@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Mobile-News.iml" filepath="$PROJECT_DIR$/Mobile-News.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../Cyber Pegasus/AndroidStudioProjects/News/Mobile-News.iml" filepath="$PROJECT_DIR$/../../../../Cyber Pegasus/AndroidStudioProjects/News/Mobile-News.iml" />
+      <module fileurl="file://C:\Users\Cyber Pegasus\AndroidStudioProjects\News\Mobile-News.iml" filepath="C:\Users\Cyber Pegasus\AndroidStudioProjects\News\Mobile-News.iml" />
+      <module fileurl="file://D:\KP\BACKUP\Mobile-News\News.iml" filepath="D:\KP\BACKUP\Mobile-News\News.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
