@@ -13,7 +13,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cyberpegasus.news.DashboardActivity;
@@ -31,6 +38,10 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu drawerMenu;
     Toolbar toolbar;
+    RelativeLayout filter;
+    Animation animationLayout;
+    boolean open = false;
+    Button btnFinishFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +60,55 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         for(int i = 0; i < drawerMenu.size(); i++) {
             drawerMenu.getItem(i).setOnMenuItemClickListener(this);
         }
+
+        filter = (RelativeLayout) findViewById(R.id.filterLayout);
+
+        view_stub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "You clicked the layout", Toast.LENGTH_LONG).show();
+                animationLayout = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_close);
+                filter.setVisibility(LinearLayout.INVISIBLE);
+                animateLayout();
+            }
+        });
+
+        final Spinner kategoriSpinner = findViewById(R.id.dropdownFilterKategori);
+
+        ArrayAdapter<CharSequence> adapterKategori = ArrayAdapter.createFromResource(this, R.array.kategori,
+                android.R.layout.simple_spinner_item);
+        adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        kategoriSpinner.setAdapter(adapterKategori);
+        kategoriSpinner.setSelection(2);
+
+        final Spinner urutanSpinner = findViewById(R.id.dropdownFilterUrutan);
+
+        ArrayAdapter<CharSequence> adapterUrutan = ArrayAdapter.createFromResource(this, R.array.urutan,
+                android.R.layout.simple_spinner_item);
+        adapterUrutan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        urutanSpinner.setAdapter(adapterUrutan);
+        urutanSpinner.setSelection(0);
+
+        btnFinishFilter = (Button) findViewById(R.id.buttonFinishFilter);
+        btnFinishFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animationLayout = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_close);
+                filter.setVisibility(LinearLayout.INVISIBLE);
+                animateLayout();
+
+                //Untuk memeriksa apakah data dari spinner terambil
+                String kategori = kategoriSpinner.getSelectedItem().toString();
+                if (kategori != null) {
+                    Toast.makeText(view.getContext(), "Kategori: " + kategori, Toast.LENGTH_LONG).show();
+                }
+
+                Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                startActivity(dashboardIntent);
+                finish();
+            }
+        });
+
         // and so on...
     }
 
@@ -105,15 +165,20 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         }else {
             switch (item.getItemId()) {
                 case R.id.filterMenu:
-                    Toast.makeText(this, "You clicked filter", Toast.LENGTH_LONG).show();
-                    /*Untuk animasi filter
-                    LinearLayout filter = (LinearLayout) findViewById(R.id.filterLayout);
-                    filter.setVisibility(LinearLayout.VISIBLE);
-                    Animation animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation);
-                    animationLayout.setDuration(500);
-                    filter.setAnimation(animationLayout);
-                    filter.animate();
-                    animationLayout.start();*/
+                    if (open) {
+                        animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation_close);
+                        //Toast.makeText(this, "You clicked filter closed", Toast.LENGTH_LONG).show();
+                        //Untuk animasi filter
+                        filter.setVisibility(LinearLayout.INVISIBLE);
+                        animateLayout();
+                    }else {
+                        animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation);
+                        //Toast.makeText(this, "You clicked filter open", Toast.LENGTH_LONG).show();
+                        //Untuk animasi filter
+                        filter.setVisibility(LinearLayout.VISIBLE);
+                        animateLayout();
+                    }
+
                 break;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -150,5 +215,13 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
+    }
+
+    public void animateLayout() {
+        animationLayout.setDuration(300);
+        filter.setAnimation(animationLayout);
+        filter.animate();
+        animationLayout.start();
+        open = !open;
     }
 }

@@ -10,4 +10,8 @@
         <item>Pengetahuan</item>
         <item>Lain-lain</item>
     </array>
+    <array name="urutan">
+        <item>Terbaru</item>
+        <item>Terlama</item>
+    </array>
 </resources>
