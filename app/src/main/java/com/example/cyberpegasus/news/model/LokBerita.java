@@ -10,25 +10,30 @@ import com.google.gson.annotations.SerializedName;
 public class LokBerita {
     @SerializedName("lan")
     @Expose
-    private String lan;
+    private Double lan;
     @SerializedName("long")
     @Expose
+    private Double _long;
 
-    private String _long;
+    public LokBerita(Double lan, Double _long) {
+        this.setLan(lan);
+        this.set_long(_long);
+    }
 
-    public String getLan() {
+
+    public Double getLan() {
         return lan;
     }
 
-    public void setLan(String lan) {
+    public void setLan(Double lan) {
         this.lan = lan;
     }
 
-    public String getLong() {
+    public Double get_long() {
         return _long;
     }
 
-    public void setLong(String _long) {
+    public void set_long(Double _long) {
         this._long = _long;
     }
 }

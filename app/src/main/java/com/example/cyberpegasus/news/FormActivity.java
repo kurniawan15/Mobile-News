@@ -60,7 +60,7 @@ public class FormActivity extends AppBaseActivity  implements
 
 
     GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
-    EditText dari,type,date,catagory,pesan,lan,lng;
+    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi,lanPengirim,lngPengirim,lanBerita,lngBerita;
     Button pick;
     TextView dateResult;
     int day,month,year,hour,minute;
@@ -131,14 +131,33 @@ public class FormActivity extends AppBaseActivity  implements
         });
 
 
-        btnBodyReport = (Button) findViewById(R.id.buttonBodyReport);
-        btnBodyReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent bodyReportIntent = new Intent(FormActivity.this, BodyReportActivity.class);
-                startActivity(bodyReportIntent);
-            }
-        });
+
+        judul = findViewById(R.id.judul);
+        dateBerita= findViewById(R.id.tanggal);
+
+            btnBodyReport = (Button) findViewById(R.id.buttonBodyReport);
+            btnBodyReport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String sdateBerita = dateBerita.getText().toString();
+                    String sjudul = judul.getText().toString();
+
+                    if(sjudul.equals("")){
+                        judul.setError("Silahkan isi data");
+                    }else if (sdateBerita.equals("")){
+                        dateBerita.setError("Silahkan isi data");
+                    }
+
+                    Intent bodyReportIntent = new Intent(FormActivity.this, BodyReportActivity.class);
+                    bodyReportIntent.putExtra("judul", sjudul);
+                    bodyReportIntent.putExtra("tanggal", sdateBerita);
+
+                    startActivity(bodyReportIntent);
+
+                }
+            });
+
 
         toMaps = (ImageButton) findViewById(R.id.mapsButton);
         toMaps.setOnClickListener(new View.OnClickListener() {
@@ -155,18 +174,6 @@ public class FormActivity extends AppBaseActivity  implements
         //Menonaktifkan tombol apabila kamera pengguna tidak berfungsi
         if (!hasCamera())
             btnUpload.setEnabled(false);
-
-        dari = findViewById(R.id.judul); //harusnya form dari
-        //type = findViewById(R.id.judul); // harusnya form type
-        date = findViewById(R.id.tanggal);
-   //     catagory = findViewById(R.id.catagory);
-        pesan = findViewById(R.id.isiBerita);
-        //lan =  findViewById(R.id.lan);
-        //lng =  findViewById(R.id.lng);
-
-
-
-
 
     }
 
@@ -321,18 +328,18 @@ public class FormActivity extends AppBaseActivity  implements
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        outState.putString("judul", dari.getText().toString());
-        outState.putString("tanggal", date.getText().toString());
+        outState.putString("judul", judul.getText().toString());
+        outState.putString("tanggal", dateBerita.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        String judul = (String) savedInstanceState.getString("judul");
+        String juduls = (String) savedInstanceState.getString("judul");
         String tanggal = (String) savedInstanceState.getString("tanggal");
         Toast.makeText(FormActivity.this, "Judul: " + judul, Toast.LENGTH_LONG).show();
-        dari.setText(judul);
-        date.setText(tanggal);
+        judul.setText(juduls);
+        dateBerita.setText(tanggal);
     }
 
     private void uploadImage() {
@@ -376,7 +383,4 @@ public class FormActivity extends AppBaseActivity  implements
 
     }
 
-   public void getData(){
-
-    }
 }

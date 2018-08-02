@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
@@ -40,7 +39,6 @@ import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback {
 
@@ -260,7 +258,7 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
     /**
      * Gets the current location of the device, and positions the map's camera.
      */
-    private void getDeviceLocation() {
+    public void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.

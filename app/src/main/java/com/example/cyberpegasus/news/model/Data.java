@@ -133,4 +133,15 @@ public class Data {
         this.file = file;
     }
 
+    public Data(LokBerita lokBerita, LokPengirim lokPengirim, String datePengirim, String dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
+        this.lokBerita = lokBerita;
+        this.lokPengirim = lokPengirim;
+        this.datePengirim = datePengirim;
+        this.dateBerita = dateBerita;
+        this.pengirim = pengirim;
+        this.category = category;
+        this.isi = isi;
+        this.judul = judul;
+        this.file = file;
+    }
 }
