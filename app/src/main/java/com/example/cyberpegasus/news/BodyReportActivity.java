@@ -62,6 +62,10 @@ public class BodyReportActivity extends AppBaseActivity {
                 Log.d(sPengirim, ":Pengirimnya");
                 Log.d(sdateBerita, ":Tanggal berita");
                 Log.d(sdatePengirim, ":Pengirimnya ");
+                Log.d(String.valueOf(dlanBerita), ":lan berita ");
+                Log.d(String.valueOf(dlngBerita), ":long berita ");
+                Log.d(String.valueOf(dlanPengirim), ":lan pengirim");
+                Log.d(String.valueOf(dlngPengirim), ":long pengirim ");
 
                     finish();
 
