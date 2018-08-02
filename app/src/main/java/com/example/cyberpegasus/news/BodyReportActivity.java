@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class BodyReportActivity extends AppBaseActivity {
     GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
-    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi,lanPengirim,lngPengirim,lanBerita,lngBerita;
+    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi;
     Spinner kategoriSpinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,37 +31,37 @@ public class BodyReportActivity extends AppBaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         kategoriSpinner.setAdapter(adapter);
         kategoriSpinner.setSelection(2);
-
+        isi = findViewById(R.id.isiBerita);
 
         findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String sjudul = getIntent().getStringExtra("judul");
-                String sdateBerita = getIntent().getStringExtra("tanggal");
-
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
 
-                isi = findViewById(R.id.isiBerita);
+                String sjudul = getIntent().getStringExtra("judul");
+                String sdateBerita = getIntent().getStringExtra("tanggal");
+                Double dlanPengirim = getIntent().getExtras().getDouble("lat_current");
+                Double dlngPengirim = getIntent().getExtras().getDouble("lng_current");
+                Double dlanBerita = getIntent().getExtras().getDouble("lat_berita");
+                Double dlngBerita = getIntent().getExtras().getDouble("lng_berita");
+
+                String sPengirim =  "kurniawan";    //type.getText().toString();
+                String sdatePengirim = format.format(Calendar.getInstance().getTime());
 
                 String sIsi = isi.getText().toString();
-                String sPengirim =  "kurniawan";    //type.getText().toString();
-
-                String sdatePengirim = format.format(Calendar.getInstance().getTime());
                 String scatagori = kategoriSpinner.getSelectedItem().toString();
-                Double dlanPengirim = 0.02;
-                Double dlngPengirim = 98.8;
-
-                Double dlanBerita = 0.99;
-                Double dlngBerita = 07.8;
 
 
-                Log.d(sjudul, "Judul: ");
-                Log.d(sIsi, "Isinya : ");
-                Log.d(scatagori, "Categori : ");
-                Log.d(sPengirim, "Pengirimnya: ");
-                Log.d(sdateBerita, "Pengirimnya: ");
-                Log.d(sdatePengirim, "Pengirimnya: ");
+
+
+
+                Log.d(sjudul, ":Judul ");
+                Log.d(sIsi, ":Isinya  ");
+                Log.d(scatagori, ":Categori");
+                Log.d(sPengirim, ":Pengirimnya");
+                Log.d(sdateBerita, ":Tanggal berita");
+                Log.d(sdatePengirim, ":Pengirimnya ");
 
                     finish();
 

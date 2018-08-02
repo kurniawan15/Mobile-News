@@ -154,10 +154,12 @@ public class FormActivity extends AppBaseActivity  implements
                     Intent bodyReportIntent = new Intent(FormActivity.this, BodyReportActivity.class);
                     bodyReportIntent.putExtra("judul", sjudul);
                     bodyReportIntent.putExtra("tanggal", sdateBerita);
-                    bodyReportIntent.putExtra("lat_berita", latBerita);
-                    bodyReportIntent.putExtra("lng_berita", lngBerita);
-                    bodyReportIntent.putExtra("lat_current", latCurrent);
-                    bodyReportIntent.putExtra("lng_current", lngCurrent);
+
+                    Bundle bodyReportBundle = new Bundle();
+                    bodyReportBundle.putDouble("lat_berita", latBerita);
+                    bodyReportBundle.putDouble("lng_berita", lngBerita);
+                    bodyReportBundle.putDouble("lat_current", latCurrent);
+                    bodyReportBundle.putDouble("lng_current", lngCurrent);
 
                     startActivity(bodyReportIntent);
 
