@@ -1,5 +1,6 @@
 package com.example.cyberpegasus.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,9 @@ public class BodyReportActivity extends AppBaseActivity {
         findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+                final Intent intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
                 Bundle bundle = getIntent().getExtras();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
 
@@ -101,8 +105,8 @@ public class BodyReportActivity extends AppBaseActivity {
 
 
                                 Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                finish();
-
+                          //      finish();
+                                startActivity(intent);
                             }
 
                             @Override

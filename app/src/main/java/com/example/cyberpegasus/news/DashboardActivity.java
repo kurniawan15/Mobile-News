@@ -4,19 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 import com.example.cyberpegasus.news.Adapter.DashboardAdapter;
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
@@ -24,6 +15,12 @@ import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class DashboardActivity extends AppBaseActivity {
@@ -85,6 +82,7 @@ public class DashboardActivity extends AppBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         /*Create handle for the RetrofitInstance interface*/
         GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
         /*Call the method with parameter in the interface to get the data*/
