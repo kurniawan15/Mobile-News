@@ -91,8 +91,13 @@ public class BodyReportActivity extends AppBaseActivity {
 
                         LokBerita lokasiBerita = new LokBerita(dlanBerita,dlngBerita);
                         LokPengirim lokasiPengirim = new LokPengirim(dlanPengirim,dlngPengirim);
+//cara Arraylist lokasi di api
+                    ArrayList<LokBerita> lokber = new ArrayList<>();
+                    lokber.add(lokasiBerita);
+                    ArrayList<LokPengirim> lokpeng = new ArrayList<>();
+                    lokpeng.add(lokasiPengirim);
 
-                        Data data = new Data(lokasiBerita,lokasiPengirim,datePengirim,dateBerita,sPengirim,scatagori,sIsi,sjudul,sFile);
+                    Data data = new Data(lokber,lokpeng,datePengirim,dateBerita,sPengirim,scatagori,sIsi,sjudul,sFile);
 
                         Call<DataList> call = service.AddData(data);
 

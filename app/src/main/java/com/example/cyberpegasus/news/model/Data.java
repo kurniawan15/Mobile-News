@@ -3,6 +3,7 @@ package com.example.cyberpegasus.news.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,10 +17,10 @@ public class Data {
     private String id;
     @SerializedName("lok_berita")
     @Expose
-    private LokBerita lokBerita;
+    private ArrayList<LokBerita> lokBeritaList;
     @SerializedName("lok_pengirim")
     @Expose
-    private LokPengirim lokPengirim;
+    private ArrayList<LokPengirim> lokPengirimList;
     @SerializedName("date_pengirim")
     @Expose
     private Date datePengirim;
@@ -54,20 +55,20 @@ public class Data {
         this.id = id;
     }
 
-    public LokBerita getLokBerita() {
-        return lokBerita;
+    public ArrayList<LokBerita> getLokBeritaList() {
+        return lokBeritaList;
     }
 
-    public void setLokBerita(LokBerita lokBerita) {
-        this.lokBerita = lokBerita;
+    public void setLokBeritaList( ArrayList<LokBerita> lokBerita) {
+        this.lokBeritaList = lokBerita;
     }
 
-    public LokPengirim getLokPengirim() {
-        return lokPengirim;
+    public ArrayList<LokPengirim> getLokPengirimList() {
+        return lokPengirimList;
     }
 
-    public void setLokPengirim(LokPengirim lokPengirim) {
-        this.lokPengirim = lokPengirim;
+    public void setLokPengirimList(ArrayList<LokPengirim> lokPengirim) {
+        this.lokPengirimList = lokPengirim;
     }
 
     public Date getDatePengirim() {
@@ -141,9 +142,9 @@ public class Data {
         this.file = file;
     }
 
-    public Data(LokBerita lokBerita, LokPengirim lokPengirim, Date datePengirim, Date dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
-        this.lokBerita = lokBerita;
-        this.lokPengirim = lokPengirim;
+    public Data( ArrayList<LokBerita> lokBeritaList,  ArrayList<LokPengirim> lokPengirimList, Date datePengirim, Date dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
+        this.lokBeritaList = lokBeritaList;
+        this.lokPengirimList = lokPengirimList;
         this.datePengirim = datePengirim;
         this.dateBerita = dateBerita;
         this.pengirim = pengirim;
