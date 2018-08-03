@@ -30,7 +30,7 @@ public interface GetDataService {
 //                           @Field("pesan") String pesan
 //                           );
 
-    @POST("rawpesans")
+    @POST("beritamobile")
     Call<DataList> AddData(@Body Data data);
 
     @Multipart

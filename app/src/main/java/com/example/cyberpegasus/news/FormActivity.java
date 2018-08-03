@@ -54,7 +54,7 @@ public class FormActivity extends AppBaseActivity  implements
     private int GET_ADDRESS_REQUEST = 7;
     private List<Uri> userSelectedImageUriList = null;
     private MediaListAdapter adapter;
-    private List<String> list = new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
     private ListView listView;
     File mediaFile;
 
@@ -154,12 +154,14 @@ public class FormActivity extends AppBaseActivity  implements
                     Intent bodyReportIntent = new Intent(FormActivity.this, BodyReportActivity.class);
                     bodyReportIntent.putExtra("judul", sjudul);
                     bodyReportIntent.putExtra("tanggal", sdateBerita);
+                    bodyReportIntent.putExtra("listFile", list);
 
                     Bundle bodyReportBundle = new Bundle();
                     bodyReportBundle.putDouble("lat_berita", latBerita);
                     bodyReportBundle.putDouble("lng_berita", lngBerita);
                     bodyReportBundle.putDouble("lat_current", latCurrent);
                     bodyReportBundle.putDouble("lng_current", lngCurrent);
+
 
                     startActivity(bodyReportIntent);
 

@@ -3,6 +3,7 @@ package com.example.cyberpegasus.news.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,10 +22,10 @@ public class Data {
     private LokPengirim lokPengirim;
     @SerializedName("date_pengirim")
     @Expose
-    private String datePengirim;
+    private Date datePengirim;
     @SerializedName("date_berita")
     @Expose
-    private String dateBerita;
+    private Date dateBerita;
     @SerializedName("pengirim")
     @Expose
     private String pengirim;
@@ -69,19 +70,26 @@ public class Data {
         this.lokPengirim = lokPengirim;
     }
 
-    public String getDatePengirim() {
+    public Date getDatePengirim() {
         return datePengirim;
     }
 
-    public void setDatePengirim(String datePengirim) {
+    public void setDatePengirim(Date datePengirim) {
         this.datePengirim = datePengirim;
     }
 
-    public String getDateBerita() {
+    public Date getDateBerita() {
         return dateBerita;
     }
 
-    public void setDateBerita(String dateBerita) {
+    @Override
+    public String toString() {
+        return "Data{" +
+                "datePengirim=" + datePengirim +
+                '}';
+    }
+
+    public void setDateBerita(Date dateBerita) {
         this.dateBerita = dateBerita;
     }
 
@@ -133,7 +141,7 @@ public class Data {
         this.file = file;
     }
 
-    public Data(LokBerita lokBerita, LokPengirim lokPengirim, String datePengirim, String dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
+    public Data(LokBerita lokBerita, LokPengirim lokPengirim, Date datePengirim, Date dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
         this.lokBerita = lokBerita;
         this.lokPengirim = lokPengirim;
         this.datePengirim = datePengirim;

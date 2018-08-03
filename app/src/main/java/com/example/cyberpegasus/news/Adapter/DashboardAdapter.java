@@ -37,7 +37,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
     public void onBindViewHolder(DataViewHolder holder, int position) {
         holder.textViewHead.setText(dataList.get(position).getJudul());
         holder.textViewDate.setText(dataList.get(position).getPengirim());
-        holder.textViewTime.setText(dataList.get(position).getDateBerita());
+        holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
         holder.textViewBody.setText(dataList.get(position).getIsi());
 
                 //Toast.makeText(context, "You clicked " + listItem.getName(), Toast.LENGTH_LONG).show();
@@ -54,8 +54,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
 
     public class DataViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewHead;
-        public TextView textViewBody,textViewDate, textViewTime ;
+        public TextView textViewHead,textViewBody,textViewDate, textViewTime ;
         public LinearLayout linearLayout;
 
         public DataViewHolder(View itemView) {
