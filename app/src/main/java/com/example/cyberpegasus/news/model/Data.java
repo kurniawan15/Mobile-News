@@ -3,7 +3,6 @@ package com.example.cyberpegasus.news.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +16,10 @@ public class Data {
     private String id;
     @SerializedName("lok_berita")
     @Expose
-    private ArrayList<LokBerita> lokBeritaList;
+    private LokBerita lokBeritaList;
     @SerializedName("lok_pengirim")
     @Expose
-    private ArrayList<LokPengirim> lokPengirimList;
+    private LokPengirim lokPengirimList;
     @SerializedName("date_pengirim")
     @Expose
     private Date datePengirim;
@@ -55,19 +54,19 @@ public class Data {
         this.id = id;
     }
 
-    public ArrayList<LokBerita> getLokBeritaList() {
+    public LokBerita getLokBeritaList() {
         return lokBeritaList;
     }
 
-    public void setLokBeritaList( ArrayList<LokBerita> lokBerita) {
+    public void setLokBeritaList( LokBerita lokBerita) {
         this.lokBeritaList = lokBerita;
     }
 
-    public ArrayList<LokPengirim> getLokPengirimList() {
+    public LokPengirim getLokPengirimList() {
         return lokPengirimList;
     }
 
-    public void setLokPengirimList(ArrayList<LokPengirim> lokPengirim) {
+    public void setLokPengirimList(LokPengirim lokPengirim) {
         this.lokPengirimList = lokPengirim;
     }
 
@@ -142,9 +141,7 @@ public class Data {
         this.file = file;
     }
 
-    public Data( ArrayList<LokBerita> lokBeritaList,  ArrayList<LokPengirim> lokPengirimList, Date datePengirim, Date dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
-        this.lokBeritaList = lokBeritaList;
-        this.lokPengirimList = lokPengirimList;
+    public Data( Date datePengirim, Date dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
         this.datePengirim = datePengirim;
         this.dateBerita = dateBerita;
         this.pengirim = pengirim;

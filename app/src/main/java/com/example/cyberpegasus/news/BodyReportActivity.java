@@ -10,7 +10,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
-import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.LokBerita;
 import com.example.cyberpegasus.news.model.LokPengirim;
@@ -32,6 +31,10 @@ public class BodyReportActivity extends AppBaseActivity {
     GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
     EditText pengirim,judul,datePengirim,dateBerita,catagory,isi;
     Spinner kategoriSpinner;
+
+
+    Intent intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,19 +54,22 @@ public class BodyReportActivity extends AppBaseActivity {
             public void onClick(View view) {
 
 
-                final Intent intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
+
                 Bundle bundle = getIntent().getExtras();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
 
                 String sjudul = getIntent().getStringExtra("judul");
                 String sdateBerita = getIntent().getStringExtra("tanggal");
+
                 Double dlanPengirim = getIntent().getExtras().getDouble("lat_current");
                 Double dlngPengirim = getIntent().getExtras().getDouble("lng_current");
                 Double dlanBerita = getIntent().getExtras().getDouble("lat_berita");
                 Double dlngBerita = getIntent().getExtras().getDouble("lng_berita");
+
+
                 ArrayList<String> sFile = (ArrayList<String>) bundle.getStringArrayList("listFile");
 
-                String sPengirim =  "kurniawan";    //type.getText().toString();
+                String sPengirim =  "Pega";    //Di ganti ketika login selesai
 
                 String sdatePengirim = format.format(Calendar.getInstance().getTime());
 
@@ -91,15 +97,17 @@ public class BodyReportActivity extends AppBaseActivity {
 
                         LokBerita lokasiBerita = new LokBerita(dlanBerita,dlngBerita);
                         LokPengirim lokasiPengirim = new LokPengirim(dlanPengirim,dlngPengirim);
-//cara Arraylist lokasi di api
-                    ArrayList<LokBerita> lokber = new ArrayList<>();
-                    lokber.add(lokasiBerita);
-                    ArrayList<LokPengirim> lokpeng = new ArrayList<>();
-                    lokpeng.add(lokasiPengirim);
 
-                    Data data = new Data(lokber,lokpeng,datePengirim,dateBerita,sPengirim,scatagori,sIsi,sjudul,sFile);
 
-                        Call<DataList> call = service.AddData(data);
+
+   //                 Data data = new Data(datePengirim,dateBerita,sPengirim,scatagori,sIsi,sjudul,sFile);
+
+ //                       Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,data);
+ //
+
+
+                    Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+                            sPengirim,sjudul,dateBerita,datePengirim,scatagori,sFile);
 
 
 
