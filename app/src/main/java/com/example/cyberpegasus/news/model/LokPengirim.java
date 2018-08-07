@@ -11,25 +11,29 @@ public class LokPengirim {
 
     @SerializedName("lan")
     @Expose
-    private String lan;
+    private Double lan;
     @SerializedName("long")
     @Expose
-    private String _long;
+    private Double _long;
 
-    public String getLan() {
-        return lan;
-    }
-
-    public void setLan(String lan) {
+    public LokPengirim(Double lan, Double _long) {
         this.lan = lan;
-    }
-
-    public String getLong() {
-        return _long;
-    }
-
-    public void setLong(String _long) {
         this._long = _long;
     }
 
+    public Double getLan() {
+        return lan;
+    }
+
+    public Double get_long() {
+        return _long;
+    }
+
+    public void setLan(Double lan) {
+        this.lan = lan;
+    }
+
+    public void set_long(Double _long) {
+        this._long = _long;
+    }
 }

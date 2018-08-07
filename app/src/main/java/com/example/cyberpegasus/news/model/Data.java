@@ -3,6 +3,7 @@ package com.example.cyberpegasus.news.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,16 +16,16 @@ public class Data {
     private String id;
     @SerializedName("lok_berita")
     @Expose
-    private LokBerita lokBerita;
+    private LokBerita lokBeritaList;
     @SerializedName("lok_pengirim")
     @Expose
-    private LokPengirim lokPengirim;
+    private LokPengirim lokPengirimList;
     @SerializedName("date_pengirim")
     @Expose
-    private String datePengirim;
+    private Date datePengirim;
     @SerializedName("date_berita")
     @Expose
-    private String dateBerita;
+    private Date dateBerita;
     @SerializedName("pengirim")
     @Expose
     private String pengirim;
@@ -53,35 +54,42 @@ public class Data {
         this.id = id;
     }
 
-    public LokBerita getLokBerita() {
-        return lokBerita;
+    public LokBerita getLokBeritaList() {
+        return lokBeritaList;
     }
 
-    public void setLokBerita(LokBerita lokBerita) {
-        this.lokBerita = lokBerita;
+    public void setLokBeritaList( LokBerita lokBerita) {
+        this.lokBeritaList = lokBerita;
     }
 
-    public LokPengirim getLokPengirim() {
-        return lokPengirim;
+    public LokPengirim getLokPengirimList() {
+        return lokPengirimList;
     }
 
-    public void setLokPengirim(LokPengirim lokPengirim) {
-        this.lokPengirim = lokPengirim;
+    public void setLokPengirimList(LokPengirim lokPengirim) {
+        this.lokPengirimList = lokPengirim;
     }
 
-    public String getDatePengirim() {
+    public Date getDatePengirim() {
         return datePengirim;
     }
 
-    public void setDatePengirim(String datePengirim) {
+    public void setDatePengirim(Date datePengirim) {
         this.datePengirim = datePengirim;
     }
 
-    public String getDateBerita() {
+    public Date getDateBerita() {
         return dateBerita;
     }
 
-    public void setDateBerita(String dateBerita) {
+    @Override
+    public String toString() {
+        return "Data{" +
+                "datePengirim=" + datePengirim +
+                '}';
+    }
+
+    public void setDateBerita(Date dateBerita) {
         this.dateBerita = dateBerita;
     }
 
@@ -133,4 +141,13 @@ public class Data {
         this.file = file;
     }
 
+    public Data( Date datePengirim, Date dateBerita, String pengirim, String category, String isi, String judul, List<String> file) {
+        this.datePengirim = datePengirim;
+        this.dateBerita = dateBerita;
+        this.pengirim = pengirim;
+        this.category = category;
+        this.isi = isi;
+        this.judul = judul;
+        this.file = file;
+    }
 }

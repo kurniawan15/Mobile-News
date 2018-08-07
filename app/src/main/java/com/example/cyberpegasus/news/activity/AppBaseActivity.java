@@ -15,13 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.cyberpegasus.news.DashboardActivity;
 import com.example.cyberpegasus.news.LoginActivity;
@@ -38,10 +35,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu drawerMenu;
     Toolbar toolbar;
-    RelativeLayout filter;
-    Animation animationLayout;
-    boolean open = false;
-    Button btnFinishFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,56 +53,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         for(int i = 0; i < drawerMenu.size(); i++) {
             drawerMenu.getItem(i).setOnMenuItemClickListener(this);
         }
-
-        filter = (RelativeLayout) findViewById(R.id.filterLayout);
-
-        view_stub.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "You clicked the layout", Toast.LENGTH_LONG).show();
-                animationLayout = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_close);
-                filter.setVisibility(LinearLayout.INVISIBLE);
-                animateLayout();
-            }
-        });
-
-        final Spinner kategoriSpinner = findViewById(R.id.dropdownFilterKategori);
-
-        ArrayAdapter<CharSequence> adapterKategori = ArrayAdapter.createFromResource(this, R.array.kategori,
-                android.R.layout.simple_spinner_item);
-        adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        kategoriSpinner.setAdapter(adapterKategori);
-        kategoriSpinner.setSelection(2);
-
-        final Spinner urutanSpinner = findViewById(R.id.dropdownFilterUrutan);
-
-        ArrayAdapter<CharSequence> adapterUrutan = ArrayAdapter.createFromResource(this, R.array.urutan,
-                android.R.layout.simple_spinner_item);
-        adapterUrutan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        urutanSpinner.setAdapter(adapterUrutan);
-        urutanSpinner.setSelection(0);
-
-        btnFinishFilter = (Button) findViewById(R.id.buttonFinishFilter);
-        btnFinishFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animationLayout = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_close);
-                filter.setVisibility(LinearLayout.INVISIBLE);
-                animateLayout();
-
-                //Untuk memeriksa apakah data dari spinner terambil
-                String kategori = kategoriSpinner.getSelectedItem().toString();
-                if (kategori != null) {
-                    Toast.makeText(view.getContext(), "Kategori: " + kategori, Toast.LENGTH_LONG).show();
-                }
-
-                Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                startActivity(dashboardIntent);
-                finish();
-            }
-        });
-
-        // and so on...
     }
 
     @Override
@@ -164,21 +107,34 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             return true;
         }else {
             switch (item.getItemId()) {
+                //Ketika menekan menu filter
                 case R.id.filterMenu:
-                    if (open) {
-                        animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation_close);
-                        //Toast.makeText(this, "You clicked filter closed", Toast.LENGTH_LONG).show();
-                        //Untuk animasi filter
-                        filter.setVisibility(LinearLayout.INVISIBLE);
-                        animateLayout();
+                    //Jika sedang tidak membuka activity Dashboard maka pindah ke Dashboard
+                    if (!DashboardActivity.active) {
+                        Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                        startActivity(dashboardIntent);
+                        DashboardActivity.filterOpen = true;
+                        finish();
                     }else {
-                        animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation);
-                        //Toast.makeText(this, "You clicked filter open", Toast.LENGTH_LONG).show();
-                        //Untuk animasi filter
-                        filter.setVisibility(LinearLayout.VISIBLE);
-                        animateLayout();
+                        //Jika layout filter masih tertutup maka lakukan animasi buka
+                        if (DashboardActivity.filterOpen == false) {
+                            Animation animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation);
+                            DashboardActivity a = new DashboardActivity();
+                            RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
+                            DashboardActivity.btnFinishFilter = (Button) findViewById(R.id.buttonFinishFilter);
+                            DashboardActivity.wktDari = (EditText) findViewById(R.id.waktuDari);
+                            DashboardActivity.wktSampai = (EditText) findViewById(R.id.waktuSampai);
+                            a.animateOpen(animationLayout,re);
+                            DashboardActivity.filterOpen = true;
+                        }else {
+                        //Jika layout filter sudah terbuka maka lakukan animasi tutup
+                            Animation animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation_close);
+                            DashboardActivity a = new DashboardActivity();
+                            RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
+                            a.animateClose(animationLayout,re);
+                            DashboardActivity.filterOpen = false;
+                        }
                     }
-
                 break;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -211,17 +167,4 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         return false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        return true;
-    }
-
-    public void animateLayout() {
-        animationLayout.setDuration(300);
-        filter.setAnimation(animationLayout);
-        filter.animate();
-        animationLayout.start();
-        open = !open;
-    }
 }

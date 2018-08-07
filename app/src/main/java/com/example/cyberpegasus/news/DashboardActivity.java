@@ -16,33 +16,26 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
-import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.Adapter.DashboardAdapter;
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
-import com.example.cyberpegasus.news.tokenmanager.TokenManager;
-import com.example.cyberpegasus.news.LoginActivity;
 
 
 public class DashboardActivity extends AppBaseActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
-    TokenManager tokenManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        JWT jwt = (JWT) getIntent().getParcelableExtra("jwt");
 
 
 
@@ -72,13 +65,8 @@ public class DashboardActivity extends AppBaseActivity {
     protected void onResume() {
         super.onResume();
         /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitInstance.getRetrofitInstanceURL("http://192.168.1.241.:9099/api/").create(GetDataService.class);
+        GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
         /*Call the method with parameter in the interface to get the data*/
-        /*Retrofit retrofit = new retrofit2.Retrofit.Builder()
-                .baseUrl("http://192.168.1.241.:9099/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        GetDataService service = retrofit.create(GetDataService.class);*/
         Call<DataList> call = service.getData();
 
         /*Log the URL called*/

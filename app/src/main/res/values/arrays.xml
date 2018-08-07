@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="kategori">
+        <item>Semua Kategori</item>
         <item>Politik</item>
         <item>Olahraga</item>
         <item>Teknologi</item>
@@ -8,6 +9,7 @@
         <item>Ekonomi</item>
         <item>Hiburan</item>
         <item>Pengetahuan</item>
+        <item>kriminal, perampokan</item>
         <item>Lain-lain</item>
     </array>
     <array name="urutan">

@@ -1,78 +1,113 @@
 package com.example.cyberpegasus.news;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.cyberpegasus.news.activity.AppBaseActivity;
+import com.example.cyberpegasus.news.model.DataList;
+import com.example.cyberpegasus.news.model.LokBerita;
+import com.example.cyberpegasus.news.model.LokPengirim;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BodyReportActivity extends AppBaseActivity {
     GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
+    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi;
+    Spinner kategoriSpinner;
 
+
+    Intent intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_report);
 
-        final Spinner kategoriSpinner = findViewById(R.id.dropdownKategori);
+        kategoriSpinner = findViewById(R.id.dropdownKategori);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.kategori,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         kategoriSpinner.setAdapter(adapter);
         kategoriSpinner.setSelection(2);
+        isi = findViewById(R.id.isiBerita);
 
-    /*
         findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+
+
+                Bundle bundle = getIntent().getExtras();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
 
+                String sjudul = getIntent().getStringExtra("judul");
+                String sdateBerita = getIntent().getStringExtra("tanggal");
 
-                dari = findViewById(R.id.judul); //harusnya form dari
-                //type = findViewById(R.id.judul); // harusnya form type
-                date = findViewById(R.id.tanggal);
-                //     catagory = findViewById(R.id.catagory);
-                pesan = findViewById(R.id.isiBerita);
-                //lan =  findViewById(R.id.lan);
-                //lng =  findViewById(R.id.lng);
+                Double dlanPengirim = getIntent().getExtras().getDouble("lat_current");
+                Double dlngPengirim = getIntent().getExtras().getDouble("lng_current");
+                Double dlanBerita = getIntent().getExtras().getDouble("lat_berita");
+                Double dlngBerita = getIntent().getExtras().getDouble("lng_berita");
 
-                String sdari = dari.getText().toString();
-                String stype =  "private";    //type.getText().toString();
-                String sdate = date.getText().toString();
-                String scatagori = kategoriSpinner.toString();
 
-                String spesan = pesan.getText().toString();
+                ArrayList<String> sFile = (ArrayList<String>) bundle.getStringArrayList("listFile");
 
-                Double slan = 0.7;//Float.parseFloat(lng.getText().toString());
-                Double slng = 98.8;//Float.parseFloat(lng.getText().toString());
+                String sPengirim =  "Pega";    //Di ganti ketika login selesai
+
+                String sdatePengirim = format.format(Calendar.getInstance().getTime());
+
+                String sIsi = isi.getText().toString();
+                String scatagori = kategoriSpinner.getSelectedItem().toString();
 
                 try {
-                    Date dateString = format.parse(sdate);
-                    System.out.println("ini isi datanya" + dateString);
+                    Date dateBerita = format.parse(sdateBerita);
+                    Date datePengirim = format.parse(sdatePengirim);
 
 
 
-                    if(sdari.equals("")){
-                        dari.setError("Silahkan isi data");
-                    }else if (stype.equals("")){
-                        type.setError("Silahkan isi data");
-                    }else if (scatagori.equals("")){
-                        catagory.setError("Silahkan isi data");
-                    }else if (spesan.equals("")){
-                        pesan.setError("Silahkan isi data");
-                    }else {
+                Log.d(sjudul, "Judul ");
+                Log.d(sIsi, "Isinya  ");
+                Log.d(scatagori, "Categori");
+                Log.d(sPengirim, "Pengirimnya");
+                Log.d(String.valueOf(sFile), "NamaFile");
+                Log.d(String.valueOf(dateBerita), "Tanggal berita");
+                Log.d(String.valueOf(datePengirim), "Pengirimnya ");
+                Log.d(String.valueOf(dlanBerita), "lan berita ");
+                Log.d(String.valueOf(dlngBerita), "long berita ");
+                Log.d(String.valueOf(dlanPengirim), "lan pengirim");
+                Log.d(String.valueOf(dlngPengirim), "long pengirim ");
 
-                        Lokasi lokasi = new Lokasi(slan,slng);
-                        Data data = new Data(spesan,scatagori,dateString,stype,sdari,lokasi);
 
-                        //  Call<DataList> call = service.AddData(sdari,stype,dateString,scatagori,spesan,lokasi);
+                        LokBerita lokasiBerita = new LokBerita(dlanBerita,dlngBerita);
+                        LokPengirim lokasiPengirim = new LokPengirim(dlanPengirim,dlngPengirim);
 
-                        Call<DataList> call = service.AddData(data);
+
+
+   //                 Data data = new Data(datePengirim,dateBerita,sPengirim,scatagori,sIsi,sjudul,sFile);
+
+ //                       Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,data);
+ //
+
+
+                    Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+                            sPengirim,sjudul,dateBerita,datePengirim,scatagori,sFile);
 
 
 
@@ -80,11 +115,11 @@ public class BodyReportActivity extends AppBaseActivity {
                             @Override
                             public void onResponse(Call<DataList> call, Response<DataList> response) {
                                 String msg = response.body().getMsg();
-                                String value = response.body().getValue();
+
 
                                 Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                finish();
-
+                          //      finish();
+                                startActivity(intent);
                             }
 
                             @Override
@@ -92,13 +127,16 @@ public class BodyReportActivity extends AppBaseActivity {
                                 Toast.makeText(BodyReportActivity.this, "Gagal menyambungkan ke Jaringan", Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+
+
+                    } catch (ParseException e1) {
+                    e1.printStackTrace();
                 }
+
             }
 
         });
-    */
+
     }
+
 }

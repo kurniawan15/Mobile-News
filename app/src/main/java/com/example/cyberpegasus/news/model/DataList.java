@@ -16,7 +16,6 @@ public class DataList {
     @SerializedName("message")
     String Msg;
 
-    String value;
 
     public ArrayList<Data> getDataList() {
         return dataList;
@@ -34,11 +33,5 @@ public class DataList {
         Msg = msg;
     }
 
-    public String getValue() {
-        return value;
-    }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 }
