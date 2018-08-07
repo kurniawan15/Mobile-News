@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradien">
+    android:background="@drawable/bgapp">
+
+
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -16,12 +19,15 @@
         android:layout_marginTop="56dp"
         app:srcCompat="@drawable/logo" />
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
+        android:backgroundTint="#FFFF"
         android:id="@+id/username"
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textColorHint="#FFF"
+        android:textColor="#FFF"
         android:layout_marginTop="286dp"
         android:ems="10"
         android:drawableLeft="@drawable/ic_action_user"
@@ -30,7 +36,8 @@
         android:inputType="text"/>
 
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
+        android:backgroundTint="#FFFF"
         android:id="@+id/password"
         android:layout_width="135dp"
         android:drawableLeft="@drawable/ic_action_password"
@@ -39,6 +46,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="247dp"
         android:ems="10"
+        android:textColorHint="#FFF"
+        android:textColor="#FFF"
         android:hint="Password"
         android:inputType="textPassword"
         android:textSize="14dp" />

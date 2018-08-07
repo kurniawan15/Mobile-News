@@ -21,10 +21,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.Adapter.NameAdapter;
 import com.example.cyberpegasus.news.database.DatabaseHelper;
 import com.example.cyberpegasus.news.network.NetworkStateChecker;
 import com.example.cyberpegasus.news.network.VolleySingleton;
+import com.example.cyberpegasus.news.tokenmanager.TokenManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,10 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //objek adaptor untuk tampilan daftar
     private NameAdapter nameAdapter;
 
+    TokenManager tokenManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        JWT jwt = (JWT) getIntent().getParcelableExtra("jwt");
 
         registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
