@@ -9,7 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.example.cyberpegasus.news.FormActivity">
+    tools:context="com.example.cyberpegasus.news.activity.FormActivity">
 
     <TextView
         android:layout_width="wrap_content"

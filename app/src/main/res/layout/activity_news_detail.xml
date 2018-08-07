@@ -10,7 +10,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.example.cyberpegasus.news.NewsDetailActivity">
+    tools:context="com.example.cyberpegasus.news.activity.NewsDetailActivity">
 
     <TextView
         android:layout_width="match_parent"

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.example.cyberpegasus.news.LoginActivity;
-import com.example.cyberpegasus.news.model.JWTToken;
-import com.example.cyberpegasus.news.model.Login;
+import com.example.cyberpegasus.news.activity.LoginActivity;
 
 import java.util.HashMap;
 

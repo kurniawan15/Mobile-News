@@ -17,7 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.cyberpegasus.news.MainActivity;
+import com.example.cyberpegasus.news.activity.MainActivity;
 import com.example.cyberpegasus.news.database.DatabaseHelper;
 
 import org.json.JSONException;

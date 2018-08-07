@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -23,8 +23,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.cyberpegasus.news.Adapter.MediaListAdapter;
-import com.example.cyberpegasus.news.activity.AppBaseActivity;
+import com.example.cyberpegasus.news.R;
+import com.example.cyberpegasus.news.adapter.MediaListAdapter;
 import com.example.cyberpegasus.news.network.GetDataService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 import com.example.cyberpegasus.news.network.UploadResponse;

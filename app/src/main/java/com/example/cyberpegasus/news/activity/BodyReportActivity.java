@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.cyberpegasus.news.activity.AppBaseActivity;
+import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.LokBerita;
 import com.example.cyberpegasus.news.model.LokPengirim;

@@ -9,7 +9,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.cyberpegasus.news.MapsActivity" />
+        tools:context="com.example.cyberpegasus.news.activity.MapsActivity" />
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"

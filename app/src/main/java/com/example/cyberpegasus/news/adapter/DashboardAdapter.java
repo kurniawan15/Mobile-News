@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news.Adapter;
+package com.example.cyberpegasus.news.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

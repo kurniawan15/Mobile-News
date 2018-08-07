@@ -20,8 +20,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.example.cyberpegasus.news.DashboardActivity;
-import com.example.cyberpegasus.news.LoginActivity;
 import com.example.cyberpegasus.news.R;
 
 /**

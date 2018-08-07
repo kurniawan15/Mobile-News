@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,27 +9,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.auth0.android.jwt.JWT;
-import com.example.cyberpegasus.news.decode.JWTUtils;
+import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.model.JWTToken;
-import com.example.cyberpegasus.news.model.Login;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitClient;
 import com.example.cyberpegasus.news.tokenmanager.TokenManager;
 import com.example.cyberpegasus.news.Encryption.md5;
-import com.google.gson.Gson;
 
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static java.lang.System.in;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username;

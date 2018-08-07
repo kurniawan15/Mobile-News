@@ -1,4 +1,4 @@
-package com.example.cyberpegasus.news;
+package com.example.cyberpegasus.news.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -24,8 +24,8 @@ import android.support.v7.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.cyberpegasus.news.Adapter.DashboardAdapter;
-import com.example.cyberpegasus.news.activity.AppBaseActivity;
+import com.example.cyberpegasus.news.R;
+import com.example.cyberpegasus.news.adapter.DashboardAdapter;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.network.GetDataService;

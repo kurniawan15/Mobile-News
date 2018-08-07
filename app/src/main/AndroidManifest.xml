@@ -32,7 +32,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activity.MainActivity" />
 
         <receiver android:name=".network.NetworkStateChecker">
             <intent-filter>
@@ -40,18 +40,18 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".FormActivity" />
-        <activity android:name=".BodyReportActivity" />
-        <activity android:name=".NewsDetailActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.FormActivity" />
+        <activity android:name=".activity.BodyReportActivity" />
+        <activity android:name=".activity.NewsDetailActivity" />
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.About" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -66,7 +66,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps" />
     </application>
 
