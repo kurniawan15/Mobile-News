@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.MediaListAdapter;
-import com.example.cyberpegasus.news.network.GetDataService;
+import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 import com.example.cyberpegasus.news.network.UploadResponse;
 
@@ -59,7 +59,7 @@ public class FormActivity extends AppBaseActivity  implements
     File mediaFile;
 
 
-    GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
+    BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
     EditText pengirim,judul,datePengirim,dateBerita,catagory,isi,lanPengirim,lngPengirim,lanBerita;
     Button pick;
     TextView dateResult;
@@ -371,7 +371,7 @@ public class FormActivity extends AppBaseActivity  implements
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();*/
         Retrofit req = RetrofitInstance.getRetrofitInstance();
-        GetDataService request = req.create(GetDataService.class);
+        BaseAPIService request = req.create(BaseAPIService.class);
         //RequestInterface request = RetrofitClientUtil.getRequestInterface();
         Call<UploadResponse> responseCall = request.postImage(imageBody, ImageName);
         responseCall.enqueue(new Callback<UploadResponse>() {

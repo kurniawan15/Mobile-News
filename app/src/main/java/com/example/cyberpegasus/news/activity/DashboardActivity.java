@@ -28,7 +28,7 @@ import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.DashboardAdapter;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
-import com.example.cyberpegasus.news.network.GetDataService;
+import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 
 import java.text.ParseException;
@@ -310,7 +310,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         super.onResume();
 
         /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
+        BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
         /*Call the method with parameter in the interface to get the data*/
         Call<DataList> call = service.getData();
 
