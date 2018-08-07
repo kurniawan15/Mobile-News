@@ -5,15 +5,14 @@ package com.example.cyberpegasus.news.database;
  */
 
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-        import android.content.ContentValues;
-        import android.content.Context;
-        import android.database.Cursor;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.database.sqlite.SQLiteOpenHelper;
-
-        import java.text.DateFormat;
-        import java.util.Date;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -21,11 +20,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Constants for Database name, table name, and column names
     public static final String DB_NAME = "skm";
     public static final String TABLE_NAME = "berita";
-    public static final String COLUMN_ID = "IDBERITA";
+    public static final String COLUMN_ID = "ID";
+    public static final String COLUMN_PENGIRIM = "PENGIRIM";
+    public static final String COLUMN_JUDUL = "JUDUL";
+    public static final String COLUMN_DATE_BERITA = "KATAGORI";
+    public static final String COLUMN_CATEGORY = "WAKTU_PENGIRIM";
     public static final String COLUMN_ISI = "ISI";
-    public static final String COLUMN_KATEGORI = "KATAGORI";
-    public static final String COLUMN_WAKTU_PENGIRIM = "WAKTU_PENGIRIM";
-    public static final String COLUMN_NAME = "JUDUL";
+    public static final String COLUMN_DATE_PENGIRIM = "DATEPENGIRIM";
+    public static final String COLUMN_LOK_PENGIRIM_LAN = "LANPENGIRIM";
+    public static final String COLUMN_LOK_PENGIRIM_LNG = "LNGPENGIRIM";
+    public static final String COLUMN_LOK_BERITA_LAN = "LANBERITA";
+    public static final String COLUMN_LOK_BERITA_LNG = "LNGBERITA";
+    public static final String COLUMN_FILE = "FILE";
     public static final String COLUMN_STATUS = "status";
 
     //database version
@@ -40,10 +46,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + TABLE_NAME
-                + "(" + COLUMN_ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NAME +
-                " VARCHAR, " + COLUMN_STATUS +
-                " TINYINT);";
+                + "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_JUDUL + " VARCHAR,"
+                + COLUMN_PENGIRIM + " VARCHAR,"
+                + COLUMN_DATE_BERITA + " DATETIME,"
+                + COLUMN_CATEGORY + " VARCHAR,"
+                + COLUMN_ISI + " VARCHAR,"
+                + COLUMN_DATE_PENGIRIM + " DATETIME,"
+                + COLUMN_LOK_BERITA_LAN + " DOUBLE,"
+                + COLUMN_LOK_BERITA_LNG + " DOUBLE,"
+                + COLUMN_LOK_PENGIRIM_LAN + " DOUBLE,"
+                + COLUMN_LOK_PENGIRIM_LNG + " DOUBLE,"
+                + COLUMN_FILE + " VARCHAR,"
+                + COLUMN_STATUS + " TINYINT);";
         db.execSQL(sql);
     }
 
@@ -62,11 +77,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * 0 berarti nama disinkronkan dengan server
     * 1 artinya nama tidak disinkronkan dengan server
     * */
-    public boolean addName(String name, int status) {
+    public boolean addData(String judul, String pengirim, Date date_Pengirim, String category,
+                           String isi, Date date_berita, Double lok_Pengirim_Lan, Double lok_Pengirim_Lng,
+                           Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COLUMN_NAME, name);
+        contentValues.put(COLUMN_JUDUL, judul);
+        contentValues.put(COLUMN_PENGIRIM, pengirim);
+        contentValues.put(COLUMN_DATE_PENGIRIM, String.valueOf(date_Pengirim));
+        contentValues.put(COLUMN_CATEGORY, category);
+        contentValues.put(COLUMN_ISI, isi);
+        contentValues.put(COLUMN_DATE_BERITA, String.valueOf(date_berita));
+        contentValues.put(COLUMN_LOK_PENGIRIM_LAN, lok_Pengirim_Lan);
+        contentValues.put(COLUMN_LOK_PENGIRIM_LNG, lok_Pengirim_Lng);
+        contentValues.put(COLUMN_LOK_BERITA_LAN, lok_Berita_Lan);
+        contentValues.put(COLUMN_LOK_BERITA_LNG, lok_Berita_Lng);
         contentValues.put(COLUMN_STATUS, status);
 
 
@@ -93,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * metode ini akan memberi kita semua data yang disimpan dalam sqlite
     * */
-    public Cursor getNames() {
+    public Cursor getDate() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_ID + " ASC;";
         Cursor c = db.rawQuery(sql, null);

@@ -19,7 +19,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.cyberpegasus.news.MainActivity;
 import com.example.cyberpegasus.news.database.DatabaseHelper;
-import com.example.cyberpegasus.news.network.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +56,7 @@ public class NetworkStateChecker extends BroadcastReceiver {
                         //memanggil metode untuk menyimpan nama yang tidak disinkronkan ke MySQL
                         saveName(
                                 cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID)),
-                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME))
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL))
                         );
                     } while (cursor.moveToNext());
                 }

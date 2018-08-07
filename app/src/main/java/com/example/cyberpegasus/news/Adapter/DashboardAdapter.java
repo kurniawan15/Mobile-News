@@ -1,6 +1,5 @@
 package com.example.cyberpegasus.news.Adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.DataViewHolder> {
     private ArrayList<Data> dataList;
-    private Context context;
 
     public DashboardAdapter(ArrayList<Data> dataList) {
         this.dataList = dataList;
@@ -35,10 +33,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
 
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
-        holder.textViewHead.setText(dataList.get(position).getJudul());
-        holder.textViewDate.setText(dataList.get(position).getPengirim());
-        holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
-        holder.textViewBody.setText(dataList.get(position).getIsi());
+        holder.textViewHead.setText(dataList.get(position).getCategory());
+     //   holder.textViewDate.setText(dataList.get(position).getPengirim());
+     //   holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
+     //   holder.textViewBody.setText(dataList.get(position).getIsi());
 
                 //Toast.makeText(context, "You clicked " + listItem.getName(), Toast.LENGTH_LONG).show();
              //   Intent detailIntent = new Intent(view.getContext(), NewsDetailActivity.class);
@@ -54,10 +52,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
 
     public class DataViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewHead,textViewBody,textViewDate, textViewTime ;
-        public LinearLayout linearLayout;
+        TextView textViewHead,textViewBody,textViewDate, textViewTime ;
+         LinearLayout linearLayout;
 
-        public DataViewHolder(View itemView) {
+         DataViewHolder(View itemView) {
             super(itemView);
 
             textViewHead = (TextView) itemView.findViewById(R.id.textHead);

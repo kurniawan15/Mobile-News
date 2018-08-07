@@ -112,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     */
     private void loadNames() {
         names.clear();
-        Cursor cursor = db.getNames();
+        Cursor cursor = db.getDate();
         if (cursor.moveToFirst()) {
             do {
                 Name name = new Name(
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
                         cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
                 );
 
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // simpan nama ke penyimpanan lokal
     private void saveNameToLocalStorage(String name, int status) {
         editTextName.setText("");
-        db.addName(name, status);
+        //db.addData(name, status);
         Name n = new Name(name, status);
         names.add(n);
         refreshList();

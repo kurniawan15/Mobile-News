@@ -62,8 +62,6 @@ public class DashboardActivity extends AppBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-
-
         imgButton = (ImageButton) findViewById(R.id.imageButton);
         imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,8 +155,7 @@ public class DashboardActivity extends AppBaseActivity {
         call.enqueue(new Callback<DataList>() {
             @Override
             public void onResponse(Call<DataList> call, Response<DataList> response) {
-                list = response.body().getDataList();
-                generateDataList(list);
+                generateDataList(response.body().getDataList());
             }
 
             @Override

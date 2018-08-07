@@ -21,7 +21,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface GetDataService {
-    @GET("beritamobile")
+    @GET("rawpesans")
     Call<DataList> getData();
 
 

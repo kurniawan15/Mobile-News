@@ -52,9 +52,6 @@ public class BodyReportActivity extends AppBaseActivity {
         findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                 Bundle bundle = getIntent().getExtras();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
 
