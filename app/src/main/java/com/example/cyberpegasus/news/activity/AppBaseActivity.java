@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -33,9 +35,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu drawerMenu;
     Toolbar toolbar;
-
-
-    public static String kategori = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +107,27 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             return true;
         }else {
             switch (item.getItemId()) {
+                //Ketika menekan menu filter
                 case R.id.filterMenu:
+                    //Jika sedang tidak membuka activity Dashboard maka pindah ke Dashboard
                     if (!DashboardActivity.active) {
                         Intent dashboardIntent = new Intent(getApplicationContext(), DashboardActivity.class);
                         startActivity(dashboardIntent);
                         DashboardActivity.filterOpen = true;
                         finish();
                     }else {
+                        //Jika layout filter masih tertutup maka lakukan animasi buka
                         if (DashboardActivity.filterOpen == false) {
                             Animation animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation);
                             DashboardActivity a = new DashboardActivity();
                             RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
+                            DashboardActivity.btnFinishFilter = (Button) findViewById(R.id.buttonFinishFilter);
+                            DashboardActivity.wktDari = (EditText) findViewById(R.id.waktuDari);
+                            DashboardActivity.wktSampai = (EditText) findViewById(R.id.waktuSampai);
                             a.animateOpen(animationLayout,re);
                             DashboardActivity.filterOpen = true;
                         }else {
+                        //Jika layout filter sudah terbuka maka lakukan animasi tutup
                             Animation animationLayout = AnimationUtils.loadAnimation(this, R.anim.animation_close);
                             DashboardActivity a = new DashboardActivity();
                             RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
@@ -159,12 +165,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             break;
         }
         return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        return true;
     }
 
 }
