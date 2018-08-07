@@ -13,7 +13,7 @@ import com.example.cyberpegasus.news.activity.AppBaseActivity;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.LokBerita;
 import com.example.cyberpegasus.news.model.LokPengirim;
-import com.example.cyberpegasus.news.network.GetDataService;
+import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 
 import java.text.ParseException;
@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BodyReportActivity extends AppBaseActivity {
-    GetDataService service = RetrofitInstance.getRetrofitInstance().create(GetDataService.class);
+    BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
     EditText pengirim,judul,datePengirim,dateBerita,catagory,isi;
     Spinner kategoriSpinner;
 

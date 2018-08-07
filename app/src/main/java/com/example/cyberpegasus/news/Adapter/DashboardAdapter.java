@@ -34,9 +34,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
         holder.textViewHead.setText(dataList.get(position).getCategory());
-     //   holder.textViewDate.setText(dataList.get(position).getPengirim());
-     //   holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
-     //   holder.textViewBody.setText(dataList.get(position).getIsi());
+        holder.textViewDate.setText(dataList.get(position).getPengirim());
+        holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
+        holder.textViewBody.setText(dataList.get(position).getIsi());
 
                 //Toast.makeText(context, "You clicked " + listItem.getName(), Toast.LENGTH_LONG).show();
              //   Intent detailIntent = new Intent(view.getContext(), NewsDetailActivity.class);

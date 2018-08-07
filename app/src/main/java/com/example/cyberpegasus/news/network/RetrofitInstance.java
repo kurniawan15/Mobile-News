@@ -23,15 +23,5 @@ public class RetrofitInstance {
         }
         return retrofit;
     }
-
-    public static Retrofit getRetrofitInstanceURL(String URL) {
-        if (retrofit == null) {
-            retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }
 }
 
