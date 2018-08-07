@@ -140,24 +140,35 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         btnFinishFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Ketika tombol filter ditekan maka layout filter akan menutup dan melakukan proses di bawah
-                Animation animationLayout = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_close);
-                animateClose(animationLayout, filter);
-
                 //Untuk memeriksa apakah data dari spinner terambil
                 String kategori = null;
                 String urutan = null;
                 Date dari = null;
                 Date sampai = null;
+                String tanggalDari = null;
+                String tanggalSampai = null;
 
                 kategori = kategoriSpinner.getSelectedItem().toString();
                 urutan = urutanSpinner.getSelectedItem().toString();
                 try {
-                    String tanggalDari = wktDari.getText().toString();
-                    String tanggalSampai = wktSampai.getText().toString();
+                    tanggalDari = wktDari.getText().toString();
+                    tanggalSampai = wktSampai.getText().toString();
+                    if (tanggalDari.equals("") && !tanggalSampai.equals("")) {
+                        wktDari.setError("Tanggal tidak valid !");
+                        Toast.makeText(DashboardActivity.this, "Tanggal belum diisi !", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else if (tanggalSampai.equals("") && !tanggalDari.equals("")) {
+                        wktSampai.setError("Tanggal tidak valid !");
+                        Toast.makeText(DashboardActivity.this, "Tanggal belum diisi !", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     dari = new SimpleDateFormat("yyyy/MM/dd").parse(tanggalDari);
                     sampai = new SimpleDateFormat("yyyy/MM/dd").parse(tanggalSampai);
-                    System.out.println(tanggalDari);
+                    if (dari.after(sampai)) {
+                        wktSampai.setError("Tanggal tidak valid !");
+                        Toast.makeText(DashboardActivity.this, "Tanggal tidak valid !", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -186,35 +197,56 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 //Filter berdasarkan kategori
                 if (kategori != null) {
                     if (kategori.equals("Semua Kategori")) {
-                        adapter = new DashboardAdapter(list);
-                        recyclerView.setAdapter(adapter);
-                        ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
-                    }else {
-                        ArrayList<Data> filtered = new ArrayList<>();
-                        filtered.addAll(filter(kategori, list));
-                        if (filtered == null) {
-                            Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
+                        //Filter berdasarkan waktu
+                        if (dari != null && sampai != null) {
+                            ArrayList<Data> filtered = new ArrayList<>();
+                            filtered.addAll(filterByDate(dari, sampai, list));
+                            if (filtered.isEmpty()) {
+                                Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
+                            }else {
+                                adapter = new DashboardAdapter(filtered);
+                                recyclerView.setAdapter(adapter);
+                                ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
+                            }
                         }else {
-                            adapter = new DashboardAdapter(filtered);
+                            adapter = new DashboardAdapter(list);
                             recyclerView.setAdapter(adapter);
                             ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
+                        }
+                    }else {
+                        ArrayList<Data> filteredCategory = new ArrayList<>();
+                        filteredCategory.addAll(filter(kategori, list));
+                        if (filteredCategory.isEmpty()) {
+                            Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
+                        }else {
+                            //Filter berdasarkan waktu
+                            if (dari != null && sampai != null) {
+                                ArrayList<Data> filteredDate = new ArrayList<>();
+                                filteredDate.addAll(filterByDate(dari, sampai, filteredCategory));
+                                if (filteredDate.isEmpty()) {
+                                    Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    adapter = new DashboardAdapter(filteredDate);
+                                    recyclerView.setAdapter(adapter);
+                                    ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
+                                }
+                            }else {
+                                adapter = new DashboardAdapter(filteredCategory);
+                                recyclerView.setAdapter(adapter);
+                                ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
+                            }
                         }
                     }
                 }
 
-                //Filter berdasarkan waktu
-                if (dari != null && sampai != null) {
-                    ArrayList<Data> filtered = new ArrayList<>();
-                    filtered.addAll(filterByDate(dari, sampai, list));
-                    if (filtered == null) {
-                        Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
-                    }else {
-                        adapter = new DashboardAdapter(filtered);
-                        recyclerView.setAdapter(adapter);
-                        ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
-                    }
-                }
                 filterOpen = false;
+                wktDari.setText(null);
+                wktSampai.setText(null);
+                wktDari.setError(null);
+                wktSampai.setError(null);
+                //Ketika tombol filter ditekan maka layout filter akan menutup dan melakukan proses di atas
+                Animation animationLayout = AnimationUtils.loadAnimation(view.getContext(), R.anim.animation_close);
+                animateClose(animationLayout, filter);
             }
         });
 
