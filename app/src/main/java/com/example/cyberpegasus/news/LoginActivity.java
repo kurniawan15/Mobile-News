@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             final JWTToken jwtToken = response.body();
                             Toast.makeText(mContext, "" + jwtToken.getToken().toString(), Toast.LENGTH_SHORT).show();
-                            tokenManager.createLoginSession(usernameval, jwtToken.getToken().toString());
+                            //tokenManager.createLoginSession(usernameval, jwtToken.getToken().toString());
 
                             Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
                             startActivity(mainIntent);
