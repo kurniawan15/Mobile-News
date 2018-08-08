@@ -26,6 +26,24 @@
         android:spinnerMode="dropdown"
         android:textAlignment="textStart"></Spinner>
 
+    <Spinner
+        android:id="@+id/dropdownSubKategori1"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textStart"
+        android:visibility="gone"></Spinner>
+
+    <Spinner
+        android:id="@+id/dropdownSubKategori2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textStart"
+        android:visibility="gone"></Spinner>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
