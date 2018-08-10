@@ -8,6 +8,7 @@ import java.util.Date;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -49,8 +50,11 @@ public interface BaseAPIService {
 
 
     @Multipart
-    @POST("file")
-    Call<UploadResponse> postImage(@Part MultipartBody.Part image, @Part("name") RequestBody name);
+    @POST("beritamobile/upload")
+    Call<ResponseBody> uploadPhoto(
+            @Part("description") RequestBody description,
+            @Part MultipartBody.Part photo
+    );
 
 }
 

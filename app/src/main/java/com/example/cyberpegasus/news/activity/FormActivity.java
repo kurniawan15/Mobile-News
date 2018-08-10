@@ -68,6 +68,7 @@ public class FormActivity extends AppBaseActivity  implements
     String address;
 
     double latBerita, lngBerita, latCurrent, lngCurrent;
+    Uri mImageUri;
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -111,7 +112,8 @@ public class FormActivity extends AppBaseActivity  implements
         btnUploadTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //uploadImage();
+                //uploadImage(mediaFile, mImageUri);
+                //uploadION(mediaFile);
             }
         });
 
@@ -239,7 +241,7 @@ public class FormActivity extends AppBaseActivity  implements
             if (resultCode == RESULT_OK) {
                 //If Single image selected then it will fetch from Gallery
                 if (data.getData() != null) {
-                    Uri mImageUri = data.getData();
+                    mImageUri = data.getData();
                     fileName = getFileName(mImageUri);
 
                     //Untuk mendapatkan path directory dari file yang diambil
@@ -360,45 +362,42 @@ public class FormActivity extends AppBaseActivity  implements
         dateBerita.setText(tanggal);
     }
 
-    private void uploadImage() {
+    /*private void uploadImage(File mediaFile, Uri fileUri) {
+        String desc = "description";
 
-        //File file = new File(selectImagePath);
-        RequestBody reqFile = RequestBody.create(MediaType.parse("image"), mediaFile);
-        MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", mediaFile.getName(), reqFile);
-        RequestBody ImageName = RequestBody.create(MediaType.parse("text/plain"), mediaFile.getName());
-        /*Retrofit req = new retrofit2.Retrofit.Builder()
-                .baseUrl("http://192.168.1.241/restAPI/public/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();*/
-        Retrofit req = RetrofitInstance.getRetrofitInstance();
-        BaseAPIService request = req.create(BaseAPIService.class);
-        //RequestInterface request = RetrofitClientUtil.getRequestInterface();
-        Call<UploadResponse> responseCall = request.postImage(imageBody, ImageName);
-        responseCall.enqueue(new Callback<UploadResponse>() {
+        RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, desc);
+
+        RequestBody filePart = RequestBody.create(
+                                MediaType.parse("image"),
+                                mediaFile);
+
+        MultipartBody.Part file = MultipartBody.Part.createFormData("upload", mediaFile.getName(), filePart);
+
+        //create retrofit instance
+        Retrofit.Builder builder = new Retrofit.Builder()
+                                    .baseUrl("http://192.168.1.241:9099/")
+                                    .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        //get client and call object for the request
+        BaseAPIService client = retrofit.create(BaseAPIService.class);
+
+        //finally execute the request
+        Call<ResponseBody> call = client.uploadPhoto(descriptionPart, file);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
-                if (response.isSuccessful()) {
-                    UploadResponse resp = response.body();
-                    if (resp.getCode() == 200) {
-                        Toast.makeText(FormActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-                        /*mSnackbar = Snackbar.make(mParent, resp.getMessage(), Snackbar.LENGTH_LONG);
-                        View views = mSnackbar.getView();
-                        views.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary));
-                        mSnackbar.show();*/
-                    }
-                }
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(getApplicationContext(), "terupload: ", Toast.LENGTH_LONG).show();
+                System.out.println(response);
             }
 
             @Override
-            public void onFailure(Call<UploadResponse> call, Throwable t) {
-                /*mSnackbar = Snackbar.make(mParent, t.getLocalizedMessage(), Snackbar.LENGTH_LONG);
-                View views = mSnackbar.getView();
-                views.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.colorWarmGrey));
-                mSnackbar.show();*/
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "tidak terupload: ", Toast.LENGTH_LONG).show();
+                System.out.println(t);
             }
         });
-
-
-    }
+    }*/
 
 }
