@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -30,23 +31,154 @@ import retrofit2.Response;
 public class BodyReportActivity extends AppBaseActivity {
     BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
     EditText pengirim,judul,datePengirim,dateBerita,catagory,isi;
-    Spinner kategoriSpinner;
+    Spinner kategoriSpinner, subKategori1Spinner, subKategori2Spinner;
+    Intent intent;
 
 
-    Intent intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_report);
 
+        intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
         kategoriSpinner = findViewById(R.id.dropdownKategori);
+        subKategori1Spinner = findViewById(R.id.dropdownSubKategori1);
+        subKategori2Spinner = findViewById(R.id.dropdownSubKategori2);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.kategori,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         kategoriSpinner.setAdapter(adapter);
-        kategoriSpinner.setSelection(2);
+
+        //Menggunakan listener agar data pada spinner dapat memunculkan spinner yang lain
+        kategoriSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch(adapterView.getSelectedItem().toString()) {
+                    case "Kriminal":
+                        ArrayAdapter<CharSequence> adapterSubKriminal = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_kriminal,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubKriminal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori1Spinner.setAdapter(adapterSubKriminal);
+                        subKategori1Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Konflik":
+                        ArrayAdapter<CharSequence> adapterSubKonflik = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_konflik,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubKonflik.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori1Spinner.setAdapter(adapterSubKonflik);
+                        subKategori1Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Pelanggaran Kedaulatan":
+                        ArrayAdapter<CharSequence> adapterSubPelKedaulatan = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_pelanggaran_kedaulatan,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubPelKedaulatan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori1Spinner.setAdapter(adapterSubPelKedaulatan);
+                        subKategori1Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Kecelakaan":
+                        ArrayAdapter<CharSequence> adapterSubKecelakaan = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_kecelakaan,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubKecelakaan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori1Spinner.setAdapter(adapterSubKecelakaan);
+                        subKategori1Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Bencana":
+                        ArrayAdapter<CharSequence> adapterSubBencana = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_bencana,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubBencana.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori1Spinner.setAdapter(adapterSubBencana);
+                        subKategori1Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    default:
+                        subKategori1Spinner.setAdapter(null);
+                        subKategori1Spinner.setVisibility(Spinner.GONE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        subKategori1Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch(adapterView.getSelectedItem().toString()) {
+                    case "Kejahatan Kekayaan Negara":
+                        ArrayAdapter<CharSequence> adapterSubKKN = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_kejahatan_kekayaan_negara,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubKKN.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori2Spinner.setAdapter(adapterSubKKN);
+                        subKategori2Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Bencana Ulah Manusia":
+                        ArrayAdapter<CharSequence> adapterSubBencanaManusia = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_bencana_ulah_manusia,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubBencanaManusia.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori2Spinner.setAdapter(adapterSubBencanaManusia);
+                        subKategori2Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Bencana Alam":
+                        ArrayAdapter<CharSequence> adapterSubBencanaAlam = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_bencana_alam,
+                                android.R.layout.simple_spinner_item);
+                        adapterSubBencanaAlam.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori2Spinner.setAdapter(adapterSubBencanaAlam);
+                        subKategori2Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Konflik Bersenjata":
+                        ArrayAdapter<CharSequence> adapterKonflikBersenjata = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_konflik_bersenjata,
+                                android.R.layout.simple_spinner_item);
+                        adapterKonflikBersenjata.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori2Spinner.setAdapter(adapterKonflikBersenjata);
+                        subKategori2Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Konflik Horisontal":
+                        ArrayAdapter<CharSequence> adapterKonflikHorisontal = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_konflik_horisontal,
+                                android.R.layout.simple_spinner_item);
+                        adapterKonflikHorisontal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori2Spinner.setAdapter(adapterKonflikHorisontal);
+                        subKategori2Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    case "Konflik Vertikal":
+                        ArrayAdapter<CharSequence> adapterKonflikVertikal = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_konflik_vertikal,
+                                android.R.layout.simple_spinner_item);
+                        adapterKonflikVertikal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        subKategori2Spinner.setAdapter(adapterKonflikVertikal);
+                        subKategori2Spinner.setVisibility(Spinner.VISIBLE);
+                        break;
+
+                    default:
+                        subKategori2Spinner.setAdapter(null);
+                        subKategori2Spinner.setVisibility(Spinner.GONE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        /*String scatagori = kategoriSpinner.getSelectedItem().toString() + ", "
+                + subKategori1Spinner.getSelectedItem().toString() + ", "
+                + subKategori2Spinner.getSelectedItem().toString();
+        System.out.println(scatagori);*/
+
         isi = findViewById(R.id.isiBerita);
 
         findViewById(R.id.buttonSubmitReport).setOnClickListener(new View.OnClickListener() {
@@ -72,6 +204,25 @@ public class BodyReportActivity extends AppBaseActivity {
 
                 String sIsi = isi.getText().toString();
                 String scatagori = kategoriSpinner.getSelectedItem().toString();
+                String subKategori1 = null;
+                String subKategori2 = null;
+
+                try {
+                    if (subKategori1Spinner.getSelectedItem().toString() != null) {
+                        subKategori1 = subKategori1Spinner.getSelectedItem().toString();
+                        if (!subKategori1.contains("All")) {
+                            scatagori = scatagori + ", " + subKategori1;
+                        }
+                        if (subKategori2Spinner.getSelectedItem().toString() != null) {
+                            subKategori2 = subKategori2Spinner.getSelectedItem().toString();
+                            if (!subKategori2.contains("All")) {
+                                scatagori = scatagori + ", " + subKategori2;
+                            }
+                        }
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     Date dateBerita = format.parse(sdateBerita);

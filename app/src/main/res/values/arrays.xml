@@ -2,18 +2,145 @@
 <resources>
     <array name="kategori">
         <item>Semua Kategori</item>
-        <item>Politik</item>
-        <item>Olahraga</item>
-        <item>Teknologi</item>
-        <item>Kesehatan</item>
-        <item>Ekonomi</item>
-        <item>Hiburan</item>
-        <item>Pengetahuan</item>
-        <item>kriminal, perampokan</item>
+        <item>Kriminal</item>
+
+
+
+        <item>Konflik</item>
+
+
+
+        <item>Pelanggaran Kedaulatan</item>
+
+
+
+        <item>Kecelakaan</item>
+
+
+
+        <item>Bencana</item>
+
+
+
+        <item>Gagal Panen</item>
+        <item>Wabah Penyakit</item>
         <item>Lain-lain</item>
     </array>
+
     <array name="urutan">
         <item>Terbaru</item>
         <item>Terlama</item>
     </array>
+
+    <array name="sub_bencana_ulah_manusia">
+        <item>All Bencana Ulah Manusia</item>
+        <item>Banjir</item>
+        <item>Tanah Longsor</item>
+        <item>Lumpur Lapindo</item>
+        <item>Kebakaran Hutan</item>
+        <item>Kebakaran</item>
+        <item>Gedung Ambruk</item>
+    </array>
+
+    <array name="sub_kejahatan_kekayaan_negara">
+        <item>All Kejahatan Kekayaan Negara</item>
+        <item>Korupsi</item>
+        <item>Pencurian Ikan</item>
+        <item>Pembalakan Liar</item>
+        <item>Tambang Liar</item>
+        <item>Penyulingan Minyak Illegal</item>
+    </array>
+
+    <array name="sub_bencana_alam">
+        <item>All Bencana Alam</item>
+        <item>Gempa Bumi</item>
+        <item>Gunung Meletus</item>
+        <item>Angin Puting Beliung</item>
+        <item>Cuaca Ekstrim</item>
+        <item>Tsunami</item>
+    </array>
+
+    <array name="sub_bencana">
+        <item>All Bencana</item>
+        <item>Bencana Alam</item>
+
+
+
+        <item>Bencana Ulah Manusia</item>
+
+
+
+    </array>
+
+    <array name="sub_kecelakaan">
+        <item>All Kecelakaan</item>
+        <item>Kecelakaan di Laut</item>
+        <item>Kecelakaan di Darat</item>
+        <item>Kecelakaan di Udara</item>
+        <item>Kecelakaan di Sungai/Danau</item>
+    </array>
+
+    <array name="sub_pelanggaran_kedaulatan">
+        <item>All Pelanggaran Kedaulatan</item>
+        <item>Pelanggaran Perbatasan Laut</item>
+        <item>Pelanggaran Perbatasan Darat</item>
+        <item>Pelanggaran Perbatasan Udara</item>
+    </array>
+
+    <array name="sub_konflik_bersenjata">
+        <item>All Konflik Bersenjata</item>
+        <item>Gerakan Pengacau Pengamanan</item>
+        <item>Organisasi Papua Merdeka</item>
+        <item>Penyerangan terhadap Aparat</item>
+    </array>
+
+    <array name="sub_konflik_horisontal">
+        <item>All Konflik Horisontal</item>
+        <item>Bentrok antar Warga</item>
+        <item>Bentrok antar Ormas</item>
+        <item>Tawuran</item>
+    </array>
+
+    <array name="sub_konflik_vertikal">
+        <item>All Konflik Vertikal</item>
+        <item>Demo</item>
+        <item>Kerusuhan</item>
+    </array>
+
+    <array name="sub_konflik">
+        <item>All Konflik</item>
+        <item>Bentrok antar Aparat</item>
+        <item>Konflik Vertikal</item>
+
+
+
+        <item>Konflik Horisontal</item>
+
+
+
+        <item>Konflik Bersenjata</item>
+
+
+
+    </array>
+
+    <array name="sub_kriminal">
+        <item>All Kriminal</item>
+        <item>Kejahatan Kekayaan Negara</item>
+        <item>Kejahatan HAM</item>
+        <item>Terorisme</item>
+        <item>Perdagangan Manusia</item>
+        <item>Kejahatan Konvensional</item>
+        <item>Narkoba</item>
+        <item>KDRT</item>
+        <item>Pornografi Pornoaksi</item>
+        <item>Asusila</item>
+        <item>Penghinaan terhadap Presiden</item>
+        <item>Penyelundupan</item>
+        <item>Kejahatan di Laut</item>
+        <item>Kejahatan di Udara</item>
+        <item>Sengketa Politik</item>
+        <item>Perampokan</item>
+    </array>
+
 </resources>

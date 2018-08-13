@@ -13,6 +13,7 @@
     tools:context="com.example.cyberpegasus.news.activity.NewsDetailActivity">
 
     <TextView
+        android:id="@+id/judulBerita"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/greenPrimary"
@@ -22,6 +23,7 @@
         android:textColor="#ffff" />
 
     <TextView
+        android:id="@+id/kategoriBerita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -31,6 +33,7 @@
         android:textColor="#000" />
 
     <ImageView
+        android:id="@+id/fotoBerita"
         android:layout_width="match_parent"
         android:layout_height="251dp"
         android:layout_marginTop="20dp"
@@ -83,6 +86,7 @@
         android:layout_marginTop="20dp">
 
     <TextView
+        android:id="@+id/isiBerita"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/berita_dummy"
