@@ -15,7 +15,7 @@
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="Gerry97"
+        android:text="superadmin"
         android:textColor="#ddd"
         android:textSize="50dp"
         android:textStyle="bold" />
