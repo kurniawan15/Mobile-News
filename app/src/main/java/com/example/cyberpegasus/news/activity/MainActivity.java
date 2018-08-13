@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView tvResultNama;
     String resultNama;
+    TokenManager tokenManager;
 
     //database helper object
     private DatabaseHelper db;
@@ -74,14 +76,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //objek adaptor untuk tampilan daftar
     private NameAdapter nameAdapter;
 
-    TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        JWT jwt = (JWT) getIntent().getParcelableExtra("jwt");
+        //JWT jwt = (JWT) getIntent().getParcelableExtra("jwt");
+        tokenManager=new TokenManager(getApplicationContext());
+        tokenManager.checkLogin();
+        HashMap <String,String> map=tokenManager.getDetailLogin();
 
+        //Intent data = getIntent();
+        /*if (data.getExtras() != null)
+        {
+            Toast.makeText(MainActivity.this,""+data.getExtras().getString("username"),Toast.LENGTH_SHORT).show();;
+        }
+        */
         registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         //menginisialisasi tampilan dan objek

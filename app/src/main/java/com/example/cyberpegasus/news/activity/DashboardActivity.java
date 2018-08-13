@@ -30,6 +30,7 @@ import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
+import com.example.cyberpegasus.news.tokenmanager.TokenManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -49,6 +51,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
+    TokenManager tokenManager;
 
     ArrayList<Data> list;
 
@@ -79,6 +82,19 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        tokenManager=new TokenManager(getApplicationContext());
+        //HashMap<String,String> map=tokenManager.getDetailLogin();
+        tokenManager.checkLogin();
+        //Toast.makeText(getApplicationContext(),"User Login Status :"+tokenManager.isLogin.toString(),Toast.LENGTH_LONG).show();
+
+        HashMap<String,String> user =tokenManager.getDetailLogin();
+        String username=user.get(TokenManager.KEY_USER_NAME);
+        String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
+
+        //Toast.makeText(DashboardActivity.this,"Username : "+ username,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(DashboardActivity.this,"JWT TOKEN : "+ jwttoken,Toast.LENGTH_SHORT).show();
+
+
 
         //Data dummy untuk mencoba fitur Search
         Date d1 = null;
