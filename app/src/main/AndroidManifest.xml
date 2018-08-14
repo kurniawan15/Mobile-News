@@ -32,7 +32,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.DashboardActivity" />
 
         <receiver android:name=".network.NetworkStateChecker">
             <intent-filter>
@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.FormActivity" />
         <activity android:name=".activity.BodyReportActivity" />
         <activity android:name=".activity.NewsDetailActivity" />

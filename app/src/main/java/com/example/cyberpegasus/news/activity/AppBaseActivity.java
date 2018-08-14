@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,9 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.example.cyberpegasus.news.R;
+import com.example.cyberpegasus.news.tokenmanager.TokenManager;
+
+import java.util.HashMap;
 
 /**
  * Created by USER on 7/22/2018.
@@ -33,6 +37,7 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private ActionBarDrawerToggle mDrawerToggle;
     private Menu drawerMenu;
     Toolbar toolbar;
+    TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         drawerMenu = navigation_view.getMenu();
         for(int i = 0; i < drawerMenu.size(); i++) {
@@ -145,6 +151,7 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        tokenManager = new TokenManager(AppBaseActivity.this);
         switch (item.getItemId()) {
             case R.id.history:
                 Intent dashboardIntent = new Intent(AppBaseActivity.this, DashboardActivity.class);
@@ -152,9 +159,14 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 finish();
             break;
             case R.id.logout:
-                Intent logoutIntent = new Intent(AppBaseActivity.this, LoginActivity.class);
-                startActivity(logoutIntent);
-                finish();
+                tokenManager.logout();
+                Intent intent = new Intent(AppBaseActivity.this,LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                //tokenManager.checkLogin();
+
             break;
             case R.id.about:
                 Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
