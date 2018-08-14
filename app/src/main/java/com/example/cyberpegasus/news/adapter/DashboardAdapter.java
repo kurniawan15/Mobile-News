@@ -53,7 +53,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
                 b.putString("JUDUL", dataList.get(position).getJudul());
                 b.putString("KATEGORI", dataList.get(position).getCategory());
                 b.putString("ISI", dataList.get(position).getIsi());
-                b.putString("TANGGAL", dataList.get(position).getDateBerita().toString());
+                b.putSerializable("TANGGAL", dataList.get(position).getDateBerita());
                 b.putStringArrayList("FILE", (ArrayList<String>) dataList.get(position).getFile());
                 detailIntent.putExtras(b);
 
