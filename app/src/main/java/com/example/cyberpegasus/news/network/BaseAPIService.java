@@ -41,6 +41,7 @@ public interface BaseAPIService {
                            @Field("judul") String judul,
                            @Field("date_berita") Date dateBerita,
                            @Field("date_pengirim") Date datePengirim,
+                           @Field("isi") String isi,
                            @Field("category") String catagory,
                            @Field("file") ArrayList<String> file
     );

@@ -2,6 +2,7 @@ package com.example.cyberpegasus.news.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -27,8 +28,11 @@ import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.DashboardAdapter;
+import com.example.cyberpegasus.news.adapter.NameAdapter;
+import com.example.cyberpegasus.news.database.DatabaseHelper;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
+import com.example.cyberpegasus.news.model.Name;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 
@@ -50,8 +54,9 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
-
+    DatabaseHelper db;
     ArrayList<Data> list;
+    BodyReportActivity body = new BodyReportActivity();
 
     public static Button btnFinishFilter;
 
@@ -81,6 +86,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+
+
         //Data dummy untuk mencoba fitur Search
         Date d1 = null;
         Date d2 = null;
@@ -100,7 +107,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         list.add(data1);
         list.add(data2);
         list.add(data3);
-        generateDataList(list);
+       generateDataList(list);
+
 
         imgButton = (ImageButton) findViewById(R.id.imageButton);
         imgButton.setOnClickListener(new View.OnClickListener() {
@@ -438,6 +446,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             }
         });
 
+
+
     }
 
     private void generateDataList(ArrayList<Data> empDataList) {
@@ -456,6 +466,11 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onResume() {
         super.onResume();
 
+        readFromAPI();
+
+    }
+
+    public void readFromAPI(){
         /*Create handle for the RetrofitInstance interface*/
         BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
         /*Call the method with parameter in the interface to get the data*/
@@ -477,8 +492,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             }
         });
 
-
     }
+
 
     //Method untuk mem-filter list berdasarkan kategori berita
     public ArrayList<Data> filter(String kategori, ArrayList<Data> arrayList) {
@@ -576,4 +591,25 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
         return true;
     }
+
+    private void readDataLocal() {
+        list.clear();
+        Cursor cursor = db.getDate();
+        if (cursor.moveToFirst()) {
+            do {
+                Data data = new Data(
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PENGIRIM)),
+                        //cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE_PENGIRIM)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ISI)),
+                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
+
+                );
+
+                list.add(data);
+            } while (cursor.moveToNext());
+        }
+        generateDataList(list);
+    }
+
 }
