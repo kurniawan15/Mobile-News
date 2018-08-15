@@ -59,7 +59,25 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    final BaseAPIService baseAPIService = RetrofitClient.getbaseAPIService();
+                    String user = null;
+                    String pass = null;
+                    user = username.getText().toString();
+                    pass = password.getText().toString();
+                    if(user.equals("gerry97") && pass.equals("gerry") || user.equals("jeremi") && pass.equals("admin") ){
+                        Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(v.getContext(), "Username atau password salah !", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+                }
+                }
+
+                    /*final BaseAPIService baseAPIService = RetrofitClient.getbaseAPIService();
                     final String usernameval = username.getText().toString();
                     byte[] md5input = password.getText().toString().getBytes();
                     BigInteger md5Data = null;
@@ -107,11 +125,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+            ]
 
-        }
+           ]
 
 
-}
+        */
+
+
 
 
 
