@@ -161,11 +161,11 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             case R.id.logout:
                 tokenManager.logout();
                 Intent intent = new Intent(AppBaseActivity.this,LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
                 //tokenManager.checkLogin();
+                onBackPressed();
+
 
             break;
             case R.id.about:
@@ -176,5 +176,8 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         }
         return false;
     }
+    public void onBackPressed(){
+    }
+
 
 }

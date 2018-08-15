@@ -25,7 +25,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         new Handler().postDelayed(new Runnable() {
             @Override
-            public void run() {if (!tokenManager.checkLogin()  )
+            public void run() {if (!tokenManager.checkLogin()   )
 
 
                 {

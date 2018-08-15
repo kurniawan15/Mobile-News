@@ -87,12 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tokenManager.checkLogin();
         HashMap <String,String> map=tokenManager.getDetailLogin();
 
-        //Intent data = getIntent();
-        /*if (data.getExtras() != null)
-        {
-            Toast.makeText(MainActivity.this,""+data.getExtras().getString("username"),Toast.LENGTH_SHORT).show();;
-        }
-        */
+
         registerReceiver(new NetworkStateChecker(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         //menginisialisasi tampilan dan objek

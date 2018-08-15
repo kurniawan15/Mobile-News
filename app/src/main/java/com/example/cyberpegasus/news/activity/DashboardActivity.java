@@ -84,16 +84,14 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         tokenManager=new TokenManager(getApplicationContext());
-        //HashMap<String,String> map=tokenManager.getDetailLogin();
         tokenManager.checkLogin();
-        //Toast.makeText(getApplicationContext(),"User Login Status :"+tokenManager.isLogin.toString(),Toast.LENGTH_LONG).show();
+        //Date expiresAt= tokenManager.tellExpire();
+        //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
 
         HashMap<String,String> user =tokenManager.getDetailLogin();
         String username=user.get(TokenManager.KEY_USER_NAME);
         String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
 
-        //Toast.makeText(DashboardActivity.this,"Username : "+ username,Toast.LENGTH_SHORT).show();
-        //Toast.makeText(DashboardActivity.this,"JWT TOKEN : "+ jwttoken,Toast.LENGTH_SHORT).show();
 
 
 
