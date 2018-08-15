@@ -543,6 +543,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         filter.setAnimation(animationLayout);
         filter.animate();
         animationLayout.start();
+        filter.requestFocus();
+        filter.setClickable(true);
     }
 
     private void updateLabel(boolean flagWaktu) {
