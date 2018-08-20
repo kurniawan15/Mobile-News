@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -22,12 +23,14 @@ import java.util.List;
 public class MediaListAdapter extends ArrayAdapter<String>{
     private List<String> listItems;
     private Context context;
+    private List<File> listFiles;
 
 
-    public MediaListAdapter(@NonNull Context context, int resource, List<String> listItems) {
+    public MediaListAdapter(@NonNull Context context, int resource, List<String> listItems, List<File> listFiles) {
         super(context, resource, listItems);
         this.context = context;
         this.listItems = listItems;
+        this.listFiles = listFiles;
     }
 
     @NonNull
@@ -50,7 +53,9 @@ public class MediaListAdapter extends ArrayAdapter<String>{
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), listItems.get(position).toString() + " Dihapus !", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), "File : " + listFiles.get(position).getName().toString() + " Dihapus !", Toast.LENGTH_LONG).show();
                 listItems.remove(position);
+                listFiles.remove(position);
                 notifyDataSetChanged();
             }
         });

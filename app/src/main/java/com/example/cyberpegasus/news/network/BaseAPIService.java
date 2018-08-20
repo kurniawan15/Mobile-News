@@ -5,6 +5,7 @@ import com.example.cyberpegasus.news.model.JWTToken;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -50,10 +51,9 @@ public interface BaseAPIService {
 
 
     @Multipart
-    @POST("beritamobile/upload")
+    @POST("beritamobile")
     Call<ResponseBody> uploadPhoto(
-            @Part("description") RequestBody description,
-            @Part MultipartBody.Part photo
+            @Part List<MultipartBody.Part> file
     );
 
 }
