@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.cyberpegasus.news.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by USER on 8/14/2018.
@@ -23,14 +24,14 @@ public class MediaFragment extends Fragment{
     public static final String VIDEO_MESSAGE = "VIDEO_MESSAGE";
 
 
-    public static final MediaFragment newInstance(int media, boolean isImage)
+    public static final MediaFragment newInstance(String media, boolean isImage)
     {
         MediaFragment fragment = new MediaFragment();
         Bundle bdl = new Bundle();
         if (isImage) {
-            bdl.putInt(IMAGE_MESSAGE,media);
+            bdl.putString(IMAGE_MESSAGE,media);
         }else {
-            bdl.putInt(VIDEO_MESSAGE, media);
+            bdl.putString(VIDEO_MESSAGE, media);
         }
         bdl.putBoolean(IS_IMAGE, isImage);
         fragment.setArguments(bdl);
@@ -55,9 +56,22 @@ public class MediaFragment extends Fragment{
             videoView.setVisibility(View.GONE);
 
             try {
-                int img = getArguments().getInt(IMAGE_MESSAGE);
 
-                imageView.setImageResource(img);
+                String url = getArguments().getString(IMAGE_MESSAGE);
+
+                Picasso.with(inflater.getContext()).load(url)
+                        .into(imageView,new com.squareup.picasso.Callback() {
+
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
 
             } catch(Exception e) {
                 System.out.println("Error Of image File"+e);
@@ -70,11 +84,8 @@ public class MediaFragment extends Fragment{
                 videoView.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.GONE);
 
-                int vid = getArguments().getInt(VIDEO_MESSAGE);
-
-                //Uri dari aplikasi bukan uri dari class ini
-                Uri uri = Uri.parse("android.resource://com.example.cyberpegasus.news/"+vid);
-                videoView.setVideoURI(uri);
+                //Mengambil video dari URL
+                videoView.setVideoURI(Uri.parse(getArguments().getString(VIDEO_MESSAGE)));
                 videoView.setMediaController(new MediaController(getActivity()));
                 videoView.setFocusable(true);
                 videoView.start();

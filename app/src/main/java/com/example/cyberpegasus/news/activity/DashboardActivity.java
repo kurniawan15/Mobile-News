@@ -53,7 +53,7 @@ import retrofit2.Response;
 public class DashboardActivity extends AppBaseActivity implements SearchView.OnQueryTextListener{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    FloatingActionButton floatingButton;
+    ImageButton imgButton;
     TokenManager tokenManager;
 
     ArrayList<Data> list;
@@ -120,9 +120,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         list.add(data3);
         generateDataList(list);
 
-        floatingButton = (FloatingActionButton) findViewById(R.id.floatingButton);
-        floatingButton.setImageResource(R.drawable.ic_action_pass);
-        floatingButton.setOnClickListener(new View.OnClickListener() {
+        imgButton = (ImageButton) findViewById(R.id.imageButton);
+        imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
