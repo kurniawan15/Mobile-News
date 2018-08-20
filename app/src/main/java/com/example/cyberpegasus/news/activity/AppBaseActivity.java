@@ -164,8 +164,7 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 //tokenManager.checkLogin();
-                onBackPressed();
-
+                //tokenManager.checkLogin();
 
             break;
             case R.id.about:
@@ -175,8 +174,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             break;
         }
         return false;
-    }
-    public void onBackPressed(){
     }
 
 

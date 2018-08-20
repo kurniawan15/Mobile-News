@@ -34,8 +34,10 @@ public class WelcomeActivity extends AppCompatActivity {
                     String username = user.get(TokenManager.KEY_USER_NAME);
                     String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
                     mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
+                    mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
                     mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
+                    finish();
                 }
 
              else {

@@ -3,15 +3,21 @@ package com.example.cyberpegasus.news.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ClipData;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PersistableBundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -40,10 +46,12 @@ import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormActivity extends AppBaseActivity  implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
@@ -55,6 +63,7 @@ public class FormActivity extends AppBaseActivity  implements
     private List<Uri> userSelectedImageUriList = null;
     private MediaListAdapter adapter;
     private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<File> listFile = new ArrayList<>();
     private ListView listView;
     File mediaFile;
 
@@ -112,15 +121,17 @@ public class FormActivity extends AppBaseActivity  implements
         btnUploadTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //uploadImage(mediaFile, mImageUri);
-                //uploadION(mediaFile);
+                uploadFiles(listFile);
+                listFile.clear();
+                list.clear();
+                adapter = new MediaListAdapter(view.getContext(), R.layout.media_list_item, list, listFile);
+                listView.setAdapter(adapter);
             }
         });
 
-        pick = (Button) findViewById(R.id.btn_date);
         dateResult = (EditText) findViewById(R.id.tanggal);
 
-        pick.setOnClickListener(new View.OnClickListener() {
+        dateResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
@@ -134,8 +145,6 @@ public class FormActivity extends AppBaseActivity  implements
             }
         });
 
-
-
         judul = findViewById(R.id.judul);
         dateBerita= findViewById(R.id.tanggal);
 
@@ -145,6 +154,7 @@ public class FormActivity extends AppBaseActivity  implements
                 public void onClick(View view) {
 
                     String sdateBerita = dateBerita.getText().toString();
+                    System.out.println(sdateBerita);
                     String sjudul = judul.getText().toString();
 
                     if(sjudul.equals("")){
@@ -157,6 +167,7 @@ public class FormActivity extends AppBaseActivity  implements
                     bodyReportIntent.putExtra("judul", sjudul);
                     bodyReportIntent.putExtra("tanggal", sdateBerita);
                     bodyReportIntent.putExtra("listFile", list);
+                    bodyReportIntent.putExtra("listFiles", listFile);
 
                     Bundle bodyReportBundle = new Bundle();
                     bodyReportBundle.putDouble("lat_berita", latBerita);
@@ -200,7 +211,6 @@ public class FormActivity extends AppBaseActivity  implements
                 switch (which){
                     case 0:
                         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        // Show only images, no videos or anything else
                         intent.setType("image/* video/*");
                         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -239,18 +249,17 @@ public class FormActivity extends AppBaseActivity  implements
 
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
+
                 //If Single image selected then it will fetch from Gallery
                 if (data.getData() != null) {
                     mImageUri = data.getData();
+                    mediaFile = new File(getPathFromUri(this, mImageUri));
                     fileName = getFileName(mImageUri);
-
-                    //Untuk mendapatkan path directory dari file yang diambil
-                    String mediaPath = mImageUri.getPath();
-                    Toast.makeText(this, "Media disimpan ke:\n" + mediaPath, Toast.LENGTH_LONG).show();
-                    mediaFile = new File(mediaPath);
                     list.add(fileName);
+                    listFile.add(mediaFile);
+
                     if (mediaFile != null) {
-                        adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
+                        adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
                         listView.setAdapter(adapter);
                     }
                 }else {
@@ -261,13 +270,12 @@ public class FormActivity extends AppBaseActivity  implements
                             ClipData.Item item = mClipData.getItemAt(i);
                             Uri uri = item.getUri();
                             mArrayUri.add(uri);
-                            String mediaPath = uri.getPath();
-                            File mediaFile = null;
-                            mediaFile = new File(mediaPath);
+                            mediaFile = new File(getPathFromUri(this, uri));
                             fileName = getFileName(uri);
                             list.add(fileName);
+                            listFile.add(mediaFile);
                         }
-                        adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
+                        adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
                         listView.setAdapter(adapter);
                         Toast.makeText(this, mArrayUri.size() + " File Ditambahkan!!", Toast.LENGTH_LONG).show();
                     }
@@ -281,7 +289,8 @@ public class FormActivity extends AppBaseActivity  implements
             mediaFile = new File(mPaths.get(0));
             fileName = mediaFile.getName();
             list.add(fileName);
-            adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
+            listFile.add(mediaFile);
+            adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
             listView.setAdapter(adapter);
             Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
         }
@@ -292,7 +301,8 @@ public class FormActivity extends AppBaseActivity  implements
             mediaFile = new File(mPaths.get(0));
             fileName = mediaFile.getName();
             list.add(fileName);
-            adapter = new MediaListAdapter(this, R.layout.media_list_item, list);
+            listFile.add(mediaFile);
+            adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
             listView.setAdapter(adapter);
             Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
         }
@@ -335,6 +345,129 @@ public class FormActivity extends AppBaseActivity  implements
         return result;
     }
 
+    //Method untuk mengambil path dari file gambar/video
+    public static String getPathFromUri(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[] {
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is Google Photos.
+     */
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
     //Method untuk memeriksa apakah kamera pada perangkat pengguna berfungsi
     private boolean hasCamera() {
         if (getPackageManager().hasSystemFeature(
@@ -362,29 +495,27 @@ public class FormActivity extends AppBaseActivity  implements
         dateBerita.setText(tanggal);
     }
 
-    /*private void uploadImage(File mediaFile, Uri fileUri) {
-        String desc = "description";
-
-        RequestBody descriptionPart = RequestBody.create(MultipartBody.FORM, desc);
-
-        RequestBody filePart = RequestBody.create(
-                                MediaType.parse("image"),
-                                mediaFile);
-
-        MultipartBody.Part file = MultipartBody.Part.createFormData("upload", mediaFile.getName(), filePart);
-
+    //Method untuk mengunggah file ke server dengan jumlah yang dinamik
+    private void uploadFiles(List<File> mediaFiles) {
         //create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
-                                    .baseUrl("http://192.168.1.241:9099/")
-                                    .addConverterFactory(GsonConverterFactory.create());
+                .baseUrl("http://192.168.1.99:9099/api/")
+                .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
 
         //get client and call object for the request
         BaseAPIService client = retrofit.create(BaseAPIService.class);
 
+        List<MultipartBody.Part> parts = new ArrayList<>();
+
+        for(int i = 0; i < mediaFiles.size(); i++) {
+            parts.add(prepareFilePart("file", mediaFiles.get(i)));
+            Toast.makeText(this, "File ada: " + i, Toast.LENGTH_SHORT).show();
+        }
+
         //finally execute the request
-        Call<ResponseBody> call = client.uploadPhoto(descriptionPart, file);
+        Call<ResponseBody> call = client.uploadPhoto(parts);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -398,6 +529,19 @@ public class FormActivity extends AppBaseActivity  implements
                 System.out.println(t);
             }
         });
-    }*/
+    }
+
+    @NonNull
+    private MultipartBody.Part prepareFilePart(String partName, File mediaFile) {
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("video"),
+                        mediaFile
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData(partName, mediaFile.getName(), requestFile);
+    }
 
 }
