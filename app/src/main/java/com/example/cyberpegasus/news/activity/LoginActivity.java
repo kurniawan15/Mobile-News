@@ -43,94 +43,79 @@ public class LoginActivity extends AppCompatActivity {
         //final boolean isLogin = tokenManager.checkLogin();
 
 
-            mContext = this;
+        mContext = this;
 
 
-            //initComponents();
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_login);
+        //initComponents();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-            username = (EditText) findViewById(R.id.username);
-            password = (EditText) findViewById(R.id.password);
-            loginBtn = (CardView) findViewById(R.id.login);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+        loginBtn = (CardView) findViewById(R.id.login);
 
 
-            loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    String user = null;
-                    String pass = null;
-                    user = username.getText().toString();
-                    pass = password.getText().toString();
-                    if(user.equals("gerry97") && pass.equals("gerry") || user.equals("jeremi") && pass.equals("admin") ){
-                        Intent mainIntent = new Intent(LoginActivity.this, DashboardActivity.class);
-                        startActivity(mainIntent);
-                        finish();
-                    }
-                    else{
-                        Toast.makeText(v.getContext(), "Username atau password salah !", Toast.LENGTH_LONG).show();
-                    }
+                final BaseAPIService baseAPIService = RetrofitClient.getbaseAPIService();
+                final String usernameval = username.getText().toString();
+                byte[] md5input = password.getText().toString().getBytes();
+                BigInteger md5Data = null;
+                try {
+                    md5Data = new BigInteger(1, md5.encryptMD5(md5input));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
-
-                }
-                }
-
-                    /*final BaseAPIService baseAPIService = RetrofitClient.getbaseAPIService();
-                    final String usernameval = username.getText().toString();
-                    byte[] md5input = password.getText().toString().getBytes();
-                    BigInteger md5Data = null;
-                    try {
-                        md5Data = new BigInteger(1, md5.encryptMD5(md5input));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    String passwordval = md5Data.toString(16);
-                    //Toast.makeText(mContext, "User Login Status :" + TokenManager.isLogin.toString(), Toast.LENGTH_LONG).show();
+                String passwordval = md5Data.toString(16);
+                //Toast.makeText(mContext, "User Login Status :" + TokenManager.isLogin.toString(), Toast.LENGTH_LONG).show();
 
 
-                    Call<JWTToken> jwtTokenCall = baseAPIService.loginRequest(usernameval, passwordval);
+                Call<JWTToken> jwtTokenCall = baseAPIService.loginRequest(usernameval, passwordval);
 
-                    jwtTokenCall.enqueue(new Callback<JWTToken>() {
-                        @Override
-                        public void onResponse(Call<JWTToken> call, Response<JWTToken> response) {
-                            if (response.isSuccessful()) {
+                jwtTokenCall.enqueue(new Callback<JWTToken>() {
+                    @Override
+                    public void onResponse(Call<JWTToken> call, Response<JWTToken> response) {
+                        if (response.isSuccessful()) {
 
-                                final JWTToken jwtToken = response.body();
-                                jwttoken = jwtToken.getToken().toString();
-                                tokenManager.storeLogin(usernameval,jwttoken);
-                                //boolean checklogin = tokenManager.isLogin();
-                                //checklogin = true;
-                                Toast.makeText(mContext, "" + jwttoken, Toast.LENGTH_SHORT).show();
-                                Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(mainIntent);
-                                finish();
-                            } else {
-                                Toast.makeText(mContext, "Login not correct :(", Toast.LENGTH_SHORT).show();
-                            }
-
+                            final JWTToken jwtToken = response.body();
+                            jwttoken = jwtToken.getToken().toString();
+                            tokenManager.storeLogin(usernameval, jwttoken);
+                            Toast.makeText(mContext, "" + jwttoken, Toast.LENGTH_SHORT).show();
+                            Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(mainIntent);
+                            finish();
+                            onBackPressed();
+                        } else {
+                            Toast.makeText(mContext, "Login not correct :(", Toast.LENGTH_SHORT).show();
                         }
 
-                        @Override
-                        public void onFailure(Call<JWTToken> call, Throwable t) {
-                            Toast.makeText(mContext, "You are not authorized!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<JWTToken> call, Throwable t) {
+                        Toast.makeText(mContext, "You are not authorized!", Toast.LENGTH_SHORT).show();
 
 
-                        }
-                    });
-                }
-            });
-
-            ]
-
-           ]
+                    }
+                });
+            }
+        });
 
 
-        */
+    }
+    public void onBackPressed(){
+        Toast.makeText(mContext,"Tekan tombol exit ! :)",Toast.LENGTH_SHORT).show();
+    }
+
+}
+
+
+
 
 
 

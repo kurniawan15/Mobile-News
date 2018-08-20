@@ -84,6 +84,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         tokenManager=new TokenManager(getApplicationContext());
+        //boolean islogin
         tokenManager.checkLogin();
         //Date expiresAt= tokenManager.tellExpire();
         //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
