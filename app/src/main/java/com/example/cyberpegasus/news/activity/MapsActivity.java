@@ -125,6 +125,11 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     private void configureCameraIdle() {
         onCameraIdleListener = new GoogleMap.OnCameraIdleListener() {
             @Override
@@ -198,9 +203,8 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
 
     public void geoLocate(View view) throws IOException {
         String location = txtAddress.getText().toString();
-
-        Geocoder gc = new Geocoder(this);
         try {
+            Geocoder gc = new Geocoder(this);
             List<Address> list = gc.getFromLocationName(location, 1);
             Address address = list.get(0);
             String locality = address.getLocality();
@@ -209,7 +213,7 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
             double lng = address.getLongitude();
             LatLng ll = new LatLng(lat, lng);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, zoom));
-        } catch (NullPointerException ne) {
+        } catch (Exception e) {
             Toast.makeText(this, "Alamat tidak ditemukan !", Toast.LENGTH_LONG).show();
         }
 

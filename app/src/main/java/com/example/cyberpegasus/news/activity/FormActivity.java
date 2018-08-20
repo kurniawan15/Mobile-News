@@ -129,10 +129,9 @@ public class FormActivity extends AppBaseActivity  implements
             }
         });
 
-        pick = (Button) findViewById(R.id.btn_date);
         dateResult = (EditText) findViewById(R.id.tanggal);
 
-        pick.setOnClickListener(new View.OnClickListener() {
+        dateResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar c = Calendar.getInstance();
@@ -146,8 +145,6 @@ public class FormActivity extends AppBaseActivity  implements
             }
         });
 
-
-
         judul = findViewById(R.id.judul);
         dateBerita= findViewById(R.id.tanggal);
 
@@ -157,6 +154,7 @@ public class FormActivity extends AppBaseActivity  implements
                 public void onClick(View view) {
 
                     String sdateBerita = dateBerita.getText().toString();
+                    System.out.println(sdateBerita);
                     String sjudul = judul.getText().toString();
 
                     if(sjudul.equals("")){

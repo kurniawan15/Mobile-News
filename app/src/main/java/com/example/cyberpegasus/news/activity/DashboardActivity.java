@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +52,7 @@ import retrofit2.Response;
 public class DashboardActivity extends AppBaseActivity implements SearchView.OnQueryTextListener{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    ImageButton imgButton;
+    FloatingActionButton floatingButton;
     TokenManager tokenManager;
 
     ArrayList<Data> list;
@@ -117,8 +118,9 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         list.add(data3);
         generateDataList(list);
 
-        imgButton = (ImageButton) findViewById(R.id.imageButton);
-        imgButton.setOnClickListener(new View.OnClickListener() {
+        floatingButton = (FloatingActionButton) findViewById(R.id.floatingButton);
+        floatingButton.setImageResource(R.drawable.ic_action_pass);
+        floatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
