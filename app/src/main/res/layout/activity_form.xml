@@ -38,26 +38,21 @@
         android:textSize="20sp"
         android:layout_marginTop="30dp"/>
 <LinearLayout
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <EditText
         android:id="@+id/tanggal"
-        android:layout_width="271dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/round"
+        android:clickable="true"
+        android:editable="false"
+        android:focusable="false"
+        android:hint="yyyy-mm-dd/hh:mm:ss"
         android:inputType="datetime"
-        android:padding="5dp"
-        android:hint="yyyy-mm-dd/hh:mm:ss"/>
-
-    <Button
-        android:id="@+id/btn_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Pick"
-        android:layout_marginBottom="12dp"/>
+        android:padding="5dp" />
 
 </LinearLayout>
 
