@@ -38,7 +38,11 @@ public class BodyReportActivity extends AppBaseActivity {
     Spinner kategoriSpinner, subKategori1Spinner, subKategori2Spinner;
     Intent intent;
     DatabaseHelper db;
+    DataList dataList = new DataList();
 
+    //1 means data is synced and 0 means data is not synced
+    public static final int DATA_SYNCED_WITH_SERVER = 1;
+    public static final int DATA_NOT_SYNCED_WITH_SERVER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,28 +250,12 @@ public class BodyReportActivity extends AppBaseActivity {
                 Log.d(String.valueOf(dlanPengirim), "lan pengirim");
                 Log.d(String.valueOf(dlngPengirim), "long pengirim ");
 
+                saveData(dlanPengirim, dlngPengirim, dlanBerita, dlngBerita,
+                            sPengirim, sjudul, dDateBerita, dDatePengirim, scatagori,sIsi,sFile);
 
-            boolean internet = cekKoneksi();
+                startActivity(intent);
 
-            if (internet == true){
-                Log.d("data","Input data ke API");
-                addDataToAPI(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
-                        sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
-            }else
-            {
-               boolean isInsert =  db.addDataLokal(sjudul,sPengirim,dDatePengirim,scatagori,sIsi,dDateBerita,
-                        dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,sFile,1);
-               if(isInsert ==  true){
-                   Toast.makeText(BodyReportActivity.this,"Data sukses tersimpan dilocal",Toast.LENGTH_LONG).show();
-               }else
-               {
-                   Toast.makeText(BodyReportActivity.this,"Data gagal tersimpan dilocal",Toast.LENGTH_LONG).show();
-               }
 
-                Log.d("data","Input data ke Lokal");
-
-            }
-                    startActivity(intent);
                     } catch (ParseException e1) {
                     e1.printStackTrace();
                 }
@@ -295,11 +283,50 @@ public class BodyReportActivity extends AppBaseActivity {
     }
 
 
-void addDataToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Double dlngBerita, String sPengirim,
-                  String sjudul,Date dDateBerita,Date dDatePengirim, String scatagori, String sIsi,ArrayList<String> sFile){
+public void saveData(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Double dlngBerita, String sPengirim,
+                  String sjudul,Date dDateBerita,Date dDatePengirim, String scatagori, String sIsi,ArrayList<String> sFile) {
+
+    boolean kon = cekKoneksi();
+
+    //Terkoneksi ke internet
+    if (kon == true) {
+        boolean isInsert = db.addDataLokal(sjudul, sPengirim, dDatePengirim, scatagori, sIsi, dDateBerita,
+                dlanPengirim, dlngPengirim, dlanBerita, dlngBerita, sFile, DATA_SYNCED_WITH_SERVER);
+        if (isInsert == true) {
+            Toast.makeText(BodyReportActivity.this, "Data sukses tersimpan dilocal", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(BodyReportActivity.this, "Data gagal tersimpan dilocal", Toast.LENGTH_LONG).show();
+        }
+
+        addToAPI(dlanPengirim, dlngPengirim, dlanBerita, dlngBerita,
+                sPengirim, sjudul, dDateBerita, dDatePengirim, sIsi, scatagori, sFile);
+
+    }
+
+    //tidak terkoneksi ke internet
+    else {
+
+        boolean isInsert = db.addDataLokal(sjudul, sPengirim, dDatePengirim, scatagori, sIsi, dDateBerita,
+                dlanPengirim, dlngPengirim, dlanBerita, dlngBerita, sFile, DATA_NOT_SYNCED_WITH_SERVER);
+        if (isInsert == true) {
+            Toast.makeText(BodyReportActivity.this, "Data sukses tersimpan dilocal", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(BodyReportActivity.this, "Data gagal tersimpan dilocal", Toast.LENGTH_LONG).show();
+        }
+    }
+}
+
+
+
+
+    //menyimpan ke API
+
+
+    public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Double dlngBerita, String sPengirim,
+                     String sjudul,Date dDateBerita,Date dDatePengirim, String scatagori, String sIsi,ArrayList<String> sFile){
+
         Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
                 sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
-
 
 
         call.enqueue(new Callback<DataList>(){
@@ -308,7 +335,7 @@ void addDataToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Do
                 String msg = response.body().getMsg();
 
 
-                Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
+               Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
                 //      finish();
                 startActivity(intent);
             }
@@ -318,7 +345,10 @@ void addDataToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Do
                 Toast.makeText(BodyReportActivity.this, "Gagal menyambungkan ke Jaringan", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
+
+
 
 
 }

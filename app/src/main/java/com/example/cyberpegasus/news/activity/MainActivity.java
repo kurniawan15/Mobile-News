@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     */
     private void loadNames() {
         names.clear();
-        Cursor cursor = db.getDate();
+        Cursor cursor = db.getData();
         if (cursor.moveToFirst()) {
             do {
                 Name name = new Name(

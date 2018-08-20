@@ -17,13 +17,21 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.cyberpegasus.news.activity.BodyReportActivity;
 import com.example.cyberpegasus.news.activity.MainActivity;
 import com.example.cyberpegasus.news.database.DatabaseHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -32,11 +40,14 @@ public class NetworkStateChecker extends BroadcastReceiver {
     //context and database helper object
     private Context context;
     private DatabaseHelper db;
+    BodyReportActivity bodyReportActivity = new BodyReportActivity();
+    Integer NAME_SYNCED_WITH_SERVER = 1;
+
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
         this.context = context;
 
         db = new DatabaseHelper(context);
@@ -48,63 +59,45 @@ public class NetworkStateChecker extends BroadcastReceiver {
         if (activeNetwork != null) {
             //jika terhubung ke wifi atau paket data seluler
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-
                 //mendapatkan semua nama yang tidak disinkronkan
                 Cursor cursor = db.getUnsyncedNames();
                 if (cursor.moveToFirst()) {
                     do {
+                        Integer id =cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
+                        String sdatePengirim = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE_BERITA));
+                        String sdateBerita = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE_PENGIRIM));
+                        String sFile = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_FILE));
+                        ArrayList<String> listFile = new ArrayList<>(Arrays.asList(sFile.split(",")));
+                        try {
+                            Date dDatePengirim = format.parse(sdatePengirim);
+                            Date dDateBerita = format.parse(sdateBerita);
+
                         //memanggil metode untuk menyimpan nama yang tidak disinkronkan ke MySQL
-                        saveName(
-                                cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID)),
-                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL))
-                        );
+
+                        bodyReportActivity.addToAPI(cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOK_PENGIRIM_LAN)),
+                                cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOK_PENGIRIM_LNG)),
+                                cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOK_BERITA_LAN)),
+                                cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COLUMN_LOK_BERITA_LNG)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PENGIRIM)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                                dDatePengirim,
+                                dDateBerita,
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
+                                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ISI)),
+                                listFile
+                                );
+
+                        db.updateDataStatus(id,NAME_SYNCED_WITH_SERVER);
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     } while (cursor.moveToNext());
                 }
             }
         }
     }
 
-    /*
-    * metode mengambil dua argumen
-    * nama yang akan disimpan dan id dari nama dari SQLite
-    * jika nama berhasil dikirim
-    * kami akan memperbarui status yang disinkronkan dalam SQLite
-    */
-    private void saveName(final int id, final String name) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, MainActivity.URL_SAVE_NAME,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            if (!obj.getBoolean("error")) {
-                                //memperbarui status dalam sqlite
-                                db.updateNameStatus(id, MainActivity.NAME_SYNCED_WITH_SERVER);
-
-                                //mengirim pemberitahuan untuk menyegarkan daftar
-                                context.sendBroadcast(new Intent(MainActivity.DATA_SAVED_BROADCAST));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("name", name);
-                return params;
-            }
-        };
-
-        VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
-    }
 
 }
 

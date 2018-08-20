@@ -49,12 +49,16 @@ public class Data {
     private Integer status;
 
 
-    public Data(String judul, String catagori, String isi,Integer status) {
+    public Data(String judul, String pengirim, String isi,Integer status) {
         this.judul= judul;
-        this.category = catagori;
+        this.pengirim = pengirim;
 
         this.isi = isi;
         this.status = status;
+
+    }
+
+    public Data(){
 
     }
 

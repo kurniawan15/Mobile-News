@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * dan yang kedua adalah status yang akan diubah
     * */
 
-    public boolean updateNameStatus(int id, int status) {
+    public boolean updateDataStatus(int id, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STATUS, status);
@@ -127,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * metode ini akan memberi kita semua data yang disimpan dalam sqlite
     * */
-    public Cursor getDate() {
+    public Cursor getData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_ID + " ASC;";
         Cursor c = db.rawQuery(sql, null);
@@ -138,10 +138,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * metode ini untuk mendapatkan semua nama yang tidak disinkronkan
     * sehingga kita bisa menyinkronkannya dengan basis data
     * */
+    public Cursor getDataHistori(String pengirim) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_STATUS + " = "+ pengirim +"; ";
+        Cursor c = db.rawQuery(sql, null);
+        return c;
+    }
+
     public Cursor getUnsyncedNames() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_STATUS + " = 0;";
         Cursor c = db.rawQuery(sql, null);
         return c;
     }
+
 }
