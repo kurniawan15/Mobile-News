@@ -475,17 +475,25 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     @Override
     protected void onResume() {
         super.onResume();
+
+        Boolean status = cekKoneksi();
+        if(status == true){
+
         readFromAPI();
+        }
+        else{
+            readFromLocal();
+        }
     }
 
-    public  void deadFromLocal(){
+    public  void readFromLocal(){
         Cursor cursor = db.getData();
         if (cursor.moveToFirst()) {
             do {
                 Data name = new Data(
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PENGIRIM)),
                         cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
                 );
 
