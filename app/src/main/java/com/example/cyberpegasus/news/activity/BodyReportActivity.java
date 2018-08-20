@@ -17,13 +17,18 @@ import com.example.cyberpegasus.news.model.LokPengirim;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -198,6 +203,8 @@ public class BodyReportActivity extends AppBaseActivity {
 
                 ArrayList<String> sFile = (ArrayList<String>) bundle.getStringArrayList("listFile");
 
+                ArrayList<File> sFiles = (ArrayList<File>) bundle.getSerializable("listFiles");
+
                 String sPengirim =  "Pega";    //Di ganti ketika login selesai
 
                 String sdatePengirim = format.format(Calendar.getInstance().getTime());
@@ -254,8 +261,21 @@ public class BodyReportActivity extends AppBaseActivity {
  //
 
 
-                    Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
-                            sPengirim,sjudul,dateBerita,datePengirim,scatagori,sFile);
+                    //Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+                    //        sPengirim,sjudul,dateBerita,datePengirim,scatagori,sFile);
+
+                    RequestBody sPengirimFD = RequestBody.create(MediaType.parse("text/plain"), sPengirim);
+                    RequestBody sjudulFD = RequestBody.create(MediaType.parse("text/plain"), sjudul);
+                    RequestBody scatagoriFD = RequestBody.create(MediaType.parse("text/plain"), scatagori);
+
+                    List<MultipartBody.Part> parts = new ArrayList<>();
+
+                    for(int i = 0; i < sFiles.size(); i++) {
+                        parts.add(prepareFilePart("file", sFiles.get(i)));
+                    }
+
+                    Call<DataList> call = service.AddDataForm(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+                            sPengirimFD,sjudulFD,dateBerita,datePengirim,scatagoriFD, parts);
 
 
 
@@ -285,6 +305,18 @@ public class BodyReportActivity extends AppBaseActivity {
 
         });
 
+    }
+
+    private MultipartBody.Part prepareFilePart(String partName, File mediaFile) {
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("video"),
+                        mediaFile
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData(partName, mediaFile.getName(), requestFile);
     }
 
 }

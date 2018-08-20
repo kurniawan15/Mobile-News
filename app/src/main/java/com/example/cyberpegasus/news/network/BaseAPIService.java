@@ -1,5 +1,6 @@
 package com.example.cyberpegasus.news.network;
 
+import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.JWTToken;
 
@@ -44,6 +45,21 @@ public interface BaseAPIService {
                            @Field("date_pengirim") Date datePengirim,
                            @Field("category") String catagory,
                            @Field("file") ArrayList<String> file
+    );
+
+    //Menggunakan Form-Data
+    @Multipart
+    @POST("beritamobile")
+    Call<DataList> AddDataForm(@Part("lok_pengirim[lan]") Double lan_Lok_Pengirim,
+                           @Part("lok_pengirim[long]") Double lng_Lok_Pengirim,
+                           @Part("lok_berita[lan]") Double lan_Lok_Berita,
+                           @Part("lok_berita[long]") Double lng_Lok_Berita,
+                           @Part("pengirim") RequestBody pengirim,
+                           @Part("judul") RequestBody judul,
+                           @Part("date_berita") Date dateBerita,
+                           @Part("date_pengirim") Date datePengirim,
+                           @Part("category") RequestBody catagory,
+                           @Part List<MultipartBody.Part> file
     );
 
     //@POST("beritamobile")

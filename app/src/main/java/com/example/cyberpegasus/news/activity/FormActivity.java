@@ -167,6 +167,7 @@ public class FormActivity extends AppBaseActivity  implements
                     bodyReportIntent.putExtra("judul", sjudul);
                     bodyReportIntent.putExtra("tanggal", sdateBerita);
                     bodyReportIntent.putExtra("listFile", list);
+                    bodyReportIntent.putExtra("listFiles", listFile);
 
                     Bundle bodyReportBundle = new Bundle();
                     bodyReportBundle.putDouble("lat_berita", latBerita);
