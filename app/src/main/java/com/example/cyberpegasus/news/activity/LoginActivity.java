@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
     public void onBackPressed(){
-        Toast.makeText(mContext,"Tekan tombol exit ! :)",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Tekan tombol Exit :)",Toast.LENGTH_SHORT).show();
     }
 
 }

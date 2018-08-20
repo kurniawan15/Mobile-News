@@ -498,7 +498,7 @@ public class FormActivity extends AppBaseActivity  implements
     private void uploadFiles(List<File> mediaFiles) {
         //create retrofit instance
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.222:9099/api/")
+                .baseUrl("http://192.168.1.99:9099/api/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();

@@ -43,6 +43,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.logging.Handler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,6 +94,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         HashMap<String,String> user =tokenManager.getDetailLogin();
         String username=user.get(TokenManager.KEY_USER_NAME);
         String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
+        //onBackPressed();
 
 
 
@@ -473,10 +475,12 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onResume() {
         super.onResume();
 
+
         /*Create handle for the RetrofitInstance interface*/
         BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
         /*Call the method with parameter in the interface to get the data*/
         Call<DataList> call = service.getData();
+
 
         /*Log the URL called*/
         Log.wtf("URL Called", call.request().url() + "");
@@ -486,6 +490,15 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             public void onResponse(Call<DataList> call, Response<DataList> response) {
                 list = response.body().getDataList();
                 generateDataList(list);
+                tokenManager=new TokenManager(getApplicationContext());
+                //boolean islogin
+                tokenManager.checkLogin();
+                //Date expiresAt= tokenManager.tellExpire();
+                //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
+
+                HashMap<String,String> user =tokenManager.getDetailLogin();
+                String username=user.get(TokenManager.KEY_USER_NAME);
+                String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
             }
 
             @Override
@@ -595,4 +608,12 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
         return true;
     }
+
+    public void onBackPressed(){
+        finish();
+    }
+
+
 }
+
+
