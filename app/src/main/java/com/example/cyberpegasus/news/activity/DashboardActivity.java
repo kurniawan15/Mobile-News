@@ -1,8 +1,11 @@
 package com.example.cyberpegasus.news.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,8 +30,11 @@ import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.DashboardAdapter;
+import com.example.cyberpegasus.news.adapter.NameAdapter;
+import com.example.cyberpegasus.news.database.DatabaseHelper;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
+import com.example.cyberpegasus.news.model.Name;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 import com.example.cyberpegasus.news.tokenmanager.TokenManager;
@@ -53,7 +59,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
     TokenManager tokenManager;
-
+    DatabaseHelper db;
     ArrayList<Data> list;
 
     public static Button btnFinishFilter;
@@ -92,8 +98,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         String username=user.get(TokenManager.KEY_USER_NAME);
         String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
 
-
-
+        db = new DatabaseHelper(this);
+        list = new ArrayList<>();
 
         //Data dummy untuk mencoba fitur Search
         Date d1 = null;
@@ -469,6 +475,28 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     @Override
     protected void onResume() {
         super.onResume();
+        readFromAPI();
+    }
+
+    public  void deadFromLocal(){
+        Cursor cursor = db.getData();
+        if (cursor.moveToFirst()) {
+            do {
+                Data name = new Data(
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
+                );
+
+                list.add(name);
+            } while (cursor.moveToNext());
+        }
+        generateDataList(list);
+    }
+
+
+    public  void readFromAPI(){
 
         /*Create handle for the RetrofitInstance interface*/
         BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
@@ -591,5 +619,21 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         recyclerView.setAdapter(adapter);
         ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
         return true;
+    }
+
+    public boolean cekKoneksi() {
+        boolean status;
+        final ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnectedOrConnecting () || mobile.isConnectedOrConnecting () ) {
+            Toast.makeText(this, "Wifi or Mobile data", Toast.LENGTH_LONG).show();
+            status = true;
+        }
+        else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            status = false;
+        }
+        return status;
     }
 }
