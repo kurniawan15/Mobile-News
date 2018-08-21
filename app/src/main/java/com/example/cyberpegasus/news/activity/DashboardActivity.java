@@ -89,14 +89,14 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        tokenManager=new TokenManager(getApplicationContext());
-        tokenManager.checkLogin();
+       // tokenManager=new TokenManager(getApplicationContext());
+       // tokenManager.checkLogin();
         //Date expiresAt= tokenManager.tellExpire();
         //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
 
-        HashMap<String,String> user =tokenManager.getDetailLogin();
-        String username=user.get(TokenManager.KEY_USER_NAME);
-        String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
+      //  HashMap<String,String> user =tokenManager.getDetailLogin();
+      //  String username=user.get(TokenManager.KEY_USER_NAME);
+      //  String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
 
         db = new DatabaseHelper(this);
         list = new ArrayList<>();
@@ -113,14 +113,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        list = new ArrayList<>();
-        Data data1 = new Data(d3, d3, "gerry","Teknologi", "Teknologi", "coba1", null);
-        Data data2 = new Data(d1, d1, "gerry","Kesehatan", "Kesehatan", "coba2", null);
-        Data data3 = new Data(d2, d2, "gerry","Olahraga", "Olahraga", "coba3", null);
-        list.add(data1);
-        list.add(data2);
-        list.add(data3);
-        generateDataList(list);
+
 
         imgButton = (ImageButton) findViewById(R.id.imageButton);
         imgButton.setOnClickListener(new View.OnClickListener() {
@@ -481,6 +474,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
         readFromAPI();
         }
+
         else{
             readFromLocal();
         }
@@ -492,8 +486,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             do {
                 Data name = new Data(
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PENGIRIM)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ISI)),
                         cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
                 );
 

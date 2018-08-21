@@ -41,7 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
 
              else {
-                Intent loginIntent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                Intent loginIntent = new Intent(WelcomeActivity.this, DashboardActivity.class);
                 startActivity(loginIntent);
                 finish();
 
