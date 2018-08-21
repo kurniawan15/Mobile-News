@@ -15,14 +15,20 @@ import retrofit2.Call;
 
 public class JWTUtils {
 
-    public static void decodeJWT(String EncodeString)throws Exception
-    {
-        String[] splitstr = EncodeString.split("\\.");
-        Log.d("", "Header"+getJson(splitstr[0]));
-        Log.d("", "Payload"+getJson(splitstr[1]));
-        Log.d("", "Signature"+getJson(splitstr[2]));
+    public static void decodeJWT(String EncodeString) throws Exception {
+        try {
+            String[] splitstr = EncodeString.split("\\.");
+            Log.d("", "Header" + getJson(splitstr[0]));
+            Log.d("", "Body" + getJson(splitstr[1]));
+            //Log.d("", "Signature" + getJson(splitstr[2]));
 
+
+        } catch (UnsupportedEncodingException e) {
+
+        }
     }
+
+
 
     public static String getJson(String EncodeString) throws UnsupportedEncodingException{
 

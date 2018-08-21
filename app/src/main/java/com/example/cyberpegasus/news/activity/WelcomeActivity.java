@@ -28,17 +28,17 @@ public class WelcomeActivity extends AppCompatActivity {
             public void run() {if (!tokenManager.checkLogin()   )
 
 
-                {
-                    Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                    HashMap<String, String> user = tokenManager.getDetailLogin();
-                    String username = user.get(TokenManager.KEY_USER_NAME);
-                    String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
-                    mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
-                    mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
-                    mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                    finish();
-                }
+                    {
+                        Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                        HashMap<String, String> user = tokenManager.getDetailLogin();
+                        String username = user.get(TokenManager.KEY_USER_NAME);
+                        String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+                        mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
+                        mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainIntent);
+                        finish();
+                    }
 
              else {
                 Intent loginIntent = new Intent(WelcomeActivity.this, LoginActivity.class);

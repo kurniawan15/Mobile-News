@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.auth0.android.jwt.JWT;
+
 import com.example.cyberpegasus.news.activity.DashboardActivity;
 import com.example.cyberpegasus.news.activity.LoginActivity;
 import com.example.cyberpegasus.news.activity.WelcomeActivity;
@@ -85,35 +85,13 @@ public class TokenManager {
         //sharedPreferences.getBoolean(isLogin,false);
     }
 
-    public boolean checkExp()
+    public boolean checkExp ()
     {
-        loginActivity=new LoginActivity();
-        HashMap<String,String> map=new HashMap<>();
-        map.put(KEY_JWT_TOKEN,sharedPreferences.getString(KEY_JWT_TOKEN,null));
-        String token =  KEY_JWT_TOKEN;
-        JWT jwt=new JWT(token);
-        boolean isExpired = jwt.isExpired(10); // 10 seconds leeway
-
-
-        if (isExpired){
-            sharedPreferences.getBoolean(isLogin,true);
-            return true;
-
-        }
-        else {
-            sharedPreferences.getBoolean(isLogin,false);
-            return  false;
-        }
+       return true;
     }
 
-    public Date tellExpire(){
-        loginActivity=new LoginActivity();
-        HashMap<String,String> map=new HashMap<>();
-        map.put(KEY_JWT_TOKEN,sharedPreferences.getString(KEY_JWT_TOKEN,null));
-        String token =  KEY_JWT_TOKEN;
-        JWT jwt=new JWT(token);
-        Date expiresAt = jwt.getExpiresAt();
-        //Toast.makeText(context,"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
-        return expiresAt;
-    }
+    public Date tellExpire() {
+
+
+    return tellExpire();}
 }

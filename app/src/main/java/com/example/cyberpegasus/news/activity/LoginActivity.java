@@ -6,12 +6,19 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.auth0.android.jwt.JWT;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.cyberpegasus.news.R;
+import com.example.cyberpegasus.news.decode.JWTUtils;
 import com.example.cyberpegasus.news.model.JWTToken;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitClient;
@@ -32,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     CardView loginBtn;
     private TokenManager tokenManager;
+    JWTUtils jwtUtils;
     SharedPreferences sharedPreferences;
     public static String jwttoken;
     Context mContext;
@@ -81,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             final JWTToken jwtToken = response.body();
                             jwttoken = jwtToken.getToken().toString();
+                            //jwtUtils.decodeJWT(jwttoken);
                             tokenManager.storeLogin(usernameval, jwttoken);
                             Toast.makeText(mContext, "" + jwttoken, Toast.LENGTH_SHORT).show();
                             Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);

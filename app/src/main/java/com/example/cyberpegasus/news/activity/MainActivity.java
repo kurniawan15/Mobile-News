@@ -22,7 +22,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.model.Name;
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.NameAdapter;
