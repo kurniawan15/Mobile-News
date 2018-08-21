@@ -90,7 +90,15 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         tokenManager=new TokenManager(getApplicationContext());
-        tokenManager.checkLogin();
+
+        if (tokenManager.checkLogin()   ){
+            Intent mainIntent = new Intent(getApplicationContext(), LoginActivity.class);
+            mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
+            mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
+            mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        }
         //Date expiresAt= tokenManager.tellExpire();
         //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
 
