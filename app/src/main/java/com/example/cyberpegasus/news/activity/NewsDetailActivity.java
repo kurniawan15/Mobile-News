@@ -19,8 +19,8 @@ public class NewsDetailActivity extends AppBaseActivity {
     TextView judul, kategori, isi, tanggalBerita, waktuBerita;
 
     //URL gambar dan video yang akan diambil untuk ditampilkan pada aplikasi
-    final String URL = "http://192.168.1.99/restAPIBear/public/file/";
-    //final String URL = "http://192.168.1.241/restAPI/public/file/";
+    //final String URL = "http://192.168.1.114/restAPIBear/public/file/";
+    final String URL = "http://192.168.1.241/restAPI/public/file/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +49,19 @@ public class NewsDetailActivity extends AppBaseActivity {
         waktuBerita.setText(formatedTime);
 
         ArrayList<String> file = b.getStringArrayList("FILE");
-        file.clear();
+        //file.clear();
 
         //Data file hardcoded diambil dari API
-        file.add("1534388388803-tangkubanperahu.jpg");
-        file.add("1534387593532-batucinta.jpg");
-        file.add("1534411732341-test.mp4");
+        //file.add("1534388388803-tangkubanperahu.jpg");
+        //file.add("1534387593532-batucinta.jpg");
+        //file.add("1534411732341-test.mp4");
         ArrayList<String> tempList = new ArrayList<>();
 
         //Memeriksa apakah list terkirim dari DashboardAdapter
         for(int i = 0; i < file.size(); i++) {
-            String replacement = URL + file.get(i).toString();
+            String fileName = file.get(i).toString().substring(file.get(i).toString().lastIndexOf("file") + 5);
+            System.out.println(fileName);
+            String replacement = URL + fileName;
             tempList.add(replacement);
         }
         file.clear();

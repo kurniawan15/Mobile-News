@@ -21,13 +21,18 @@ import com.example.cyberpegasus.news.model.LokPengirim;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +43,7 @@ public class BodyReportActivity extends AppBaseActivity {
     Spinner kategoriSpinner, subKategori1Spinner, subKategori2Spinner;
     Intent intent;
     DatabaseHelper db;
+    ArrayList<File> sFiles = new ArrayList<>();
 
 
     @Override
@@ -201,6 +207,7 @@ public class BodyReportActivity extends AppBaseActivity {
 
 
                 ArrayList<String> sFile = (ArrayList<String>) bundle.getStringArrayList("listFile");
+                sFiles = (ArrayList<File>) bundle.getSerializable("listFiles");
 
                 String sPengirim =  "Pega";    //Di ganti ketika login selesai
 
@@ -307,8 +314,18 @@ public class BodyReportActivity extends AppBaseActivity {
 
 public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Double dlngBerita, String sPengirim,
                   String sjudul,Date dDateBerita,Date dDatePengirim, String scatagori, String sIsi,ArrayList<String> sFile){
-        Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
-                sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
+        //Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+        //        sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
+    RequestBody sPengirimFD = RequestBody.create(MediaType.parse("text/plain"), sPengirim);
+    RequestBody sjudulFD = RequestBody.create(MediaType.parse("text/plain"), sjudul);
+    RequestBody scatagoriFD = RequestBody.create(MediaType.parse("text/plain"), sIsi);
+    RequestBody sIsiFD = RequestBody.create(MediaType.parse("text/plain"), scatagori);
+    List<MultipartBody.Part> parts = new ArrayList<>();
+    for(int i = 0; i < sFiles.size(); i++) {
+        parts.add(prepareFilePart("file", sFiles.get(i)));
+    }
+    Call<DataList> call = service.AddDataForm(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+            sPengirimFD,sjudulFD,dDateBerita,dDatePengirim,sIsiFD,scatagoriFD, parts);
 
 
 
@@ -330,5 +347,15 @@ public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita,
         });
     }
 
+    private MultipartBody.Part prepareFilePart(String partName, File mediaFile) {
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("video"),
+                        mediaFile
+                );
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData(partName, mediaFile.getName(), requestFile);
+    }
 
 }
