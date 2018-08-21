@@ -55,7 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FormActivity extends AppBaseActivity  implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
-    Button btnBodyReport, btnUpload, btnUploadTest;
+    Button btnBodyReport, btnUpload;
     ImageButton toMaps;
     TextView loc;
     private int PICK_IMAGE_REQUEST = 1;
@@ -117,18 +117,6 @@ public class FormActivity extends AppBaseActivity  implements
         /*Intent intent = getIntent();
         String address = intent.getStringExtra("ADDRESS");*/
 
-        btnUploadTest = (Button) findViewById(R.id.buttonUploadTest);
-        btnUploadTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadFiles(listFile);
-                listFile.clear();
-                list.clear();
-                adapter = new MediaListAdapter(view.getContext(), R.layout.media_list_item, list, listFile);
-                listView.setAdapter(adapter);
-            }
-        });
-
         dateResult = (EditText) findViewById(R.id.tanggal);
 
         dateResult.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +162,7 @@ public class FormActivity extends AppBaseActivity  implements
                     bodyReportBundle.putDouble("lng_berita", lngBerita);
                     bodyReportBundle.putDouble("lat_current", latCurrent);
                     bodyReportBundle.putDouble("lng_current", lngCurrent);
+                    bodyReportIntent.putExtras(bodyReportBundle);
 
 
                     startActivity(bodyReportIntent);

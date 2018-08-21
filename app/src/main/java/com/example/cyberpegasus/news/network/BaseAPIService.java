@@ -59,6 +59,7 @@ public interface BaseAPIService {
                            @Part("judul") RequestBody judul,
                            @Part("date_berita") Date dateBerita,
                            @Part("date_pengirim") Date datePengirim,
+                           @Part("isi") RequestBody isi,
                            @Part("category") RequestBody catagory,
                            @Part List<MultipartBody.Part> file
     );
