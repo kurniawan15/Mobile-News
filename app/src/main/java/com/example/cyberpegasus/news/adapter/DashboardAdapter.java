@@ -39,7 +39,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
     public void onBindViewHolder(DataViewHolder holder, final int position) {
         holder.textViewHead.setText(dataList.get(position).getJudul());
         holder.textViewDate.setText(dataList.get(position).getPengirim());
-        holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
+//        holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
         holder.textViewBody.setText(dataList.get(position).getIsi());
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
@@ -87,4 +87,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayoutId);
         }
     }
+
+
+
 }

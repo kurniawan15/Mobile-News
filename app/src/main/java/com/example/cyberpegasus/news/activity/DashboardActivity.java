@@ -1,10 +1,12 @@
 package com.example.cyberpegasus.news.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +30,11 @@ import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.DashboardAdapter;
+import com.example.cyberpegasus.news.adapter.NameAdapter;
+import com.example.cyberpegasus.news.database.DatabaseHelper;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
+import com.example.cyberpegasus.news.model.Name;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
 import com.example.cyberpegasus.news.tokenmanager.TokenManager;
@@ -43,7 +48,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.logging.Handler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +59,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     private RecyclerView.Adapter adapter;
     ImageButton imgButton;
     TokenManager tokenManager;
-
+    DatabaseHelper db;
     ArrayList<Data> list;
 
     public static Button btnFinishFilter;
@@ -86,7 +90,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         tokenManager=new TokenManager(getApplicationContext());
-        //boolean islogin
         tokenManager.checkLogin();
         //Date expiresAt= tokenManager.tellExpire();
         //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
@@ -94,10 +97,9 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         HashMap<String,String> user =tokenManager.getDetailLogin();
         String username=user.get(TokenManager.KEY_USER_NAME);
         String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
-        //onBackPressed();
 
-
-
+        db = new DatabaseHelper(this);
+        list = new ArrayList<>();
 
         //Data dummy untuk mencoba fitur Search
         Date d1 = null;
@@ -474,12 +476,40 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onResume() {
         super.onResume();
 
+        Boolean status = cekKoneksi();
+        if(status == true){
+
+        readFromAPI();
+        }
+        else{
+            readFromLocal();
+        }
+    }
+
+    public  void readFromLocal(){
+        Cursor cursor = db.getData();
+        if (cursor.moveToFirst()) {
+            do {
+                Data name = new Data(
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PENGIRIM)),
+                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
+                );
+
+                list.add(name);
+            } while (cursor.moveToNext());
+        }
+        generateDataList(list);
+    }
+
+
+    public  void readFromAPI(){
 
         /*Create handle for the RetrofitInstance interface*/
         BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
         /*Call the method with parameter in the interface to get the data*/
         Call<DataList> call = service.getData();
-
 
         /*Log the URL called*/
         Log.wtf("URL Called", call.request().url() + "");
@@ -489,15 +519,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             public void onResponse(Call<DataList> call, Response<DataList> response) {
                 list = response.body().getDataList();
                 generateDataList(list);
-                tokenManager=new TokenManager(getApplicationContext());
-                //boolean islogin
-                tokenManager.checkLogin();
-                //Date expiresAt= tokenManager.tellExpire();
-                //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
-
-                HashMap<String,String> user =tokenManager.getDetailLogin();
-                String username=user.get(TokenManager.KEY_USER_NAME);
-                String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
             }
 
             @Override
@@ -608,11 +629,19 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         return true;
     }
 
-    public void onBackPressed(){
-        finish();
+    public boolean cekKoneksi() {
+        boolean status;
+        final ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnectedOrConnecting () || mobile.isConnectedOrConnecting () ) {
+            Toast.makeText(this, "Wifi or Mobile data", Toast.LENGTH_LONG).show();
+            status = true;
+        }
+        else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            status = false;
+        }
+        return status;
     }
-
-
 }
-
-

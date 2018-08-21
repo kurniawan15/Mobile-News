@@ -23,8 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID = "ID";
     public static final String COLUMN_PENGIRIM = "PENGIRIM";
     public static final String COLUMN_JUDUL = "JUDUL";
-    public static final String COLUMN_DATE_BERITA = "KATAGORI";
-    public static final String COLUMN_CATEGORY = "WAKTU_PENGIRIM";
+    public static final String COLUMN_DATE_BERITA ="WAKTUBERITA" ;
+    public static final String COLUMN_CATEGORY = "KATAGORI";
     public static final String COLUMN_ISI = "ISI";
     public static final String COLUMN_DATE_PENGIRIM = "DATEPENGIRIM";
     public static final String COLUMN_LOK_PENGIRIM_LAN = "LANPENGIRIM";
@@ -77,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * 0 berarti nama disinkronkan dengan server
     * 1 artinya nama tidak disinkronkan dengan server
     * */
-    public boolean addData(String judul, String pengirim, Date date_Pengirim, String category,
+    public boolean addDataLokal(String judul, String pengirim, Date date_Pengirim, String category,
                            String isi, Date date_berita, Double lok_Pengirim_Lan, Double lok_Pengirim_Lng,
                            Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
 
@@ -94,12 +94,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_LOK_PENGIRIM_LNG, lok_Pengirim_Lng);
         contentValues.put(COLUMN_LOK_BERITA_LAN, lok_Berita_Lan);
         contentValues.put(COLUMN_LOK_BERITA_LNG, lok_Berita_Lng);
+        contentValues.put(COLUMN_FILE, String.valueOf(file));
         contentValues.put(COLUMN_STATUS, status);
 
 
-        db.insert(TABLE_NAME, null, contentValues);
-        db.close();
-        return true;
+        long result =  db.insert(TABLE_NAME, null, contentValues);
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+
+        //db.close();
+
     }
 
     /*Metode ini mengambil dua argumen
@@ -108,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * dan yang kedua adalah status yang akan diubah
     * */
 
-    public boolean updateNameStatus(int id, int status) {
+    public boolean updateDataStatus(int id, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STATUS, status);
@@ -120,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * metode ini akan memberi kita semua data yang disimpan dalam sqlite
     * */
-    public Cursor getDate() {
+    public Cursor getData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_ID + " ASC;";
         Cursor c = db.rawQuery(sql, null);
@@ -131,10 +138,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * metode ini untuk mendapatkan semua nama yang tidak disinkronkan
     * sehingga kita bisa menyinkronkannya dengan basis data
     * */
+    public Cursor getDataHistori(String pengirim) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_STATUS + " = "+ pengirim +"; ";
+        Cursor c = db.rawQuery(sql, null);
+        return c;
+    }
+
     public Cursor getUnsyncedNames() {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_STATUS + " = 0;";
         Cursor c = db.rawQuery(sql, null);
         return c;
     }
+
 }

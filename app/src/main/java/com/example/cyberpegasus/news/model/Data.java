@@ -46,6 +46,22 @@ public class Data {
     @Expose
     private List<String> file = null;
 
+    private Integer status;
+
+
+    public Data(String judul, String pengirim, String isi,Integer status) {
+        this.judul= judul;
+        this.pengirim = pengirim;
+
+        this.isi = isi;
+        this.status = status;
+
+    }
+
+    public Data(){
+
+    }
+
     public String getId() {
         return id;
     }

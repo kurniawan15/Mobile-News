@@ -1,6 +1,8 @@
 package com.example.cyberpegasus.news.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
+import com.example.cyberpegasus.news.database.DatabaseHelper;
+import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
 import com.example.cyberpegasus.news.model.LokBerita;
 import com.example.cyberpegasus.news.model.LokPengirim;
@@ -30,17 +34,17 @@ import retrofit2.Response;
 
 public class BodyReportActivity extends AppBaseActivity {
     BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
-    EditText pengirim,judul,datePengirim,dateBerita,catagory,isi;
+    EditText pengirim,judul,DatePengirim,DateBerita,catagory,isi;
     Spinner kategoriSpinner, subKategori1Spinner, subKategori2Spinner;
     Intent intent;
-
+    DatabaseHelper db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_report);
-
+        db = new DatabaseHelper(this);
         intent = new Intent(BodyReportActivity.this, DashboardActivity.class);
         kategoriSpinner = findViewById(R.id.dropdownKategori);
         subKategori1Spinner = findViewById(R.id.dropdownSubKategori1);
@@ -225,8 +229,8 @@ public class BodyReportActivity extends AppBaseActivity {
                 }
 
                 try {
-                    Date dateBerita = format.parse(sdateBerita);
-                    Date datePengirim = format.parse(sdatePengirim);
+                    Date dDateBerita = format.parse(sdateBerita);
+                    Date dDatePengirim = format.parse(sdatePengirim);
 
 
 
@@ -235,48 +239,35 @@ public class BodyReportActivity extends AppBaseActivity {
                 Log.d(scatagori, "Categori");
                 Log.d(sPengirim, "Pengirimnya");
                 Log.d(String.valueOf(sFile), "NamaFile");
-                Log.d(String.valueOf(dateBerita), "Tanggal berita");
-                Log.d(String.valueOf(datePengirim), "Pengirimnya ");
+                Log.d(String.valueOf(dDateBerita), "Tanggal berita");
+                Log.d(String.valueOf(dDatePengirim), "Pengirimnya ");
                 Log.d(String.valueOf(dlanBerita), "lan berita ");
                 Log.d(String.valueOf(dlngBerita), "long berita ");
                 Log.d(String.valueOf(dlanPengirim), "lan pengirim");
                 Log.d(String.valueOf(dlngPengirim), "long pengirim ");
 
 
-                        LokBerita lokasiBerita = new LokBerita(dlanBerita,dlngBerita);
-                        LokPengirim lokasiPengirim = new LokPengirim(dlanPengirim,dlngPengirim);
+            boolean internet = cekKoneksi();
 
+            if (internet == true){
+                Log.d("data","Input data ke API");
+                addToAPI(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+                        sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
+            }else
+            {
+               boolean isInsert =  db.addDataLokal(sjudul,sPengirim,dDatePengirim,scatagori,sIsi,dDateBerita,
+                        dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,sFile,1);
+               if(isInsert ==  true){
+                   Toast.makeText(BodyReportActivity.this,"Data sukses tersimpan dilocal",Toast.LENGTH_LONG).show();
+               }else
+               {
+                   Toast.makeText(BodyReportActivity.this,"Data gagal tersimpan dilocal",Toast.LENGTH_LONG).show();
+               }
 
+                Log.d("data","Input data ke Lokal");
 
-   //                 Data data = new Data(datePengirim,dateBerita,sPengirim,scatagori,sIsi,sjudul,sFile);
-
- //                       Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,data);
- //
-
-
-                    Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
-                            sPengirim,sjudul,dateBerita,datePengirim,scatagori,sFile);
-
-
-
-                        call.enqueue(new Callback<DataList>(){
-                            @Override
-                            public void onResponse(Call<DataList> call, Response<DataList> response) {
-                                String msg = response.body().getMsg();
-
-
-                                Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
-                          //      finish();
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onFailure(Call<DataList> call, Throwable t) {
-                                Toast.makeText(BodyReportActivity.this, "Gagal menyambungkan ke Jaringan", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
+            }
+                    startActivity(intent);
                     } catch (ParseException e1) {
                     e1.printStackTrace();
                 }
@@ -286,5 +277,48 @@ public class BodyReportActivity extends AppBaseActivity {
         });
 
     }
+
+    public boolean cekKoneksi() {
+        boolean status;
+        final ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnectedOrConnecting () || mobile.isConnectedOrConnecting () ) {
+            Toast.makeText(this, "Wifi or Mobile data", Toast.LENGTH_LONG).show();
+            status = true;
+        }
+        else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            status = false;
+        }
+        return status;
+    }
+
+
+public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita, Double dlngBerita, String sPengirim,
+                  String sjudul,Date dDateBerita,Date dDatePengirim, String scatagori, String sIsi,ArrayList<String> sFile){
+        Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+                sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
+
+
+
+        call.enqueue(new Callback<DataList>(){
+            @Override
+            public void onResponse(Call<DataList> call, Response<DataList> response) {
+                String msg = response.body().getMsg();
+
+
+                Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
+                //      finish();
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<DataList> call, Throwable t) {
+                Toast.makeText(BodyReportActivity.this, "Gagal menyambungkan ke Jaringan", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }

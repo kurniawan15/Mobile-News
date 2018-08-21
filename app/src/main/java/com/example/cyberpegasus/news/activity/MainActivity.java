@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     */
     private void loadNames() {
         names.clear();
-        Cursor cursor = db.getDate();
+        Cursor cursor = db.getData();
         if (cursor.moveToFirst()) {
             do {
                 Name name = new Name(
@@ -167,11 +167,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (!obj.getBoolean("error")) {
                                 // jika berhasil
                                 // menyimpan data ke sqlite dengan status yang disinkronkan
-                                saveNameToLocalStorage(name, NAME_SYNCED_WITH_SERVER);
+                              //  saveNameToLocalStorage(name, NAME_SYNCED_WITH_SERVER);
                             } else {
                                 //jika berhasil error
                                 //menyimpan data ke sqlite dengan status tidak disinkronkan
-                                saveNameToLocalStorage(name, NAME_NOT_SYNCED_WITH_SERVER);
+                                //saveNameToLocalStorage(name, NAME_NOT_SYNCED_WITH_SERVER);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         //error menyimpan nama ke sqlite dengan status tidak disinkronkan
-                        saveNameToLocalStorage(name, NAME_NOT_SYNCED_WITH_SERVER);
+                    //    saveNameToLocalStorage(name, NAME_NOT_SYNCED_WITH_SERVER);
                     }
                 }) {
             @Override
@@ -198,11 +198,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // simpan nama ke penyimpanan lokal
-    private void saveNameToLocalStorage(String name, int status) {
+    private void saveNameToLocalStorage(Double dlanPengirim, Double dlngPengirim, Double dlanBerita, Double dlngBerita, String sPengirim,
+                                        String sjudul, Date dDateBerita, Date dDatePengirim, String scatagori, String sIsi, ArrayList<String> sFile) {
         editTextName.setText("");
-        //db.addData(name, status);
-        Name n = new Name(name, status);
-        names.add(n);
+        //db.addDataLokal(name, status);
+        //Date n = new Name(name, status);
+      //  names.add(n);
         refreshList();
     }
 
