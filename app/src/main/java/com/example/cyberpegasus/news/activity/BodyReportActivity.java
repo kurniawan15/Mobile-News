@@ -258,12 +258,22 @@ public class BodyReportActivity extends AppBaseActivity {
 
             if (internet == true){
                 Log.d("data","Input data ke API");
+
+                boolean isInsert =  db.addDataLokal(sjudul,sPengirim,dDatePengirim,scatagori,sIsi,dDateBerita,
+                        dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,sFile,1);
+                        if(isInsert ==  true){
+                            Toast.makeText(BodyReportActivity.this,"Data sukses tersimpan dilocal",Toast.LENGTH_LONG).show();
+                        }else
+                        {
+                            Toast.makeText(BodyReportActivity.this,"Data gagal tersimpan dilocal",Toast.LENGTH_LONG).show();
+                        }
+
                 addToAPI(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
                         sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
             }else
             {
                boolean isInsert =  db.addDataLokal(sjudul,sPengirim,dDatePengirim,scatagori,sIsi,dDateBerita,
-                        dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,sFile,1);
+                        dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,sFile,0);
                if(isInsert ==  true){
                    Toast.makeText(BodyReportActivity.this,"Data sukses tersimpan dilocal",Toast.LENGTH_LONG).show();
                }else
