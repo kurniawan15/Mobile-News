@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 
+import com.auth0.android.jwt.DecodeException;
+import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.activity.DashboardActivity;
 import com.example.cyberpegasus.news.activity.LoginActivity;
 import com.example.cyberpegasus.news.activity.WelcomeActivity;
@@ -17,15 +20,17 @@ public class TokenManager {
 
     public static final String KEY_USER_NAME = "username";
     public static final String KEY_JWT_TOKEN = "jwttoken";
+    //public static final String EXPIRES_TIME = "exp_time";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Context context;
     int privatemode = 0;
     private static final String PREF_NAME="JWTTOKEN";
     public  static final String isLogin="ISLOGIN";
+    public  static final String checkExp="CHECKEXP";
     //private static final String EXPIRED_AT="exp_at"
     private static final String Name="NAME";
-    LoginActivity loginActivity;
+    //LoginActivity loginActivity;
 
 
 
@@ -35,10 +40,10 @@ public class TokenManager {
         editor=sharedPreferences.edit();
     }
 
-    public void storeLogin(String username,String jwtvalue){
+    public void storeLogin(String username,String jwttoken){
         editor.putBoolean(isLogin,true);
         editor.putString(KEY_USER_NAME,username);
-        editor.putString(KEY_JWT_TOKEN,jwtvalue);
+        editor.putString(KEY_JWT_TOKEN,jwttoken);
         editor.commit();
 
     }
@@ -53,17 +58,18 @@ public class TokenManager {
     public boolean checkLogin(){
 
         if(!this.isLogin()  )
+        //Status isLogin true
         {
-            //if (checkExp()) {
+            if (!checkExp())
+                //Belum masuk Exp Time
 
+                {
+                    return true;
 
-                Intent mainIntent = new Intent(context, DashboardActivity.class);
-                mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
-                mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
-                context.startActivity(mainIntent);
-                return true;
+                }
 
-        }
+            }
+
        return false;
 
     }
@@ -72,6 +78,7 @@ public class TokenManager {
         return sharedPreferences.getBoolean(isLogin ,false);
 
     }
+
 
 
     public void logout()
@@ -87,11 +94,37 @@ public class TokenManager {
 
     public boolean checkExp ()
     {
-       return true;
+        try{
+            JWT jwt = new JWT(KEY_JWT_TOKEN);
+            sharedPreferences.getBoolean(isLogin,false);
+            boolean isExpired = jwt.isExpired(10); // 10 seconds leeway
+            if (isExpired){
+                logout();
+                return sharedPreferences.getBoolean(checkExp ,false);
+            }
+            else {
+                tellExpire();
+                return sharedPreferences.getBoolean(checkExp ,true);
+            }
+
+        }
+        catch (DecodeException exception){
+            //
+        }
+        return isLogin();
+
     }
 
     public Date tellExpire() {
+        try {
+            JWT jwt = new JWT(KEY_JWT_TOKEN);
+            Date tellExpire = jwt.getExpiresAt();
+            Toast.makeText(context, "Expires At :" + tellExpire.toString(), Toast.LENGTH_SHORT).show();
+        }
+        catch (DecodeException exception){
 
+        }
 
-    return tellExpire();}
+    return tellExpire();
+    }
 }

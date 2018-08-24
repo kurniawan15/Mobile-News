@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.auth0.android.jwt.DecodeException;
+import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.tokenmanager.TokenManager;
 
+import java.util.Date;
 import java.util.HashMap;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -38,6 +42,14 @@ public class WelcomeActivity extends AppCompatActivity {
                         mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainIntent);
                         finish();
+                        try {
+                            JWT jwt = new JWT(TokenManager.KEY_JWT_TOKEN);
+                            Date tellExpire = jwt.getExpiresAt();
+                            //String tellExpire= tellExpire.toString();
+                            Toast.makeText(getApplicationContext(), "Expires At :" + tellExpire.toString(), Toast.LENGTH_LONG).show();
+                        }catch (DecodeException exception){
+                            //
+                        }
                     }
 
              else {

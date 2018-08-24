@@ -11,12 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
+
+import com.auth0.android.jwt.DecodeException;
+import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.decode.JWTUtils;
 import com.example.cyberpegasus.news.model.JWTToken;
@@ -31,6 +28,9 @@ import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.cyberpegasus.news.tokenmanager.TokenManager.KEY_JWT_TOKEN;
+import static com.example.cyberpegasus.news.tokenmanager.TokenManager.checkExp;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -89,21 +89,23 @@ public class LoginActivity extends AppCompatActivity {
 
                             final JWTToken jwtToken = response.body();
                             jwttoken = jwtToken.getToken().toString();
-                            //jwtUtils.decodeJWT(jwttoken);
+
                             tokenManager.storeLogin(usernameval, jwttoken);
-                            Toast.makeText(mContext, "" + jwttoken, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext, "" + jwttoken, Toast.LENGTH_SHORT).show();
                             Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(mainIntent);
                             finish();
-                            onBackPressed();
                         } else {
                             Toast.makeText(mContext, "Login not correct :(", Toast.LENGTH_SHORT).show();
                         }
+                        onBackPressed();
+
 
                     }
+
 
                     @Override
                     public void onFailure(Call<JWTToken> call, Throwable t) {
@@ -118,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onBackPressed(){
-        Toast.makeText(getApplicationContext(),"Tekan tombol Exit :)",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Tekan tombol Exit Untuk Keluar :)",Toast.LENGTH_SHORT).show();
     }
 
 }

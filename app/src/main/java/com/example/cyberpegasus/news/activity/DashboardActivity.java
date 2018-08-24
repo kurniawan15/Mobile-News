@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.text.UnicodeSetSpanner;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -28,6 +29,8 @@ import android.support.v7.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.DecodeException;
+import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.adapter.DashboardAdapter;
 import com.example.cyberpegasus.news.adapter.NameAdapter;
@@ -89,9 +92,9 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        tokenManager=new TokenManager(getApplicationContext());
+        tokenManager = new TokenManager(getApplicationContext());
 
-        if (tokenManager.checkLogin()   ){
+        if (tokenManager.checkLogin()) {
             Intent mainIntent = new Intent(getApplicationContext(), LoginActivity.class);
             mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
             mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
@@ -99,13 +102,35 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             startActivity(mainIntent);
             finish();
         }
-        //Date expiresAt= tokenManager.tellExpire();
-        //Toast.makeText(getApplicationContext(),"Token habis sampai :"+expiresAt.toString(),Toast.LENGTH_SHORT).show();
 
-        HashMap<String,String> user =tokenManager.getDetailLogin();
-        String username=user.get(TokenManager.KEY_USER_NAME);
-        String jwttoken=user.get(TokenManager.KEY_JWT_TOKEN);
-        //test
+        HashMap<String, String> user = tokenManager.getDetailLogin();
+        String username = user.get(TokenManager.KEY_USER_NAME);
+        String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+
+        try{
+
+        JWT jwt = new JWT(TokenManager.KEY_JWT_TOKEN);
+        Date tellExpire = jwt.getExpiresAt();
+        boolean isExpired = jwt.isExpired(10); // 10 seconds leeway
+            if (isExpired) {
+                tokenManager.logout();
+                Intent intent = new Intent(DashboardActivity.this,LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+
+            } else {
+                //String tellExpire= tellExpire.toString();
+                tokenManager.tellExpire();
+                Toast.makeText(getApplicationContext(), "Expires At :" + tellExpire.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }catch (DecodeException exception){
+
+        }
+
+
+
+
         db = new DatabaseHelper(this);
         list = new ArrayList<>();
 
