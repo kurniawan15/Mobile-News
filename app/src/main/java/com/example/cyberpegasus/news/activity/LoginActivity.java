@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     JWTUtils jwtUtils;
     SharedPreferences sharedPreferences;
     public static String jwttoken;
+    public static String usernameApp;
     Context mContext;
 
 
@@ -86,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<JWTToken> call, Response<JWTToken> response) {
                         if (response.isSuccessful()) {
-
+                            usernameApp = username.getText().toString();
                             final JWTToken jwtToken = response.body();
                             jwttoken = jwtToken.getToken().toString();
 

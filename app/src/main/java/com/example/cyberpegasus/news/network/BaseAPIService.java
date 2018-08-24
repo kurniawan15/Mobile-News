@@ -57,8 +57,8 @@ public interface BaseAPIService {
                            @Part("lok_berita[long]") Double lng_Lok_Berita,
                            @Part("pengirim") RequestBody pengirim,
                            @Part("judul") RequestBody judul,
-                           @Part("date_berita") Date dateBerita,
-                           @Part("date_pengirim") Date datePengirim,
+                           @Part("date_berita") RequestBody dateBerita,
+                           @Part("date_pengirim") RequestBody datePengirim,
                            @Part("isi") RequestBody isi,
                            @Part("category") RequestBody catagory,
                            @Part List<MultipartBody.Part> file

@@ -1,5 +1,7 @@
 package com.example.cyberpegasus.news.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ClipData;
@@ -18,6 +20,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -100,7 +103,7 @@ public class FormActivity extends AppBaseActivity  implements
         finalHour = i;
         finalMinute = i1;
 
-        dateResult.setText(finalYear+"-"+finalMonth+"-"+finalDay+
+        dateResult.setText(finalYear+"-"+(finalMonth + 1)+"-"+finalDay+
                 "/"+finalHour+": "+finalMinute+":00");
 
     }
@@ -145,12 +148,6 @@ public class FormActivity extends AppBaseActivity  implements
                     System.out.println(sdateBerita);
                     String sjudul = judul.getText().toString();
 
-                    if(sjudul.equals("")){
-                        judul.setError("Silahkan isi data");
-                    }else if (sdateBerita.equals("")){
-                        dateBerita.setError("Silahkan isi data");
-                    }
-
                     Intent bodyReportIntent = new Intent(FormActivity.this, BodyReportActivity.class);
                     bodyReportIntent.putExtra("judul", sjudul);
                     bodyReportIntent.putExtra("tanggal", sdateBerita);
@@ -163,9 +160,21 @@ public class FormActivity extends AppBaseActivity  implements
                     bodyReportBundle.putDouble("lat_current", latCurrent);
                     bodyReportBundle.putDouble("lng_current", lngCurrent);
                     bodyReportIntent.putExtras(bodyReportBundle);
-
-
-                    startActivity(bodyReportIntent);
+                    if(sjudul.equals("")){
+                        judul.setError("Silahkan isi data");
+                        dateBerita.setError(null);
+                        loc.setError(null);
+                    }else if (sdateBerita.equals("")){
+                        dateBerita.setError("Silahkan isi data");
+                        judul.setError(null);
+                        loc.setError(null);
+                    }else if (loc.getText().toString().equals("")){
+                        loc.setError("Silahkan pilih lokasi!");
+                        dateBerita.setError(null);
+                        judul.setError(null);
+                    }else{
+                        startActivity(bodyReportIntent);
+                    }
 
                 }
             });
@@ -189,7 +198,7 @@ public class FormActivity extends AppBaseActivity  implements
 
     }
 
-    public void launchCamera(View view) {
+    public void launchCamera(final View view) {
         final CharSequence opt[] = new CharSequence[] {"Gallery", "Ambil Foto", "Ambil Video"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -199,12 +208,18 @@ public class FormActivity extends AppBaseActivity  implements
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case 0:
-                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intent.setType("image/* video/*");
-                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        // Always show the chooser (if there are multiple options available)
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        try {
+                            ActivityCompat.requestPermissions(FormActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                    PICK_IMAGE_REQUEST);
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            intent.setType("image/* video/*");
+                            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            // Always show the chooser (if there are multiple options available)
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+                        } catch (Exception e) {
+                            Toast.makeText(view.getContext(), "Tidak diizinkan!!", Toast.LENGTH_LONG).show();
+                        }
                         break;
                     case 1:
                         ImagePicker ip = new ImagePicker.Builder(FormActivity.this)
@@ -235,79 +250,82 @@ public class FormActivity extends AppBaseActivity  implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String fileName = "";
+        try {
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                if (resultCode == RESULT_OK) {
 
-        if (requestCode == PICK_IMAGE_REQUEST) {
-            if (resultCode == RESULT_OK) {
+                    //If Single image selected then it will fetch from Gallery
+                    if (data.getData() != null) {
+                        mImageUri = data.getData();
+                        mediaFile = new File(getPathFromUri(this, mImageUri));
+                        fileName = getFileName(mImageUri);
+                        list.add(fileName);
+                        listFile.add(mediaFile);
 
-                //If Single image selected then it will fetch from Gallery
-                if (data.getData() != null) {
-                    mImageUri = data.getData();
-                    mediaFile = new File(getPathFromUri(this, mImageUri));
-                    fileName = getFileName(mImageUri);
-                    list.add(fileName);
-                    listFile.add(mediaFile);
-
-                    if (mediaFile != null) {
-                        adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
-                        listView.setAdapter(adapter);
-                    }
-                }else {
-                    if (data.getClipData() != null) {
-                        ClipData mClipData=data.getClipData();
-                        ArrayList<Uri> mArrayUri=new ArrayList<Uri>();
-                        for(int i=0;i<mClipData.getItemCount();i++){
-                            ClipData.Item item = mClipData.getItemAt(i);
-                            Uri uri = item.getUri();
-                            mArrayUri.add(uri);
-                            mediaFile = new File(getPathFromUri(this, uri));
-                            fileName = getFileName(uri);
-                            list.add(fileName);
-                            listFile.add(mediaFile);
+                        if (mediaFile != null) {
+                            adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
+                            listView.setAdapter(adapter);
                         }
-                        adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
-                        listView.setAdapter(adapter);
-                        Toast.makeText(this, mArrayUri.size() + " File Ditambahkan!!", Toast.LENGTH_LONG).show();
+                    }else {
+                        if (data.getClipData() != null) {
+                            ClipData mClipData=data.getClipData();
+                            ArrayList<Uri> mArrayUri=new ArrayList<Uri>();
+                            for(int i=0;i<mClipData.getItemCount();i++){
+                                ClipData.Item item = mClipData.getItemAt(i);
+                                Uri uri = item.getUri();
+                                mArrayUri.add(uri);
+                                mediaFile = new File(getPathFromUri(this, uri));
+                                fileName = getFileName(uri);
+                                list.add(fileName);
+                                listFile.add(mediaFile);
+                            }
+                            adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
+                            listView.setAdapter(adapter);
+                            Toast.makeText(this, mArrayUri.size() + " File Ditambahkan!!", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
-        }
-        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            //Get the photo path
-            List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
-            mediaFile = null;
-            mediaFile = new File(mPaths.get(0));
-            fileName = mediaFile.getName();
-            list.add(fileName);
-            listFile.add(mediaFile);
-            adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
-            listView.setAdapter(adapter);
-            Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
-        }
-        if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            //Get the video path
-            List<String> mPaths = (List<String>) data.getSerializableExtra(VideoPicker.EXTRA_VIDEO_PATH);
-            File mediaFile = null;
-            mediaFile = new File(mPaths.get(0));
-            fileName = mediaFile.getName();
-            list.add(fileName);
-            listFile.add(mediaFile);
-            adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
-            listView.setAdapter(adapter);
-            Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
-        }
-        if (requestCode == GET_ADDRESS_REQUEST) {
-            if(resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                address = extras.getString("ADDRESS");
-                latBerita = extras.getDouble("lat_berita");
-                lngBerita = extras.getDouble("lng_berita");
-                latCurrent = extras.getDouble("lat_current");
-                lngCurrent = extras.getDouble("lng_current");
-
-                System.out.println("Latber : " + latBerita + "Lngber : " + lngBerita + "Latcur : " + latCurrent + "Lngcur : " + lngCurrent);
-
-                loc.setText(address);
+            if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+                //Get the photo path
+                List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
+                mediaFile = null;
+                mediaFile = new File(mPaths.get(0));
+                fileName = mediaFile.getName();
+                list.add(fileName);
+                listFile.add(mediaFile);
+                adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
+                listView.setAdapter(adapter);
+                Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
             }
+            if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+                //Get the video path
+                List<String> mPaths = (List<String>) data.getSerializableExtra(VideoPicker.EXTRA_VIDEO_PATH);
+                File mediaFile = null;
+                mediaFile = new File(mPaths.get(0));
+                fileName = mediaFile.getName();
+                list.add(fileName);
+                listFile.add(mediaFile);
+                adapter = new MediaListAdapter(this, R.layout.media_list_item, list, listFile);
+                listView.setAdapter(adapter);
+                Toast.makeText(FormActivity.this,fileName + " Ditambahkan !", Toast.LENGTH_LONG).show();
+            }
+            if (requestCode == GET_ADDRESS_REQUEST) {
+                if(resultCode == RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    address = extras.getString("ADDRESS");
+                    latBerita = extras.getDouble("lat_berita");
+                    lngBerita = extras.getDouble("lng_berita");
+                    latCurrent = extras.getDouble("lat_current");
+                    lngCurrent = extras.getDouble("lng_current");
+
+                    System.out.println("Latber : " + latBerita + "Lngber : " + lngBerita + "Latcur : " + latCurrent + "Lngcur : " + lngCurrent);
+
+                    loc.setText(address);
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
