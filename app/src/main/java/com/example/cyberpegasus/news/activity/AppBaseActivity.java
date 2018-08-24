@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.tokenmanager.TokenManager;
@@ -52,6 +54,11 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String username = LoginActivity.usernameApp;
+        View headerView = navigation_view.getHeaderView(0);
+        TextView usernameHeader = (TextView) headerView.findViewById(R.id.usernameHeader);
+        usernameHeader.setText(username);
+        //Toast.makeText(this, "Username anda: " + username, Toast.LENGTH_LONG).show();
 
         drawerMenu = navigation_view.getMenu();
         for(int i = 0; i < drawerMenu.size(); i++) {
