@@ -109,27 +109,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         db = new DatabaseHelper(this);
         list = new ArrayList<>();
 
-        //Data dummy untuk mencoba fitur Search
-        Date d1 = null;
-        Date d2 = null;
-        Date d3 = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            d1 = sdf.parse("2018/02/21");
-            d2 = sdf.parse("2018/06/21");
-            d3 = sdf.parse("2018/07/21");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        list = new ArrayList<>();
-        Data data1 = new Data(d3, d3, "gerry","Teknologi", "Teknologi", "coba1", null);
-        Data data2 = new Data(d1, d1, "gerry","Kesehatan", "Kesehatan", "coba2", null);
-        Data data3 = new Data(d2, d2, "gerry","Olahraga", "Olahraga", "coba3", null);
-        list.add(data1);
-        list.add(data2);
-        list.add(data3);
-        generateDataList(list);
-
         imgButton = (ImageButton) findViewById(R.id.imageButton);
         imgButton.setOnClickListener(new View.OnClickListener() {
             @Override

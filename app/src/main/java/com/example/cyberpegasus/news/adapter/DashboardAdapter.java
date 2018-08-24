@@ -15,6 +15,8 @@ import com.example.cyberpegasus.news.activity.NewsDetailActivity;
 import com.example.cyberpegasus.news.model.Data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by USER on 7/19/2018.
@@ -39,8 +41,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
     public void onBindViewHolder(DataViewHolder holder, final int position) {
         holder.textViewHead.setText(dataList.get(position).getJudul());
         holder.textViewDate.setText(dataList.get(position).getPengirim());
-//        holder.textViewTime.setText(dataList.get(position).getDateBerita().toString());
-        holder.textViewBody.setText(dataList.get(position).getIsi());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dataList.get(position).getDateBerita());
+        String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR);
+        holder.textViewTime.setText(formatedDate);
+        String isi = dataList.get(position).getIsi();
+        holder.textViewBody.setText(isi.substring(0, Math.min(isi.length(), 100)) + "...");
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

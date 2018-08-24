@@ -316,6 +316,8 @@ public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita,
                   String sjudul,Date dDateBerita,Date dDatePengirim, String scatagori, String sIsi,ArrayList<String> sFile){
         //Call<DataList> call = service.AddData(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
         //        sPengirim,sjudul,dDateBerita,dDatePengirim,sIsi,scatagori,sFile);
+    RequestBody dDateBeritaFD = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(dDateBerita));
+    RequestBody dDatePengirimFD = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(dDatePengirim));
     RequestBody sPengirimFD = RequestBody.create(MediaType.parse("text/plain"), sPengirim);
     RequestBody sjudulFD = RequestBody.create(MediaType.parse("text/plain"), sjudul);
     RequestBody scatagoriFD = RequestBody.create(MediaType.parse("text/plain"), sIsi);
@@ -325,7 +327,7 @@ public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita,
         parts.add(prepareFilePart("file", sFiles.get(i)));
     }
     Call<DataList> call = service.AddDataForm(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
-            sPengirimFD,sjudulFD,dDateBerita,dDatePengirim,sIsiFD,scatagoriFD, parts);
+            sPengirimFD,sjudulFD,dDateBeritaFD,dDatePengirimFD,sIsiFD,scatagoriFD, parts);
 
 
 
