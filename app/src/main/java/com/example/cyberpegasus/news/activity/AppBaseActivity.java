@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -161,9 +162,13 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         tokenManager = new TokenManager(AppBaseActivity.this);
         switch (item.getItemId()) {
             case R.id.history:
-                Intent dashboardIntent = new Intent(AppBaseActivity.this, DashboardActivity.class);
-                startActivity(dashboardIntent);
-                finish();
+                if (!DashboardActivity.active) {
+                    Intent dashboardIntent = new Intent(AppBaseActivity.this, DashboardActivity.class);
+                    startActivity(dashboardIntent);
+                    finish();
+                } else {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
             break;
             case R.id.logout:
                 tokenManager.logout();
@@ -177,7 +182,6 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
             case R.id.about:
                 Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
                 startActivity(aboutIntent);
-                finish();
             break;
         }
         return false;

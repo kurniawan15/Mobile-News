@@ -347,7 +347,9 @@ public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita,
 
                 Toast.makeText(BodyReportActivity.this, msg, Toast.LENGTH_SHORT).show();
                 //      finish();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
+                finish();
             }
 
             @Override
