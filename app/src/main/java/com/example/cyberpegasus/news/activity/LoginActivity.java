@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.auth0.android.jwt.DecodeException;
 import com.auth0.android.jwt.JWT;
 import com.example.cyberpegasus.news.R;
-import com.example.cyberpegasus.news.decode.JWTUtils;
 import com.example.cyberpegasus.news.model.JWTToken;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitClient;
@@ -39,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     CardView loginBtn;
     private TokenManager tokenManager;
-    JWTUtils jwtUtils;
     SharedPreferences sharedPreferences;
     public static String jwttoken;
     public static String usernameApp;
@@ -121,7 +119,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onBackPressed(){
-        Toast.makeText(getApplicationContext(),"Tekan tombol Exit Untuk Keluar :)",Toast.LENGTH_SHORT).show();
+        finish();
+        System.exit(0);
     }
 
 }

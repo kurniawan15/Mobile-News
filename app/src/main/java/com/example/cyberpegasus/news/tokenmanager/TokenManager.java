@@ -20,7 +20,6 @@ public class TokenManager {
 
     public static final String KEY_USER_NAME = "username";
     public static final String KEY_JWT_TOKEN = "jwttoken";
-    //public static final String EXPIRES_TIME = "exp_time";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Context context;
@@ -28,9 +27,7 @@ public class TokenManager {
     private static final String PREF_NAME="JWTTOKEN";
     public  static final String isLogin="ISLOGIN";
     public  static final String checkExp="CHECKEXP";
-    //private static final String EXPIRED_AT="exp_at"
     private static final String Name="NAME";
-    //LoginActivity loginActivity;
 
 
 
@@ -41,14 +38,15 @@ public class TokenManager {
     }
 
     public void storeLogin(String username,String jwttoken){
+        //Menyimpan session Login ke Shared Preference
         editor.putBoolean(isLogin,true);
         editor.putString(KEY_USER_NAME,username);
         editor.putString(KEY_JWT_TOKEN,jwttoken);
         editor.commit();
-
     }
 
     public HashMap<String,String> getDetailLogin(){
+        //Mengambil Data Session User
         HashMap<String,String> map=new HashMap<>();
         map.put(KEY_USER_NAME,sharedPreferences.getString(KEY_USER_NAME,null));
         map.put(KEY_JWT_TOKEN,sharedPreferences.getString(KEY_JWT_TOKEN,null));
@@ -75,6 +73,7 @@ public class TokenManager {
     }
 
     public Boolean isLogin(){
+        //Status sedang Login atau tidaknya suatu user
         return sharedPreferences.getBoolean(isLogin ,false);
 
     }
@@ -85,15 +84,11 @@ public class TokenManager {
     {
         editor.clear();
         editor.commit();
-        Intent mainIntent=new Intent(context, LoginActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(mainIntent);
-        //sharedPreferences.getBoolean(isLogin,false);
     }
 
     public boolean checkExp ()
     {
+        //Mengecek exp time dari Token sebagai syarat dari Logout otomatis
         try{
             JWT jwt = new JWT(KEY_JWT_TOKEN);
             sharedPreferences.getBoolean(isLogin,false);

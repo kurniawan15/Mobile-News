@@ -101,33 +101,33 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(mainIntent);
             finish();
-        }
+        }else {
+            HashMap<String, String> user = tokenManager.getDetailLogin();
+            String username = user.get(TokenManager.KEY_USER_NAME);
+            String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+            if (!jwttoken.isEmpty()) {
+                try {
+                    JWT jwt = new JWT(jwttoken);
+                    Date tellExpire = jwt.getExpiresAt();
+                    boolean isExpired = jwt.isExpired(10); // 10 seconds leeway
 
-        HashMap<String, String> user = tokenManager.getDetailLogin();
-        String username = user.get(TokenManager.KEY_USER_NAME);
-        String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+                    if (isExpired) {
+                        tokenManager.logout();
+                        Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
 
-        try{
+                    } else {
+                        //String tellExpire= tellExpire.toString();
+                        Toast.makeText(getApplicationContext(), "Token Expires At :" + tellExpire.toString(), Toast.LENGTH_SHORT).show();
+                    }
 
-        JWT jwt = new JWT(TokenManager.KEY_JWT_TOKEN);
-        Date tellExpire = jwt.getExpiresAt();
-        boolean isExpired = jwt.isExpired(10); // 10 seconds leeway
-            if (isExpired) {
-                tokenManager.logout();
-                Intent intent = new Intent(DashboardActivity.this,LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                }catch(DecodeException exception){
 
-            } else {
-                //String tellExpire= tellExpire.toString();
-                tokenManager.tellExpire();
-                Toast.makeText(getApplicationContext(), "Expires At :" + tellExpire.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
-        }catch (DecodeException exception){
-
         }
-
 
 
 

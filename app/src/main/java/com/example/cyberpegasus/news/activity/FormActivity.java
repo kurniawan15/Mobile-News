@@ -502,41 +502,6 @@ public class FormActivity extends AppBaseActivity  implements
         dateBerita.setText(tanggal);
     }
 
-    //Method untuk mengunggah file ke server dengan jumlah yang dinamik
-    private void uploadFiles(List<File> mediaFiles) {
-        //create retrofit instance
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.99:9099/api/")
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-
-        //get client and call object for the request
-        BaseAPIService client = retrofit.create(BaseAPIService.class);
-
-        List<MultipartBody.Part> parts = new ArrayList<>();
-
-        for(int i = 0; i < mediaFiles.size(); i++) {
-            parts.add(prepareFilePart("file", mediaFiles.get(i)));
-            Toast.makeText(this, "File ada: " + i, Toast.LENGTH_SHORT).show();
-        }
-
-        //finally execute the request
-        Call<ResponseBody> call = client.uploadPhoto(parts);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(getApplicationContext(), "terupload: ", Toast.LENGTH_LONG).show();
-                System.out.println(response);
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "tidak terupload: ", Toast.LENGTH_LONG).show();
-                System.out.println(t);
-            }
-        });
-    }
 
     @NonNull
     private MultipartBody.Part prepareFilePart(String partName, File mediaFile) {

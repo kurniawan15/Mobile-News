@@ -53,8 +53,9 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        String username = LoginActivity.usernameApp;
+        tokenManager = new TokenManager((getApplicationContext()));
+        HashMap<String, String> user = tokenManager.getDetailLogin();
+        String username = user.get(TokenManager.KEY_USER_NAME);
         View headerView = navigation_view.getHeaderView(0);
         TextView usernameHeader = (TextView) headerView.findViewById(R.id.usernameHeader);
         usernameHeader.setText(username);
