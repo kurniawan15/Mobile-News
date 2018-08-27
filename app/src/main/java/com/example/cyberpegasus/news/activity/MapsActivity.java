@@ -1,11 +1,13 @@
 package com.example.cyberpegasus.news.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -109,18 +111,42 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String address = txtAddress.getText().toString();
-                Intent formIntent = new Intent();
-                Bundle extras = new Bundle();
-                extras.putString("ADDRESS", address);
-                extras.putDouble("lat_berita", latBerita);
-                extras.putDouble("lng_berita", lngBerita);
-                extras.putDouble("lat_current", latCurrent);
-                extras.putDouble("lng_current", lngCurrent);
-                formIntent.putExtras(extras);
-                setResult(RESULT_OK, formIntent);
-                finish();
-                //startActivity(formIntent);
+                if (cekKoneksi()) {
+                    boolean valid;
+                    try {
+                        valid = checkLocation();
+                    }catch (Exception e) {
+                        valid = false;
+                    }
+                    if (valid) {
+                        String address = txtAddress.getText().toString();
+                        Intent formIntent = new Intent();
+                        Bundle extras = new Bundle();
+                        extras.putString("ADDRESS", address);
+                        extras.putDouble("lat_berita", latBerita);
+                        extras.putDouble("lng_berita", lngBerita);
+                        extras.putDouble("lat_current", latCurrent);
+                        extras.putDouble("lng_current", lngCurrent);
+                        formIntent.putExtras(extras);
+                        setResult(RESULT_OK, formIntent);
+                        finish();
+                        //startActivity(formIntent);
+                    }else {
+                        Toast.makeText(view.getContext(), "Alamat tidak valid !", Toast.LENGTH_LONG).show();
+                    }
+                }else {
+                    String address = txtAddress.getText().toString();
+                    Intent formIntent = new Intent();
+                    Bundle extras = new Bundle();
+                    extras.putString("ADDRESS", address);
+                    extras.putDouble("lat_berita", latBerita);
+                    extras.putDouble("lng_berita", lngBerita);
+                    extras.putDouble("lat_current", latCurrent);
+                    extras.putDouble("lng_current", lngCurrent);
+                    formIntent.putExtras(extras);
+                    setResult(RESULT_OK, formIntent);
+                    finish();
+                }
             }
         });
     }
@@ -217,6 +243,19 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
             Toast.makeText(this, "Alamat tidak ditemukan !", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private boolean checkLocation() throws IOException{
+        String location = txtAddress.getText().toString();
+        try {
+            Geocoder gc = new Geocoder(this);
+            List<Address> list = gc.getFromLocationName(location, 1);
+            Address address = list.get(0);
+            String locality = address.getLocality();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void getLocationPermission() {
@@ -427,5 +466,20 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
             outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
             super.onSaveInstanceState(outState);
         }
+    }
+
+    public boolean cekKoneksi() {
+        boolean status;
+        final ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnectedOrConnecting () || mobile.isConnectedOrConnecting () ) {
+            status = true;
+        }
+        else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            status = false;
+        }
+        return status;
     }
 }
