@@ -46,7 +46,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.DashboardActivity" android:launchMode="singleTask" />
 
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
