@@ -47,7 +47,7 @@ public class TokenManager {
     public HashMap<String, String> getDetailLogin() {
         //Mengambil Data Session User
         HashMap<String, String> map = new HashMap<>();
-        map.put(KEY_USER_NAME, sharedPreferences.getString(KEY_USER_NAME, null));
+        map.put(KEY_USER_NAME, sharedPreferences.getString(KEY_USER_NAME, "Status : Tidak Login"));
         map.put(KEY_JWT_TOKEN, sharedPreferences.getString(KEY_JWT_TOKEN, null));
         return map;
     }

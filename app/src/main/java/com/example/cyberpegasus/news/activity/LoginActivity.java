@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                             jwttoken = jwtToken.getToken().toString();
 
                             tokenManager.storeLogin(usernameval, jwttoken);
-                            //Toast.makeText(mContext, "" + jwttoken, Toast.LENGTH_SHORT).show();
                             Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

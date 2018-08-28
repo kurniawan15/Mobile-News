@@ -2,6 +2,7 @@ package com.example.cyberpegasus.news.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +21,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.HeaderViewListAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,7 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
     private Menu drawerMenu;
     Toolbar toolbar;
     TokenManager tokenManager;
+    MenuItem mi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +61,30 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
         tokenManager = new TokenManager((getApplicationContext()));
         HashMap<String, String> user = tokenManager.getDetailLogin();
         String username = user.get(TokenManager.KEY_USER_NAME);
-        View headerView = navigation_view.getHeaderView(0);
-        TextView usernameHeader = (TextView) headerView.findViewById(R.id.usernameHeader);
-        usernameHeader.setText(username);
-        //Toast.makeText(this, "Username anda: " + username, Toast.LENGTH_LONG).show();
+        String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+        if (tokenManager.checkLogin()) {
+
+            View headerView = navigation_view.getHeaderView(0);
+            TextView usernameHeader = (TextView) headerView.findViewById(R.id.usernameHeader);
+            usernameHeader.setText(username);
+            LinearLayout ly = (LinearLayout) headerView.findViewById(R.id.layoutHeader);
+            ly.setBackgroundColor(Color.rgb(255, 0, 0));
+            toolbar.setBackgroundColor(Color.rgb(255, 0, 0));
+            toolbar.setTitle("NEWS REPORT (OFFLINE)");
+
+
+            //headerView.setBackgroundColor(Color.rgb(255, 0, 0));
+        }else {
+            View headerView = navigation_view.getHeaderView(0);
+            TextView usernameHeader = (TextView) headerView.findViewById(R.id.usernameHeader);
+            usernameHeader.setText(username);
+        }
 
         drawerMenu = navigation_view.getMenu();
+        if (!tokenManager.isLogin()) {
+            mi = drawerMenu.findItem(R.id.logout);
+            mi.setTitle("Login");
+        }
         for(int i = 0; i < drawerMenu.size(); i++) {
             drawerMenu.getItem(i).setOnMenuItemClickListener(this);
         }
@@ -172,12 +194,18 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 }
             break;
             case R.id.logout:
-                tokenManager.logout();
-                Intent intent = new Intent(AppBaseActivity.this,LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                //tokenManager.checkLogin();
-                //tokenManager.checkLogin();
+                mi = drawerMenu.findItem(R.id.logout);
+                System.out.println("Judulnya : " + mi.getTitle());
+                if (mi.getTitle().equals("Login")) {
+                    Intent intent = new Intent(AppBaseActivity.this,LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }else {
+                    tokenManager.logout();
+                    Intent intent = new Intent(AppBaseActivity.this,DashboardActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
 
             break;
             case R.id.about:

@@ -94,14 +94,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         setContentView(R.layout.activity_dashboard);
         tokenManager = new TokenManager(getApplicationContext());
 
-        if (tokenManager.checkLogin()) {
-            Intent mainIntent = new Intent(getApplicationContext(), LoginActivity.class);
-            mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
-            mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
-            mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(mainIntent);
-            finish();
-        }else {
+        if (!tokenManager.checkLogin()) {
             HashMap<String, String> user = tokenManager.getDetailLogin();
             String username = user.get(TokenManager.KEY_USER_NAME);
             String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
@@ -113,10 +106,10 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     if (isExpired) {
                         tokenManager.logout();
-                        Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
+                        //Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        //startActivity(intent);
+                        //finish();
 
                     } else {
                         //String tellExpire= tellExpire.toString();
@@ -135,14 +128,23 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         list = new ArrayList<>();
 
         imgButton = (ImageButton) findViewById(R.id.imageButton);
-        imgButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
-                startActivity(formIntent);
-                active = false;
-            }
-        });
+        imgButton.setVisibility(View.VISIBLE);
+        if (!tokenManager.checkLogin()) {
+
+
+            imgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
+                    startActivity(formIntent);
+                    active = false;
+                }
+            });
+        }else {
+            imgButton.setVisibility((View.INVISIBLE));
+        }
+
 
         final RelativeLayout filter = (RelativeLayout) findViewById(R.id.filterLayout);
 

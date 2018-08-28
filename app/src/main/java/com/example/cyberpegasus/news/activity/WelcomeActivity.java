@@ -29,43 +29,38 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         new Handler().postDelayed(new Runnable() {
             @Override
-            public void run() {if (!tokenManager.checkLogin()   )
+            public void run()
 
 
                     {
                         Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                        HashMap<String, String> user = tokenManager.getDetailLogin();
-                        String username = user.get(TokenManager.KEY_USER_NAME);
-                        String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+                        //HashMap<String, String> user = tokenManager.getDetailLogin();
+                        //String username = user.get(TokenManager.KEY_USER_NAME);
+                        //String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
                         mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TOP);
                         mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_NEW_TASK);
                         mainIntent.setFlags(mainIntent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainIntent);
                         finish();
-                        try {
-                            JWT jwt = new JWT(TokenManager.KEY_JWT_TOKEN);
-                            Date tellExpire = jwt.getExpiresAt();
+                        //try {
+                            //JWT jwt = new JWT(TokenManager.KEY_JWT_TOKEN);
+                            //Date tellExpire = jwt.getExpiresAt();
                             //String tellExpire= tellExpire.toString();
-                            Toast.makeText(getApplicationContext(), "Expires At :" + tellExpire.toString(), Toast.LENGTH_LONG).show();
-                        }catch (DecodeException exception){
+                            //Toast.makeText(getApplicationContext(), "Expires At :" + tellExpire.toString(), Toast.LENGTH_LONG).show();
+                        //}catch (DecodeException exception){
                             //
-                        }
+                        //}
                     }
 
-             else {
-                Intent loginIntent = new Intent(WelcomeActivity.this, DashboardActivity.class);
-                startActivity(loginIntent);
-                finish();
 
 
 
 
 
 
-                //startActivity(getIntent());
-            }
 
-            }
+
+
         }, SPLASH_TIME_OUT);
         tokenManager = new TokenManager(WelcomeActivity.this);
 
