@@ -11,8 +11,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -81,32 +84,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                            String isi, Date date_berita, Double lok_Pengirim_Lan, Double lok_Pengirim_Lng,
                            Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+        Boolean hasil = null;
+        try {
 
-        contentValues.put(COLUMN_JUDUL, judul);
-        contentValues.put(COLUMN_PENGIRIM, pengirim);
-        contentValues.put(COLUMN_DATE_PENGIRIM, String.valueOf(date_Pengirim));
-        contentValues.put(COLUMN_CATEGORY, category);
-        contentValues.put(COLUMN_ISI, isi);
-        contentValues.put(COLUMN_DATE_BERITA, String.valueOf(date_berita));
-        contentValues.put(COLUMN_LOK_PENGIRIM_LAN, lok_Pengirim_Lan);
-        contentValues.put(COLUMN_LOK_PENGIRIM_LNG, lok_Pengirim_Lng);
-        contentValues.put(COLUMN_LOK_BERITA_LAN, lok_Berita_Lan);
-        contentValues.put(COLUMN_LOK_BERITA_LNG, lok_Berita_Lng);
-        contentValues.put(COLUMN_FILE, String.valueOf(file));
-        contentValues.put(COLUMN_STATUS, status);
+            Date dDatePengirim = format.parse(String.valueOf(date_Pengirim));
+            Date dDateBerita = format.parse(String.valueOf(date_berita));
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(COLUMN_JUDUL, judul);
+            contentValues.put(COLUMN_PENGIRIM, pengirim);
+            contentValues.put(COLUMN_DATE_PENGIRIM, String.valueOf(dDatePengirim));
+            contentValues.put(COLUMN_CATEGORY, category);
+            contentValues.put(COLUMN_ISI, isi);
+            contentValues.put(COLUMN_DATE_BERITA, String.valueOf(dDateBerita));
+            contentValues.put(COLUMN_LOK_PENGIRIM_LAN, lok_Pengirim_Lan);
+            contentValues.put(COLUMN_LOK_PENGIRIM_LNG, lok_Pengirim_Lng);
+            contentValues.put(COLUMN_LOK_BERITA_LAN, lok_Berita_Lan);
+            contentValues.put(COLUMN_LOK_BERITA_LNG, lok_Berita_Lng);
+            contentValues.put(COLUMN_FILE, String.valueOf(file));
+            contentValues.put(COLUMN_STATUS, status);
 
 
         long result =  db.insert(TABLE_NAME, null, contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
 
+            if (result == -1){
+                hasil = false;
+            }else{
+                hasil =  true;
+            }
+
+            }catch (ParseException e) {
+                e.printStackTrace();
+            }
         //db.close();
-
+        return hasil;
     }
 
     /*Metode ini mengambil dua argumen

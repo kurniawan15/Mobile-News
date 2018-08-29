@@ -198,7 +198,7 @@ public class BodyReportActivity extends AppBaseActivity {
             @Override
             public void onClick(View view) {
                 Bundle bundle = getIntent().getExtras();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss", Locale.US);
 
                 String sjudul = getIntent().getStringExtra("judul");
                 String sdateBerita = getIntent().getStringExtra("tanggal");
