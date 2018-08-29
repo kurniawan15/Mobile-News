@@ -64,6 +64,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     TokenManager tokenManager;
     DatabaseHelper db;
     ArrayList<Data> list;
+    BodyReportActivity bodyReportActivity;
 
     public static Button btnFinishFilter;
 
@@ -106,7 +107,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     if (isExpired) {
                         tokenManager.logout();
-                        //Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
+
+            //Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
                         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         //startActivity(intent);
                         //finish();

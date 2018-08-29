@@ -20,6 +20,7 @@ import com.example.cyberpegasus.news.model.LokBerita;
 import com.example.cyberpegasus.news.model.LokPengirim;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
+import com.example.cyberpegasus.news.tokenmanager.TokenManager;
 
 import java.io.File;
 import java.text.ParseException;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,6 +46,7 @@ public class BodyReportActivity extends AppBaseActivity {
     Intent intent;
     DatabaseHelper db;
     ArrayList<File> sFiles = new ArrayList<>();
+    TokenManager tokenManager;
 
 
     @Override
@@ -208,8 +211,11 @@ public class BodyReportActivity extends AppBaseActivity {
 
                 ArrayList<String> sFile = (ArrayList<String>) bundle.getStringArrayList("listFile");
                 sFiles = (ArrayList<File>) bundle.getSerializable("listFiles");
-
-                String sPengirim =  "Pega";    //Di ganti ketika login selesai
+                tokenManager = new TokenManager(getApplicationContext());
+                HashMap<String, String> user = tokenManager.getDetailLogin();
+                String username = user.get(TokenManager.KEY_USER_NAME);
+                String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+                String sPengirim =  username;    //Di ganti ketika login selesai
 
                 String sdatePengirim = format.format(Calendar.getInstance().getTime());
 

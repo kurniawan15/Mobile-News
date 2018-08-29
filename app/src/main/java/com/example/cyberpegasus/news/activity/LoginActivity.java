@@ -85,11 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<JWTToken> call, Response<JWTToken> response) {
                         if (response.isSuccessful()) {
-                            usernameApp = username.getText().toString();
                             final JWTToken jwtToken = response.body();
                             jwttoken = jwtToken.getToken().toString();
-
                             tokenManager.storeLogin(usernameval, jwttoken);
+                            usernameApp = usernameval;
                             Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
