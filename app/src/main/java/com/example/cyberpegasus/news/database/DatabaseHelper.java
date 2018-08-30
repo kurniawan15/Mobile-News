@@ -85,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                            Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-        Boolean hasil = null;
+        boolean hasil = true;
         try {
 
             Date dDatePengirim = format.parse(String.valueOf(date_Pengirim));
@@ -113,13 +113,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (result == -1){
                 hasil = false;
             }else{
-                hasil =  true;
+                hasil = true;
             }
 
             }catch (ParseException e) {
                 e.printStackTrace();
             }
         //db.close();
+
         return hasil;
     }
 

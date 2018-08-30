@@ -42,7 +42,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
         holder.textViewHead.setText(dataList.get(position).getJudul());
         holder.textViewDate.setText(dataList.get(position).getPengirim());
         Calendar cal = Calendar.getInstance();
-        cal.setTime(dataList.get(position).getDateBerita());
+        //cal.setTime(dataList.get(position).getDateBerita());
         String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR);
         holder.textViewTime.setText(formatedDate);
         String isi = dataList.get(position).getIsi();
