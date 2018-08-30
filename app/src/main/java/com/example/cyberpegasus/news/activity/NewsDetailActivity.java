@@ -20,7 +20,7 @@ public class NewsDetailActivity extends AppBaseActivity {
 
     //URL gambar dan video yang akan diambil untuk ditampilkan pada aplikasi
     //final String URL = "http://192.168.1.114/restAPIBear/public/file/";
-    final String URL = "http://192.168.1.241/restAPI/public/file/";
+    final String URL = "http://192.168.1.241/restAPICoba/public/file/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

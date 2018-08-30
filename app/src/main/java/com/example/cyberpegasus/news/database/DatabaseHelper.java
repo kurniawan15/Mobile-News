@@ -82,14 +82,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * */
     public boolean addDataLokal(String judul, String pengirim, Date date_Pengirim, String category,
                            String isi, Date date_berita, Double lok_Pengirim_Lan, Double lok_Pengirim_Lng,
-                           Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
+                           Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-        Boolean hasil = null;
-        try {
+
+
 
             Date dDatePengirim = format.parse(String.valueOf(date_Pengirim));
             Date dDateBerita = format.parse(String.valueOf(date_berita));
+
 
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
@@ -111,16 +112,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result =  db.insert(TABLE_NAME, null, contentValues);
 
             if (result == -1){
-                hasil = false;
+               return false;
             }else{
-                hasil =  true;
+                return true;
             }
 
-            }catch (ParseException e) {
-                e.printStackTrace();
-            }
-        //db.close();
-        return hasil;
     }
 
     /*Metode ini mengambil dua argumen
