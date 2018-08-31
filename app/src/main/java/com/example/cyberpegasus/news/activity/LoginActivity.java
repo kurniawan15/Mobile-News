@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         tokenManager = new TokenManager(LoginActivity.this);
-        //final boolean isLogin = tokenManager.checkLogin();
 
 
         mContext = this;
@@ -62,10 +61,10 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = (CardView) findViewById(R.id.login);
 
 
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final BaseAPIService baseAPIService = RetrofitClient.getbaseAPIService();
                 final String usernameval = username.getText().toString();
                 byte[] md5input = password.getText().toString().getBytes();
@@ -75,33 +74,36 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                String passwordval = md5Data.toString(16);
+                final String passwordval = md5Data.toString(16);
                 //Toast.makeText(mContext, "User Login Status :" + TokenManager.isLogin.toString(), Toast.LENGTH_LONG).show();
 
-
+                if (username.getText().toString().isEmpty() || password.getText().toString().isEmpty())
+                {
+                    Toast.makeText(mContext,"Field usernmae / password kosong ",Toast.LENGTH_SHORT).show();
+                }else {
                 Call<JWTToken> jwtTokenCall = baseAPIService.loginRequest(usernameval, passwordval);
 
                 jwtTokenCall.enqueue(new Callback<JWTToken>() {
                     @Override
                     public void onResponse(Call<JWTToken> call, Response<JWTToken> response) {
-                        if (response.isSuccessful()) {
-                            final JWTToken jwtToken = response.body();
-                            jwttoken = jwtToken.getToken().toString();
-                            tokenManager.storeLogin(usernameval, jwttoken);
-                            usernameApp = usernameval;
-                            Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(mainIntent);
-                            finish();
-                        } else {
-                            Toast.makeText(mContext, "Login not correct :(", Toast.LENGTH_SHORT).show();
+                            if (response.isSuccessful()) {
+                                final JWTToken jwtToken = response.body();
+                                jwttoken = jwtToken.getToken().toString();
+                                tokenManager.storeLogin(usernameval, jwttoken);
+                                usernameApp = usernameval;
+                                Intent mainIntent = new Intent(getApplicationContext(), DashboardActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mainIntent);
+                                finish();
+                            } else {
+                                Toast.makeText(mContext, "Login not correct :(", Toast.LENGTH_SHORT).show();
+                            }
+                            onBackPressed();
+
                         }
-                        onBackPressed();
 
-
-                    }
 
 
                     @Override
@@ -111,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
-            }
+            }}
         });
     }
 
