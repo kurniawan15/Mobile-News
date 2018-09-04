@@ -13,6 +13,7 @@ import com.example.cyberpegasus.news.activity.DashboardActivity;
 import com.example.cyberpegasus.news.activity.LoginActivity;
 import com.example.cyberpegasus.news.activity.WelcomeActivity;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -27,7 +28,6 @@ public class TokenManager {
     private static final String PREF_NAME = "JWTTOKEN";
     public static final String isLogin = "ISLOGIN";
     public static final String checkExp = "CHECKEXP";
-    private static final String Name = "NAME";
 
 
     public TokenManager(Context context) {
@@ -81,6 +81,7 @@ public class TokenManager {
     public void logout() {
         editor.clear();
         editor.commit();
+
     }
 
     public boolean checkExp() {

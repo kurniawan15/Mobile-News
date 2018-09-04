@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.tokenmanager.TokenManager;
 
+import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -192,29 +193,35 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                 } else {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                 }
-            break;
+                break;
             case R.id.logout:
                 mi = drawerMenu.findItem(R.id.logout);
                 System.out.println("Judulnya : " + mi.getTitle());
                 if (mi.getTitle().equals("Login")) {
-                    Intent intent = new Intent(AppBaseActivity.this,LoginActivity.class);
+                    Intent intent = new Intent(AppBaseActivity.this, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                }else {
+                } else {
                     tokenManager.logout();
-                    Intent intent = new Intent(AppBaseActivity.this,DashboardActivity.class);
+
+                    Intent intent = new Intent(AppBaseActivity.this, DashboardActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    File sharedPreferenceFile = new File("/data/data/" + getPackageName() + "/shared_prefs/");
+                    File[] listFiles = sharedPreferenceFile.listFiles();
+                    for (File file : listFiles) {
+                        file.delete();
+                        startActivity(intent);
+                    }
                 }
 
-            break;
-            case R.id.about:
-                Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
-                startActivity(aboutIntent);
-            break;
+                    break;
+                    case R.id.about:
+                        Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
+                        startActivity(aboutIntent);
+                        break;
+                }
+                return false;
         }
-        return false;
+
+
     }
-
-
-}

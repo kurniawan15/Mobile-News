@@ -82,25 +82,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * */
     public boolean addDataLokal(String judul, String pengirim, Date date_Pengirim, String category,
                            String isi, Date date_berita, Double lok_Pengirim_Lan, Double lok_Pengirim_Lng,
-                           Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) throws ParseException {
+                           Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-
-
-
-            Date dDatePengirim = format.parse(String.valueOf(date_Pengirim));
-            Date dDateBerita = format.parse(String.valueOf(date_berita));
-
-
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
 
             contentValues.put(COLUMN_JUDUL, judul);
             contentValues.put(COLUMN_PENGIRIM, pengirim);
-            contentValues.put(COLUMN_DATE_PENGIRIM, String.valueOf(dDatePengirim));
+            contentValues.put(COLUMN_DATE_PENGIRIM, String.valueOf(date_Pengirim));
             contentValues.put(COLUMN_CATEGORY, category);
             contentValues.put(COLUMN_ISI, isi);
-            contentValues.put(COLUMN_DATE_BERITA, String.valueOf(dDateBerita));
+            contentValues.put(COLUMN_DATE_BERITA, String.valueOf(date_berita));
             contentValues.put(COLUMN_LOK_PENGIRIM_LAN, lok_Pengirim_Lan);
             contentValues.put(COLUMN_LOK_PENGIRIM_LNG, lok_Pengirim_Lng);
             contentValues.put(COLUMN_LOK_BERITA_LAN, lok_Berita_Lan);
@@ -112,11 +105,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result =  db.insert(TABLE_NAME, null, contentValues);
 
             if (result == -1){
-               return false;
+               return true;
             }else{
-                return true;
+                return  true;
             }
 
+
+        //db.close();
     }
 
     /*Metode ini mengambil dua argumen
