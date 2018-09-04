@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (username.getText().toString().isEmpty() || password.getText().toString().isEmpty())
                 {
-                    Toast.makeText(mContext,"Field usernmae / password kosong ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"Field username / password kosong ",Toast.LENGTH_SHORT).show();
                 }else {
                 Call<JWTToken> jwtTokenCall = baseAPIService.loginRequest(usernameval, passwordval);
 
