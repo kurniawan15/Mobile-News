@@ -92,6 +92,9 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+
+
         tokenManager = new TokenManager(getApplicationContext());
 
         if (!tokenManager.checkLogin()) {
@@ -123,14 +126,25 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         }
 
 
-
         db = new DatabaseHelper(this);
         list = new ArrayList<>();
 
         imgButton = (ImageButton) findViewById(R.id.imageButton);
         imgButton.setVisibility(View.VISIBLE);
-        if (!tokenManager.checkLogin()) {
 
+        imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
+                startActivity(formIntent);
+                active = false;
+            }
+        });
+
+        boolean conn = cekKoneksi();
+
+        if (!tokenManager.checkLogin()&& conn == true)  {
 
             imgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,6 +156,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 }
             });
         }else {
+            readFromLocal();
             imgButton.setVisibility((View.INVISIBLE));
         }
 
@@ -385,12 +400,12 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                             if (filtered.isEmpty()) {
                                 Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
                             }else {
-                                adapter = new DashboardAdapter(filtered);
+                                adapter = new DashboardAdapter(filtered,cekKoneksi());
                                 recyclerView.setAdapter(adapter);
                                 ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
                             }
                         }else {
-                            adapter = new DashboardAdapter(list);
+                            adapter = new DashboardAdapter(list,cekKoneksi());
                             recyclerView.setAdapter(adapter);
                             ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
                         }
@@ -407,12 +422,12 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                                 if (filteredDate.isEmpty()) {
                                     Toast.makeText(DashboardActivity.this, "Tidak Ditemukan !", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    adapter = new DashboardAdapter(filteredDate);
+                                    adapter = new DashboardAdapter(filteredDate,cekKoneksi());
                                     recyclerView.setAdapter(adapter);
                                     ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
                                 }
                             }else {
-                                adapter = new DashboardAdapter(filteredCategory);
+                                adapter = new DashboardAdapter(filteredCategory,cekKoneksi());
                                 recyclerView.setAdapter(adapter);
                                 ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
                             }
@@ -477,7 +492,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     private void generateDataList(ArrayList<Data> empDataList) {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        adapter = new DashboardAdapter(empDataList);
+        adapter = new DashboardAdapter(empDataList,cekKoneksi());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DashboardActivity.this);
 
@@ -486,39 +501,37 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (!tokenManager.checkLogin()) {
-
-            Boolean status = cekKoneksi();
-            if(status == true){
-
-                readFromAPI();
-            }
-            else{
-                readFromLocal();
-            }
-
-        }else {
-            readFromLocal();
-        }
-
-    }
 
     public  void readFromLocal(){
         Cursor cursor = db.getData();
         if (cursor.moveToFirst()) {
             do {
-                Data name = new Data(
+  /*              Data name = new Data(
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_JUDUL)),
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_CATEGORY)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PENGIRIM)),
-                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_STATUS))
+                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE_BERITA)),
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ISI))
                 );
+*/
+                Data data = new Data();
+                data.setJudul(cursor.getString(1));
+                data.setPengirim(cursor.getString(2));
+                data.setIsi(cursor.getString(5));
 
-                list.add(name);
+                String s= cursor.getString(3);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+                Date d = new Date();
+                try {
+                    d =  dateFormat.parse(s);
+
+                } catch (ParseException e) {
+
+                    e.printStackTrace();
+                }
+                data.setDateBerita(d);
+
+                list.add(data);
             } while (cursor.moveToNext());
         }
         generateDataList(list);
@@ -644,7 +657,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             if (judul.contains(newText))
                 newList.add(data);
         }
-        adapter = new DashboardAdapter(newList);
+        adapter = new DashboardAdapter(newList,cekKoneksi());
         recyclerView.setAdapter(adapter);
         ((DashboardAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
         return true;

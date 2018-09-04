@@ -103,8 +103,8 @@ public class FormActivity extends AppBaseActivity  implements
         finalHour = i;
         finalMinute = i1;
 
-        dateResult.setText(finalYear+"-"+(finalMonth + 1)+"-"+finalDay+
-                "/"+finalHour+":"+finalMinute+":00");
+        dateResult.setText(finalYear+"-"+(finalMonth+1)+"-"+finalDay+
+                "T"+finalHour+":"+finalMinute+":00.000Z");
 
     }
 

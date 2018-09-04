@@ -49,18 +49,18 @@ public class Data {
     private Integer status;
 
 
-    public Data(String judul, String pengirim, String isi,Integer status) {
+    public Data(String judul, String pengirim, Date datePengirim,String isi) {
         this.judul= judul;
         this.pengirim = pengirim;
-
+        this.datePengirim = datePengirim;
         this.isi = isi;
-        this.status = status;
 
     }
 
-    public Data(){
+    public Data() {
 
     }
+
 
     public String getId() {
         return id;

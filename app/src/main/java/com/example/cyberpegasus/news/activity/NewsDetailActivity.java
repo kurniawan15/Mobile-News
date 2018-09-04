@@ -1,11 +1,14 @@
 package com.example.cyberpegasus.news.activity;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cyberpegasus.news.R;
 import com.example.cyberpegasus.news.fragment.MediaFragment;
@@ -40,15 +43,22 @@ public class NewsDetailActivity extends AppBaseActivity {
         isi.setText(b.getString("ISI"));
 
         Calendar cal = Calendar.getInstance();
-        cal.setTime((Date) b.getSerializable("TANGGAL"));
+//        cal.setTime((Date) b.getSerializable("TANGGAL"));
         String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR);
         String formatedTime = cal.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", cal.get(Calendar.MINUTE));
         System.out.println("formatedDate : " + formatedDate);
 
         tanggalBerita.setText(formatedDate);
         waktuBerita.setText(formatedTime);
+        ArrayList<String> file;
+        if(b.getStringArrayList("FILE") != null){
+            file = b.getStringArrayList("FILE");
+        }else {
+            file = new ArrayList<>();
+        }
 
-        ArrayList<String> file = b.getStringArrayList("FILE");
+
+
         //file.clear();
 
         //Data file hardcoded diambil dari API
@@ -57,14 +67,20 @@ public class NewsDetailActivity extends AppBaseActivity {
         //file.add("1534411732341-test.mp4");
         ArrayList<String> tempList = new ArrayList<>();
 
-        //Memeriksa apakah list terkirim dari DashboardAdapter
-        for(int i = 0; i < file.size(); i++) {
-            String fileName = file.get(i).toString().substring(file.get(i).toString().lastIndexOf("file") + 5);
-            System.out.println(fileName);
-            String replacement = URL + fileName;
-            tempList.add(replacement);
+
+        Boolean status = cekKoneksi();
+        if(status == false ){
+            for(int i = 0; i < file.size(); i++) {
+                String fileName = file.get(i).toString().substring(file.get(i).toString().lastIndexOf("file") + 5);
+                System.out.println(fileName);
+                String replacement = URL + fileName;
+                tempList.add(replacement);
+            }
+        }else{
+
         }
-        file.clear();
+
+//        file.clear();
         file = tempList;
         List<Fragment> fragments = getFragments(file);
 
@@ -110,6 +126,21 @@ public class NewsDetailActivity extends AppBaseActivity {
         {
             return this.fragments.size();
         }
+    }
+
+    public boolean cekKoneksi() {
+        boolean status;
+        final ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnectedOrConnecting () || mobile.isConnectedOrConnecting () ) {
+            status = true;
+        }
+        else {
+            Toast.makeText(this, "No Network ", Toast.LENGTH_LONG).show();
+            status = false;
+        }
+        return status;
     }
 
 }

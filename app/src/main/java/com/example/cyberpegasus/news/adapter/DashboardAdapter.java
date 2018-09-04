@@ -24,9 +24,11 @@ import java.util.Date;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.DataViewHolder> {
     private ArrayList<Data> dataList;
+    private boolean isConect;
 
-    public DashboardAdapter(ArrayList<Data> dataList) {
+    public DashboardAdapter(ArrayList<Data> dataList, Boolean isConect) {
         this.dataList = dataList;
+        this.isConect = isConect;
     }
 
 
@@ -42,7 +44,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
         holder.textViewHead.setText(dataList.get(position).getJudul());
         holder.textViewDate.setText(dataList.get(position).getPengirim());
         Calendar cal = Calendar.getInstance();
-        //cal.setTime(dataList.get(position).getDateBerita());
+        cal.setTime(dataList.get(position).getDateBerita());
         String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR);
         holder.textViewTime.setText(formatedDate);
         String isi = dataList.get(position).getIsi();
@@ -60,7 +62,9 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
                 b.putString("KATEGORI", dataList.get(position).getCategory());
                 b.putString("ISI", dataList.get(position).getIsi());
                 b.putSerializable("TANGGAL", dataList.get(position).getDateBerita());
-                b.putStringArrayList("FILE", (ArrayList<String>) dataList.get(position).getFile());
+                if(isConect == true){
+                    b.putStringArrayList("FILE", (ArrayList<String>) dataList.get(position).getFile());
+                }
                 detailIntent.putExtras(b);
 
                 /*//Menggunakan Serializeable

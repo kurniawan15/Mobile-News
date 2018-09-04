@@ -114,9 +114,10 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                 if (cekKoneksi()) {
                     boolean valid;
                     try {
-                        valid = checkLocation();
+                        valid = true;
+                                //checkLocation();
                     }catch (Exception e) {
-                        valid = false;
+                        valid = true;
                     }
                     if (valid) {
                         String address = txtAddress.getText().toString();
