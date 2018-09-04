@@ -516,6 +516,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 Data data = new Data();
                 data.setJudul(cursor.getString(1));
                 data.setPengirim(cursor.getString(2));
+                data.setCategory(cursor.getString(4));
                 data.setIsi(cursor.getString(5));
 
                 String s= cursor.getString(3);
