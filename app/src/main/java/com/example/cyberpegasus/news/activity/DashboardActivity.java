@@ -145,7 +145,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         boolean conn = cekKoneksi();
 
         if (!tokenManager.checkLogin()&& conn == true)  {
-
+            readFromAPI();
             imgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

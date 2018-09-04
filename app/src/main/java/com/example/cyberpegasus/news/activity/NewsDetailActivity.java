@@ -43,7 +43,7 @@ public class NewsDetailActivity extends AppBaseActivity {
         isi.setText(b.getString("ISI"));
 
         Calendar cal = Calendar.getInstance();
-//        cal.setTime((Date) b.getSerializable("TANGGAL"));
+        cal.setTime((Date) b.getSerializable("TANGGAL"));
         String formatedDate = cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR);
         String formatedTime = cal.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", cal.get(Calendar.MINUTE));
         System.out.println("formatedDate : " + formatedDate);
@@ -69,7 +69,7 @@ public class NewsDetailActivity extends AppBaseActivity {
 
 
         Boolean status = cekKoneksi();
-        if(status == false ){
+        if(status == true ){
             for(int i = 0; i < file.size(); i++) {
                 String fileName = file.get(i).toString().substring(file.get(i).toString().lastIndexOf("file") + 5);
                 System.out.println(fileName);
