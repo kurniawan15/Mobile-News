@@ -36,16 +36,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver
-            android:name=".network.NetworkStateChecker"
-            android:enabled="true">
-            <intent-filter>
-                <action
-                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
-                    />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".activity.DashboardActivity" android:launchMode="singleTask" />
 
         <activity android:name=".activity.WelcomeActivity">
@@ -55,7 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.FormActivity" />
         <activity android:name=".activity.BodyReportActivity" />
         <activity android:name=".activity.NewsDetailActivity" />

@@ -84,7 +84,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                            String isi, Date date_berita, Double lok_Pengirim_Lan, Double lok_Pengirim_Lng,
                            Double lok_Berita_Lan, Double lok_Berita_Lng, ArrayList<String> file, int status) {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
 
