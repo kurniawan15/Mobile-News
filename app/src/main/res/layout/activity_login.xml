@@ -20,20 +20,19 @@
         app:srcCompat="@drawable/logo" />
 
     <android.support.v7.widget.AppCompatEditText
-        android:backgroundTint="#FFFF"
         android:id="@+id/username"
         android:layout_width="135dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/password"
         android:layout_centerHorizontal="true"
-        android:textColorHint="#FFF"
-        android:textColor="#FFF"
-        android:layout_marginTop="286dp"
-        android:ems="10"
+        android:backgroundTint="#FFFF"
         android:drawableLeft="@drawable/ic_action_user"
+        android:ems="10"
         android:hint="Username"
-        android:textSize="14dp"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:textColor="#FFF"
+        android:textColorHint="#FFF"
+        android:textSize="14dp" />
 
 
     <android.support.v7.widget.AppCompatEditText

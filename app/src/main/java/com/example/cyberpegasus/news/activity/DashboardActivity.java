@@ -654,7 +654,12 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         newText = newText.toUpperCase();
         ArrayList<Data> newList = new ArrayList<>();
         for(Data data : list){
-            String judul = data.getJudul().toUpperCase();
+            String judul;
+            try{
+                judul = data.getJudul().toUpperCase();
+            }catch (Exception e){
+                judul = "";
+            }
             if (judul.contains(newText))
                 newList.add(data);
         }

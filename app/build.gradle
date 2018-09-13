@@ -40,6 +40,7 @@ dependencies {
 // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.google.code.gson:gson:2.8.2'
 
 // JSON Parsing
     compile 'com.google.code.gson:gson:2.6.1'
@@ -58,5 +59,7 @@ dependencies {
 
 // Untuk mengambil gambar dari URL
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }
 
