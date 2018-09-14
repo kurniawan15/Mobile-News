@@ -3,6 +3,7 @@ package com.example.cyberpegasus.news.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 jwtTokenCall.enqueue(new Callback<JWTToken>() {
                     @Override
-                    public void onResponse(Call<JWTToken> call, Response<JWTToken> response) {
+                    public void onResponse(@NonNull Call<JWTToken> call, @NonNull Response<JWTToken> response) {
                             if (response.isSuccessful()) {
                                 final JWTToken jwtToken = response.body();
                                 jwttoken = jwtToken.getToken().toString();
@@ -107,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     @Override
-                    public void onFailure(Call<JWTToken> call, Throwable t) {
+                    public void onFailure(@NonNull Call<JWTToken> call, @NonNull Throwable t) {
                         Toast.makeText(mContext, "You are not authorized!", Toast.LENGTH_SHORT).show();
 
 
