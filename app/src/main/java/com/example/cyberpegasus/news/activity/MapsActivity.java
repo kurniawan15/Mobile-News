@@ -218,11 +218,15 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, zoom));
         mMap.setOnCameraIdleListener(onCameraIdleListener);
 
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
         // Prompt the user for permission.
-        getLocationPermission();
+        //getLocationPermission();
 
         // Turn on the My Location layer and the related control on the map.
-        updateLocationUI();
+        //updateLocationUI();
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
@@ -303,7 +307,7 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mLastKnownLocation = null;
-                getLocationPermission();
+                //getLocationPermission();
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
