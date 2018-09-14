@@ -32,14 +32,6 @@
             android:contentDescription="@string/todo"
             />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btmSyn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/imageButton"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            app:fabSize="normal" />
 
         <ImageView
             android:id="@+id/imageView3"
