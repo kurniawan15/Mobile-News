@@ -109,10 +109,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     if (isExpired) {
                         tokenManager.logout();
-                        //Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        //startActivity(intent);
-                        //finish();
+
 
                     } else {
                         //String tellExpire= tellExpire.toString();
@@ -141,24 +138,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 active = false;
             }
         });
-
-        boolean conn = cekKoneksi();
-
-        if (!tokenManager.checkLogin()&& conn == true)  {
-            readFromAPI();
-            imgButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
-                    startActivity(formIntent);
-                    active = false;
-                }
-            });
-        }else {
-            readFromLocal();
-            imgButton.setVisibility((View.INVISIBLE));
-        }
 
 
         final RelativeLayout filter = (RelativeLayout) findViewById(R.id.filterLayout);
@@ -501,6 +480,27 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean conn = cekKoneksi();
+
+        if (!tokenManager.checkLogin()&& conn == true)  {
+            readFromAPI();
+            imgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
+                    startActivity(formIntent);
+                    active = false;
+                }
+            });
+        }else {
+            readFromLocal();
+            imgButton.setVisibility((View.INVISIBLE));
+        }
+    }
 
     public  void readFromLocal(){
         Cursor cursor = db.getData();
