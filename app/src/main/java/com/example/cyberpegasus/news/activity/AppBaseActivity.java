@@ -224,7 +224,11 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                         Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
                         startActivity(aboutIntent);
                         break;
-                }
+                case R.id.aboutapp:
+                    Intent aboutappIntent = new Intent(AppBaseActivity.this, AboutApp.class);
+                    startActivity(aboutappIntent);
+                    break;
+            }
                 return false;
         }
 
