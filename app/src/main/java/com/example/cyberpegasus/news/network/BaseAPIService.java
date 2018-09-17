@@ -27,11 +27,8 @@ public interface BaseAPIService {
     Call<JWTToken> loginRequest(@Field("username") String username,
                                 @Field("password") String password);
 
-    @GET("usermanagement/account-data")
-    Call<String>getUser(@Header("Authorization")String athorization);
-
     @GET("beritamobile")
-    Call<DataList> getData();
+    Call<DataList> getData(@Header("Authorization")String authorization);
 
     @FormUrlEncoded
     @POST("beritamobile")
@@ -51,17 +48,18 @@ public interface BaseAPIService {
     //Menggunakan Form-Data
     @Multipart
     @POST("beritamobile")
-    Call<DataList> AddDataForm(@Part("lok_pengirim[lan]") Double lan_Lok_Pengirim,
-                           @Part("lok_pengirim[long]") Double lng_Lok_Pengirim,
-                           @Part("lok_berita[lan]") Double lan_Lok_Berita,
-                           @Part("lok_berita[long]") Double lng_Lok_Berita,
-                           @Part("pengirim") RequestBody pengirim,
-                           @Part("judul") RequestBody judul,
-                           @Part("date_berita") RequestBody dateBerita,
-                           @Part("date_pengirim") RequestBody datePengirim,
-                           @Part("isi") RequestBody isi,
-                           @Part("category") RequestBody catagory,
-                           @Part List<MultipartBody.Part> file
+    Call<DataList> AddDataForm(@Header("Authorization")String authorization,
+                               @Part("lok_pengirim[lan]") Double lan_Lok_Pengirim,
+                               @Part("lok_pengirim[long]") Double lng_Lok_Pengirim,
+                               @Part("lok_berita[lan]") Double lan_Lok_Berita,
+                               @Part("lok_berita[long]") Double lng_Lok_Berita,
+                               @Part("pengirim") RequestBody pengirim,
+                               @Part("judul") RequestBody judul,
+                               @Part("date_berita") RequestBody dateBerita,
+                               @Part("date_pengirim") RequestBody datePengirim,
+                               @Part("isi") RequestBody isi,
+                               @Part("category") RequestBody catagory,
+                               @Part List<MultipartBody.Part> file
     );
 
     //@POST("beritamobile")

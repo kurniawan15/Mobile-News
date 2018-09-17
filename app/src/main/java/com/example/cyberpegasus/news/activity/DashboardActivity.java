@@ -544,7 +544,10 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         /*Create handle for the RetrofitInstance interface*/
         BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
         /*Call the method with parameter in the interface to get the data*/
-        Call<DataList> call = service.getData();
+        HashMap<String, String> user = tokenManager.getDetailLogin();
+        String username = user.get(TokenManager.KEY_USER_NAME);
+        String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+        Call<DataList> call = service.getData(jwttoken);
 
         /*Log the URL called*/
         Log.wtf("URL Called", call.request().url() + "");

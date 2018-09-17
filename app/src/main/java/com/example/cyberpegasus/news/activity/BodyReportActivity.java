@@ -39,6 +39,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.cyberpegasus.news.activity.LoginActivity.jwttoken;
+
 public class BodyReportActivity extends AppBaseActivity {
     BaseAPIService service = RetrofitInstance.getRetrofitInstance().create(BaseAPIService.class);
     EditText pengirim,judul,DatePengirim,DateBerita,catagory,isi;
@@ -335,7 +337,10 @@ public void addToAPI(Double dlanPengirim,Double dlngPengirim, Double dlanBerita,
     for(int i = 0; i < sFiles.size(); i++) {
         parts.add(prepareFilePart("file", sFiles.get(i)));
     }
-    Call<DataList> call = service.AddDataForm(dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
+    HashMap<String, String> user = tokenManager.getDetailLogin();
+    String username = user.get(TokenManager.KEY_USER_NAME);
+    String jwttoken = user.get(TokenManager.KEY_JWT_TOKEN);
+    Call<DataList> call = service.AddDataForm(jwttoken,dlanPengirim,dlngPengirim,dlanBerita,dlngBerita,
             sPengirimFD,sjudulFD,dDateBeritaFD,dDatePengirimFD,sIsiFD,scatagoriFD, parts);
 
 
