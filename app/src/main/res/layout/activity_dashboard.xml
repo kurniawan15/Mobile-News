@@ -51,7 +51,7 @@
         android:id="@+id/filterLayout"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@color/greenPrimary"
+        android:background="@color/colorPrimary"
         android:visibility="gone">
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,8 +72,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <Spinner
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:theme="@style/ThemeSpinner"
                         android:id="@+id/dropdownFilterKategori"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -81,8 +79,6 @@
                         android:textAlignment="viewEnd"
                         android:layout_alignParentRight="true" />
                     <Spinner
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:theme="@style/ThemeSpinner"
                         android:id="@+id/dropdownFilterSubKategori1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,8 +88,6 @@
                         android:layout_alignParentRight="true"
                         android:visibility="gone" />
                     <Spinner
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:theme="@style/ThemeSpinner"
                         android:id="@+id/dropdownFilterSubKategori2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -121,8 +115,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <Spinner
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:theme="@style/ThemeSpinner"
                         android:id="@+id/dropdownFilterUrutan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -192,10 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:text="filter"
-            android:background="@color/colorPrimary"
-            android:textColor="#fff"/>
+            android:text="filter"/>
     </RelativeLayout>
 </FrameLayout>
 

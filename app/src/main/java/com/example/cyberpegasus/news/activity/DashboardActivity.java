@@ -157,7 +157,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         urutanSpinner = findViewById(R.id.dropdownFilterUrutan);
 
         ArrayAdapter<CharSequence> adapterKategori = ArrayAdapter.createFromResource(this, R.array.kategori,
-                R.layout.spinner_item);
+                android.R.layout.simple_spinner_item);
         adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         kategoriSpinner.setAdapter(adapterKategori);
         kategoriSpinner.setSelection(0);
@@ -168,7 +168,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 switch(adapterView.getSelectedItem().toString()) {
                     case "Kriminal":
                         ArrayAdapter<CharSequence> adapterSubKriminal = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_kriminal,
-                                R.layout.spinner_item);
+                                android.R.layout.simple_spinner_item);
                         adapterSubKriminal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         subKategori1Spinner.setAdapter(adapterSubKriminal);
                         subKategori1Spinner.setVisibility(Spinner.VISIBLE);
@@ -176,7 +176,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     case "Konflik":
                         ArrayAdapter<CharSequence> adapterSubKonflik = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_konflik,
-                                R.layout.spinner_item);
+                                android.R.layout.simple_spinner_item);
                         adapterSubKonflik.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         subKategori1Spinner.setAdapter(adapterSubKonflik);
                         subKategori1Spinner.setVisibility(Spinner.VISIBLE);
@@ -184,7 +184,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     case "Pelanggaran Kedaulatan":
                         ArrayAdapter<CharSequence> adapterSubPelKedaulatan = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_pelanggaran_kedaulatan,
-                                R.layout.spinner_item);
+                                android.R.layout.simple_spinner_item);
                         adapterSubPelKedaulatan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         subKategori1Spinner.setAdapter(adapterSubPelKedaulatan);
                         subKategori1Spinner.setVisibility(Spinner.VISIBLE);
@@ -192,7 +192,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     case "Kecelakaan":
                         ArrayAdapter<CharSequence> adapterSubKecelakaan = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_kecelakaan,
-                                R.layout.spinner_item);
+                                android.R.layout.simple_spinner_item);
                         adapterSubKecelakaan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         subKategori1Spinner.setAdapter(adapterSubKecelakaan);
                         subKategori1Spinner.setVisibility(Spinner.VISIBLE);
@@ -200,7 +200,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     case "Bencana":
                         ArrayAdapter<CharSequence> adapterSubBencana = ArrayAdapter.createFromResource(view.getContext(), R.array.sub_bencana,
-                                R.layout.spinner_item);
+                                android.R.layout.simple_spinner_item);
                         adapterSubBencana.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         subKategori1Spinner.setAdapter(adapterSubBencana);
                         subKategori1Spinner.setVisibility(Spinner.VISIBLE);
@@ -287,7 +287,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         final Spinner urutanSpinner = findViewById(R.id.dropdownFilterUrutan);
 
         ArrayAdapter<CharSequence> adapterUrutan = ArrayAdapter.createFromResource(this, R.array.urutan,
-                R.layout.spinner_item);
+                android.R.layout.simple_spinner_item);
         adapterUrutan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         urutanSpinner.setAdapter(adapterUrutan);
         urutanSpinner.setSelection(0);
@@ -500,8 +500,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 }
             });
         }else {
-            RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
-            re.setBackgroundColor(Color.RED);
             readFromLocal();
             imgButton.setVisibility((View.INVISIBLE));
         }

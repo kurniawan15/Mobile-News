@@ -15,11 +15,4 @@
         <item name="color">@android:color/white</item>
     </style>
 
-    <style name="ThemeSpinner">
-        <!-- Color when pressed -->
-        <item name="colorAccent">#fff</item>
-        <!-- Default color for the dropdown arrow and line -->
-        <item name="colorControlNormal">#fff</item>
-    </style>
-
 </resources>
