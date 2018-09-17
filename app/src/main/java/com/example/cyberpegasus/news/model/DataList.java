@@ -32,7 +32,7 @@ public class DataList {
     public void setMsg(String msg) {
         Msg = msg;
     }
-    //
+
 
 
 }
