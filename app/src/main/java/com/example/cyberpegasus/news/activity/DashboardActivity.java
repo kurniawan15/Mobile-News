@@ -115,7 +115,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
 
                     } else {
-                        //String tellExpire= tellExpire.toString();
                         Toast.makeText(getApplicationContext(), "Token Expires At :" + tellExpire.toString(), Toast.LENGTH_SHORT).show();
                     }
 
@@ -693,7 +692,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (wifi.isConnectedOrConnecting () || mobile.isConnectedOrConnecting () ) {
-            Toast.makeText(this, "Wifi or Mobile data", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Wifi or Mobile data", Toast.LENGTH_LONG).show();
             status = true;
         }
         else {
