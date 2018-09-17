@@ -37,6 +37,7 @@ import com.example.cyberpegasus.news.adapter.NameAdapter;
 import com.example.cyberpegasus.news.database.DatabaseHelper;
 import com.example.cyberpegasus.news.model.Data;
 import com.example.cyberpegasus.news.model.DataList;
+import com.example.cyberpegasus.news.model.LokBerita;
 import com.example.cyberpegasus.news.model.Name;
 import com.example.cyberpegasus.news.network.BaseAPIService;
 import com.example.cyberpegasus.news.network.RetrofitInstance;
@@ -68,6 +69,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     public static Button btnFinishFilter;
 
     public static EditText wktDari, wktSampai;
+
+    public static Spinner kategoriSpinner, subKategori1Spinner, subKategori2Spinner, urutanSpinner;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -109,10 +112,7 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
 
                     if (isExpired) {
                         tokenManager.logout();
-                        //Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        //startActivity(intent);
-                        //finish();
+
 
                     } else {
                         //String tellExpire= tellExpire.toString();
@@ -142,24 +142,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             }
         });
 
-        boolean conn = cekKoneksi();
-
-        if (!tokenManager.checkLogin()&& conn == true)  {
-            readFromAPI();
-            imgButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
-                    startActivity(formIntent);
-                    active = false;
-                }
-            });
-        }else {
-            readFromLocal();
-            imgButton.setVisibility((View.INVISIBLE));
-        }
-
 
         final RelativeLayout filter = (RelativeLayout) findViewById(R.id.filterLayout);
 
@@ -170,9 +152,10 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             animateOpen(animationLayout, filter);
         }
 
-        final Spinner kategoriSpinner = findViewById(R.id.dropdownFilterKategori);
-        final Spinner subKategori1Spinner = findViewById(R.id.dropdownFilterSubKategori1);
-        final Spinner subKategori2Spinner = findViewById(R.id.dropdownFilterSubKategori2);
+        kategoriSpinner = findViewById(R.id.dropdownFilterKategori);
+        subKategori1Spinner = findViewById(R.id.dropdownFilterSubKategori1);
+        subKategori2Spinner = findViewById(R.id.dropdownFilterSubKategori2);
+        urutanSpinner = findViewById(R.id.dropdownFilterUrutan);
 
         ArrayAdapter<CharSequence> adapterKategori = ArrayAdapter.createFromResource(this, R.array.kategori,
                 android.R.layout.simple_spinner_item);
@@ -501,6 +484,27 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean conn = cekKoneksi();
+
+        if (!tokenManager.checkLogin()&& conn == true)  {
+            readFromAPI();
+            imgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent formIntent = new Intent(DashboardActivity.this, FormActivity.class);
+                    startActivity(formIntent);
+                    active = false;
+                }
+            });
+        }else {
+            readFromLocal();
+            imgButton.setVisibility((View.INVISIBLE));
+        }
+    }
 
     public  void readFromLocal(){
         Cursor cursor = db.getData();
@@ -518,6 +522,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 data.setPengirim(cursor.getString(2));
                 data.setCategory(cursor.getString(4));
                 data.setIsi(cursor.getString(5));
+                //mengambil data lokasi berita dari database lokal
+                data.setLokBeritaList(new LokBerita(cursor.getDouble(9), cursor.getDouble(10)));
 
                 String s= cursor.getString(3);
 
@@ -600,6 +606,11 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         btnFinishFilter.setVisibility(Button.GONE);
         wktDari.setVisibility(EditText.GONE);
         wktSampai.setVisibility(EditText.GONE);
+        kategoriSpinner.setVisibility(Spinner.GONE);
+        subKategori1Spinner.setVisibility(Spinner.GONE);
+        subKategori2Spinner.setVisibility(Spinner.GONE);
+        urutanSpinner.setVisibility(Spinner.GONE);
+        filter.setClickable(false);
         animationLayout.setDuration(300);
         filter.setAnimation(animationLayout);
         filter.animate();
@@ -613,6 +624,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
         btnFinishFilter.setVisibility(Button.VISIBLE);
         wktDari.setVisibility(EditText.VISIBLE);
         wktSampai.setVisibility(EditText.VISIBLE);
+        kategoriSpinner.setVisibility(Spinner.VISIBLE);
+        urutanSpinner.setVisibility(Spinner.VISIBLE);
         animationLayout.setDuration(300);
         filter.setAnimation(animationLayout);
         filter.animate();

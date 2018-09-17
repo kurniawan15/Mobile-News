@@ -229,7 +229,7 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
         //updateLocationUI();
 
         // Get the current location of the device and set the position of the map.
-        getDeviceLocation();
+        //getDeviceLocation();
     }
 
     public void geoLocate(View view) throws IOException {
@@ -293,6 +293,7 @@ public class MapsActivity extends AppBaseActivity implements OnMapReadyCallback 
             }
         }
         updateLocationUI();
+        getDeviceLocation();
     }
 
     private void updateLocationUI() {

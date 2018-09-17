@@ -19,7 +19,7 @@ import java.util.List;
 
 public class NewsDetailActivity extends AppBaseActivity {
     MyPageAdapter pageAdapter;
-    TextView judul, kategori, isi, tanggalBerita, waktuBerita;
+    TextView judul, kategori, isi, tanggalBerita, waktuBerita, lokBerita;
 
     //URL gambar dan video yang akan diambil untuk ditampilkan pada aplikasi
     //final String URL = "http://192.168.1.114/restAPIBear/public/file/";
@@ -35,12 +35,14 @@ public class NewsDetailActivity extends AppBaseActivity {
         isi = (TextView) findViewById(R.id.isiBerita);
         tanggalBerita = (TextView) findViewById(R.id.textDate);
         waktuBerita = (TextView) findViewById(R.id.textTime);
+        lokBerita = (TextView) findViewById(R.id.textLatLngBerita);
 
         Bundle b = this.getIntent().getExtras();
 
         judul.setText(b.getString("JUDUL"));
         kategori.setText(b.getString("KATEGORI"));
         isi.setText(b.getString("ISI"));
+        lokBerita.setText(String.valueOf(b.getDouble("LAT_BERITA")) + ", " + String.valueOf(b.getDouble("LONG_BERITA")));
 
         Calendar cal = Calendar.getInstance();
         cal.setTime((Date) b.getSerializable("TANGGAL"));

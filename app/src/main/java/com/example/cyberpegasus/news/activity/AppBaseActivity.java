@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -160,6 +161,10 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                             DashboardActivity.btnFinishFilter = (Button) findViewById(R.id.buttonFinishFilter);
                             DashboardActivity.wktDari = (EditText) findViewById(R.id.waktuDari);
                             DashboardActivity.wktSampai = (EditText) findViewById(R.id.waktuSampai);
+                            DashboardActivity.kategoriSpinner = (Spinner) findViewById(R.id.dropdownFilterKategori);
+                            DashboardActivity.subKategori1Spinner = (Spinner) findViewById(R.id.dropdownFilterSubKategori1);
+                            DashboardActivity.subKategori2Spinner = (Spinner) findViewById(R.id.dropdownFilterSubKategori2);
+                            DashboardActivity.urutanSpinner = (Spinner) findViewById(R.id.dropdownFilterUrutan);
                             a.animateOpen(animationLayout,re);
                             DashboardActivity.filterOpen = true;
                         }else {
@@ -219,7 +224,11 @@ public abstract class AppBaseActivity extends AppCompatActivity implements MenuI
                         Intent aboutIntent = new Intent(AppBaseActivity.this, About.class);
                         startActivity(aboutIntent);
                         break;
-                }
+                case R.id.aboutapp:
+                    Intent aboutappIntent = new Intent(AppBaseActivity.this, AboutApp.class);
+                    startActivity(aboutappIntent);
+                    break;
+            }
                 return false;
         }
 
