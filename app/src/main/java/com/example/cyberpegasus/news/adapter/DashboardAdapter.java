@@ -53,7 +53,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.Data
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "You clicked " + dataList.get(position).getId(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(view.getContext(), "You clicked " + dataList.get(position).getId(), Toast.LENGTH_LONG).show();
                 Intent detailIntent = new Intent(view.getContext(), NewsDetailActivity.class);
 
                 //Passing nilai pada object Data satu2

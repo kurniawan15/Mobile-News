@@ -38,14 +38,25 @@
         android:layout_height="251dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/berita_dummy" />-->
-    
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="fill_parent"
-        android:layout_height="251dp"
-        android:layout_marginTop="20dp"
-        android:background="#000">
-    </android.support.v4.view.ViewPager>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="No Image or Video !"
+            android:textColor="#fff"
+            android:background="#000"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="fill_parent"
+            android:layout_height="251dp"
+            android:layout_marginTop="20dp">
+        </android.support.v4.view.ViewPager>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,7 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="17/7/2018" />
+                android:text="17/7/2018"
+                android:textColor="#fff"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -86,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center"
-                android:text="12:00" />
+                android:text="12:00"
+                android:textColor="#fff"/>
         </RelativeLayout>
 
     </LinearLayout>

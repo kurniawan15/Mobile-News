@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.SearchView;
@@ -504,6 +505,8 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
             re.setBackgroundColor(Color.RED);
             readFromLocal();
             imgButton.setVisibility((View.INVISIBLE));
+            ImageView imgView = (ImageView) findViewById(R.id.imageView3);
+            imgView.setVisibility(View.INVISIBLE);
         }
     }
 

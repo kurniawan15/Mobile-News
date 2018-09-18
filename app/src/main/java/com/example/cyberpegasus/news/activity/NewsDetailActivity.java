@@ -42,7 +42,11 @@ public class NewsDetailActivity extends AppBaseActivity {
         judul.setText(b.getString("JUDUL"));
         kategori.setText(b.getString("KATEGORI"));
         isi.setText(b.getString("ISI"));
-        lokBerita.setText(String.valueOf(b.getDouble("LAT_BERITA")) + ", " + String.valueOf(b.getDouble("LONG_BERITA")));
+        String lat = String.valueOf(b.getDouble("LAT_BERITA"));
+        String lng = String.valueOf(b.getDouble("LONG_BERITA"));
+        String latSubString = lat.substring(0, Math.min(lat.length(), 10));
+        String lngSubString = lng.substring(0, Math.min(lng.length(), 10));
+        lokBerita.setText(latSubString + ", " + lngSubString);
 
         Calendar cal = Calendar.getInstance();
         cal.setTime((Date) b.getSerializable("TANGGAL"));
