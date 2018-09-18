@@ -43,13 +43,17 @@
         android:id="@+id/viewPager"
         android:layout_width="fill_parent"
         android:layout_height="251dp"
-        android:layout_marginTop="20dp"></android.support.v4.view.ViewPager>
+        android:layout_marginTop="20dp"
+        android:background="#000">
+    </android.support.v4.view.ViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/greenPrimary"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -72,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textColor="#FFF"
                     android:text="-6.863257, 107.584040" />
             </LinearLayout>
 
@@ -94,6 +99,7 @@
 
     <TextView
         android:id="@+id/isiBerita"
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="@string/berita_dummy"

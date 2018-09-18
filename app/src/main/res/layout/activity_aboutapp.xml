@@ -67,7 +67,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="25dp"
         android:gravity="top|center"
-        android:text="Mobile News adalah Aplikasi mobile berbasis android yang digunakan untuk memasukan beriata kejadian yang terjadi di indonesia. \n Berita Tersebut akan di kelola oleh PT. Sembada Karya Mandiri untuk di olah menjadi media informasi kepada masyarakat luas di indonesia"
+        android:text="Mobile News adalah Aplikasi mobile berbasis android yang digunakan untuk memasukan beriata kejadian yang terjadi di indonesia. \n Berita Tersebut akan di kelola oleh PT. Sembada Karya Mandiri untuk di olah menjadi media informasi kepada masyarakat luas di indonesia.\n Min SDK Version :21 "
         android:textColor="#ffffff"
         android:textSize="16sp"
         android:textStyle="normal" />
