@@ -595,9 +595,19 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
     public ArrayList<Data> filterByDate(Date dari, Date sampai, ArrayList<Data> arrayList) {
         ArrayList<Data> filtered = new ArrayList<>();
         for(Data data : arrayList){
-            if ((data.getDateBerita().after(dari)||data.getDateBerita().equals(dari)) &&
-                    (data.getDateBerita().before(sampai)||data.getDateBerita().equals(sampai))) {
-                filtered.add(data);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
+            Date dateberita = null;
+            try {
+                dateberita = formatter.parse(formatter.format(data.getDateBerita()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (dateberita.equals(dari) || dateberita.equals(sampai)) {
+                if (dateberita.after(dari) && dateberita.before(sampai)) {
+                    filtered.add(data);
+                }else {
+                    filtered.add(data);
+                }
             }
         }
         return filtered;
