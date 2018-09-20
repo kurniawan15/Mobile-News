@@ -141,6 +141,12 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                 active = false;
             }
         });
+          //  RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
+          //  re.setBackgroundColor(Color.RED);
+            readFromLocal();
+            imgButton.setVisibility((View.INVISIBLE));
+            ImageView imgView = (ImageView) findViewById(R.id.imageView3);
+            imgView.setVisibility(View.INVISIBLE);
 
 
         final RelativeLayout filter = (RelativeLayout) findViewById(R.id.filterLayout);
@@ -500,13 +506,6 @@ public class DashboardActivity extends AppBaseActivity implements SearchView.OnQ
                     active = false;
                 }
             });
-        }else {
-            RelativeLayout re = (RelativeLayout) findViewById(R.id.filterLayout);
-            re.setBackgroundColor(Color.RED);
-            readFromLocal();
-            imgButton.setVisibility((View.INVISIBLE));
-            ImageView imgView = (ImageView) findViewById(R.id.imageView3);
-            imgView.setVisibility(View.INVISIBLE);
         }
     }
 
